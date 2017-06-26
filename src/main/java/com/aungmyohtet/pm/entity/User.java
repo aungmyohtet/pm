@@ -1,8 +1,13 @@
 package com.aungmyohtet.pm.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -30,6 +35,9 @@ public class User extends Person {
 	    @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
 		    @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<OrganizationMember> organizationMembers = new HashSet<>();
 
     public String getEmail() {
 	return email;
@@ -69,6 +77,14 @@ public class User extends Person {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<OrganizationMember> getOrganizationMembers() {
+        return organizationMembers;
+    }
+
+    public void setOrganizationMembers(Set<OrganizationMember> organizationMembers) {
+        this.organizationMembers = organizationMembers;
     }
 
 }
