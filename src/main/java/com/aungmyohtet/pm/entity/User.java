@@ -39,6 +39,9 @@ public class User extends Person {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<OrganizationMember> organizationMembers = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ProjectMember> projectMembers = new HashSet<>();
+
     public String getEmail() {
 	return email;
     }
@@ -85,6 +88,14 @@ public class User extends Person {
 
     public void setOrganizationMembers(Set<OrganizationMember> organizationMembers) {
         this.organizationMembers = organizationMembers;
+    }
+
+    public Set<ProjectMember> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public void setProjectMembers(Set<ProjectMember> projectMembers) {
+        this.projectMembers = projectMembers;
     }
 
 }

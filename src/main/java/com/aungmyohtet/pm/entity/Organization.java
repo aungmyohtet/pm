@@ -18,6 +18,9 @@ public class Organization extends UniqueNamedEntity {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<OrganizationMember> organizationMembers = new HashSet<>();
 
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Project> projects = new HashSet<>();
+
     public String getDescription() {
 	return description;
     }
@@ -32,6 +35,14 @@ public class Organization extends UniqueNamedEntity {
 
     public void setOrganizationMembers(Set<OrganizationMember> organizationMembers) {
 	this.organizationMembers = organizationMembers;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
 }

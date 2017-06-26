@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New Organization</title>
+</head>
+<body>
+	<form action="#" th:action="@{/organizations/{organizationId}/projects/new(organizationId=${organizationId})}" th:object="${project}" method="post">
+	   <input type="text" th:field="*{name}" placeholder="Name"/>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid name</span>
+	   <br/>
+	   <input type="text" th:field="*{description}" placeholder="Description" />
+	   <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+	   <br/>
+	   <input type="submit" value="Add"/>
+	</form>
+</body>
+</html>

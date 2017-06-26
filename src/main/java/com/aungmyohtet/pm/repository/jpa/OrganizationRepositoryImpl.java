@@ -27,4 +27,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
 	}
     }
 
+    @Override
+    public Organization findById(int id) {
+	return entityManager.find(Organization.class, id);
+    }
+
 }
