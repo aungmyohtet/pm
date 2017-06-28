@@ -1,6 +1,5 @@
 package com.aungmyohtet.pm.web;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,30 +22,29 @@ public class OrganizationController {
     private OrganizationService organizationService;
 
     public void setOrganizationService(OrganizationService organizationService) {
-	this.organizationService = organizationService;
+        this.organizationService = organizationService;
     }
 
     @RequestMapping(value = "/organizations/new", method = RequestMethod.GET)
     public String showOrganizationForm(Model model) {
-	model.addAttribute("organization", new Organization());
-	return "organizationForm";
+        model.addAttribute("organization", new Organization());
+        return "organizationForm";
     }
 
     @RequestMapping(value = "/organizations/new", method = RequestMethod.POST)
-    public String addOrganization(@Validated @ModelAttribute Organization organization, BindingResult result,
-	    Model model) {
-	if (result.hasErrors()) {
-	    return "organizationForm";
-	}
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	String email = auth.getName(); // we used email in user details service
-	organizationService.addByUser(organization, email);
-	return "redirect:/organizations";
+    public String addOrganization(@Validated @ModelAttribute Organization organization, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "organizationForm";
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); // we used email in user details service
+        organizationService.addByUser(organization, email);
+        return "redirect:/organizations";
     }
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     @ResponseBody
     public String list(Model model) {
-	return "To show organization list";
+        return "To show organization list";
     }
 }

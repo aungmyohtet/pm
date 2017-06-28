@@ -18,33 +18,32 @@ import com.aungmyohtet.pm.service.ProjectService;
 
 @Controller
 public class ProjectController {
-    
+
     @Autowired
     private ProjectService projectService;
-    
+
     @RequestMapping(value = "/organizations/{organizationId}/projects/new", method = RequestMethod.GET)
     public String showProjectForm(Model model, @PathVariable("organizationId") int organizationId) {
-	model.addAttribute("project", new Project());
-	model.addAttribute("organizationId", organizationId);
-	return "projectForm";
+        model.addAttribute("project", new Project());
+        model.addAttribute("organizationId", organizationId);
+        return "projectForm";
     }
 
     @RequestMapping(value = "/organizations/{organizationId}/projects/new", method = RequestMethod.POST)
-    public String addProject(@Validated @ModelAttribute Project project, BindingResult result,
-	    Model model, @PathVariable("organizationId") int organizationId) {
-	if (result.hasErrors()) {
-	    return "projectForm";
-	}
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	String email = auth.getName(); // we used email in user details service
-	projectService.addToOrganizationByUser(project, organizationId, email);
-	return "redirect:/organizations";
+    public String addProject(@Validated @ModelAttribute Project project, BindingResult result, Model model, @PathVariable("organizationId") int organizationId) {
+        if (result.hasErrors()) {
+            return "projectForm";
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); // we used email in user details service
+        projectService.addToOrganizationByUser(project, organizationId, email);
+        return "redirect:/organizations";
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
     @ResponseBody
     public String list(Model model) {
-	return "To show project list";
+        return "To show project list";
     }
 
 }

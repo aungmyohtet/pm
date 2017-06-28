@@ -22,43 +22,46 @@ public class Project extends NamedEntity {
 
     private Date scheduledEndDate;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProjectMember> projectMembers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
     private Organization organization;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Task> tasks = new HashSet<>();
+
     public String getDescription() {
-	return description;
+        return description;
     }
 
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     public Date getScheduledStartDate() {
-	return scheduledStartDate;
+        return scheduledStartDate;
     }
 
     public void setScheduledStartDate(Date scheduledStartDate) {
-	this.scheduledStartDate = scheduledStartDate;
+        this.scheduledStartDate = scheduledStartDate;
     }
 
     public Date getScheduledEndDate() {
-	return scheduledEndDate;
+        return scheduledEndDate;
     }
 
     public void setScheduledEndDate(Date scheduledEndDate) {
-	this.scheduledEndDate = scheduledEndDate;
+        this.scheduledEndDate = scheduledEndDate;
     }
 
     public Set<ProjectMember> getProjectMembers() {
-	return projectMembers;
+        return projectMembers;
     }
 
     public void setProjectMembers(Set<ProjectMember> projectMembers) {
-	this.projectMembers = projectMembers;
+        this.projectMembers = projectMembers;
     }
 
     public Organization getOrganization() {
@@ -68,5 +71,18 @@ public class Project extends NamedEntity {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + " " + this.getName();
+    } 
 
 }

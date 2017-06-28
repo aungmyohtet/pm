@@ -27,4 +27,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
+    @Override
+    public Project findById(int id) {
+        return entityManager.find(Project.class, id);
+    }
+
 }
