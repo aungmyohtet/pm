@@ -13,6 +13,13 @@ public class Task extends ScheduledEntity {
     @ManyToOne
     private Project project;
 
+    @ManyToOne
+    private User assignee;
+
+    private int weight;
+
+    private int score;
+
     public String getTitle() {
         return title;
     }
@@ -29,9 +36,28 @@ public class Task extends ScheduledEntity {
         this.project = project;
     }
 
-    @Override
-    public String toString() {
-        return this.id + " " + this.title;
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

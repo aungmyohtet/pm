@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,39 +17,39 @@ public class OrganizationMember implements Serializable {
     private static final long serialVersionUID = -3548346235522111516L;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
     private String role;
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public Organization getOrganization() {
-	return organization;
+        return organization;
     }
 
     public void setOrganization(Organization organization) {
-	this.organization = organization;
+        this.organization = organization;
     }
 
     public String getRole() {
-	return role;
+        return role;
     }
 
     public void setRole(String role) {
-	this.role = role;
+        this.role = role;
     }
 
 }

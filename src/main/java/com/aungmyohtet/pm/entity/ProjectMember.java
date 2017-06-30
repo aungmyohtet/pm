@@ -28,27 +28,27 @@ public class ProjectMember implements Serializable {
     private String role;
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public Project getProject() {
-	return project;
+        return project;
     }
 
     public void setProject(Project project) {
-	this.project = project;
+        this.project = project;
     }
 
     public String getRole() {
-	return role;
+        return role;
     }
 
     public void setRole(String role) {
-	this.role = role;
+        this.role = role;
     }
 
 }

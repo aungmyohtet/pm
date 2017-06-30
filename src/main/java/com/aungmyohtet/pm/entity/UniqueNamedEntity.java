@@ -17,9 +17,4 @@ public class UniqueNamedEntity extends BaseEntity {
         return this.name;
     }
 
-    @Override
-    public String toString() {
-        return this.getName();
-    }
-
 }

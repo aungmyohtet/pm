@@ -30,48 +30,50 @@ public class User extends Person {
 
     private boolean enabled;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = {
-	    @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-		    @JoinColumn(name = "role_id", referencedColumnName = "id") })
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<OrganizationMember> organizationMembers = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProjectMember> projectMembers = new HashSet<>();
 
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Task> tasks = new HashSet<>();
+
     public String getEmail() {
-	return email;
+        return email;
     }
 
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-	return password;
+        return password;
     }
 
     public void setPassword(String password) {
-	this.password = password;
+        this.password = password;
     }
 
     public String getConfirmedPassword() {
-	return confirmedPassword;
+        return confirmedPassword;
     }
 
     public void setConfirmedPassword(String confirmedPassword) {
-	this.confirmedPassword = confirmedPassword;
+        this.confirmedPassword = confirmedPassword;
     }
 
     public boolean isEnabled() {
-	return enabled;
+        return enabled;
     }
 
     public void setEnabled(boolean enabled) {
-	this.enabled = enabled;
+        this.enabled = enabled;
     }
 
     public Role getRole() {

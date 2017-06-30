@@ -1,5 +1,8 @@
 package com.aungmyohtet.pm.service.impl;
 
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,19 +30,31 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void save(Organization organization) {
-	organizationRepository.save(organization);
+        organizationRepository.save(organization);
     }
 
     @Override
     @Transactional
     public void addByUser(Organization organization, String userEmail) {
         User user = userRepository.findByEmail(userEmail);
-	OrganizationMember organizationMember = new OrganizationMember();
-	organizationMember.setOrganization(organization);
-	organizationMember.setUser(user);
-	organizationMember.setRole("owner");
+        OrganizationMember organizationMember = new OrganizationMember();
+        organizationMember.setOrganization(organization);
+        organizationMember.setUser(user);
+        organizationMember.setRole("owner");
         organization.getOrganizationMembers().add(organizationMember);
         organizationRepository.save(organization);
+    }
+
+    @Override
+    @Transactional
+    public Organization findByIdFetchingMembers(int id) {
+        return organizationRepository.findByIdFetchingMembers(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrganizationMember> findMembersByOrganization(int id) {
+        return organizationRepository.findMembersByOrganization(id);
     }
 
 }

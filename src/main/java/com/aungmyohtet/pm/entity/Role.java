@@ -15,17 +15,16 @@ import javax.persistence.JoinTable;
 public class Role extends UniqueNamedEntity {
 
     public Role() {
-	
+
     }
 
     public Role(String name) {
-	this.setName(name);
+        this.setName(name);
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role", joinColumns = {
-	    @JoinColumn(name = "role_id", referencedColumnName = "id") }, inverseJoinColumns = {
-		    @JoinColumn(name = "user_id", referencedColumnName = "id") })
+    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") })
     private Set<User> users;
 
     public Set<User> getUsers() {

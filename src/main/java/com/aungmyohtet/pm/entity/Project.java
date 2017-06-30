@@ -1,6 +1,5 @@
 package com.aungmyohtet.pm.entity;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +13,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Project extends NamedEntity {
+public class Project extends ScheduledEntity {
+
+    private String name;
 
     private String description;
-
-    private Date scheduledStartDate;
-
-    private Date scheduledEndDate;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProjectMember> projectMembers = new HashSet<>();
@@ -32,28 +29,20 @@ public class Project extends NamedEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getScheduledStartDate() {
-        return scheduledStartDate;
-    }
-
-    public void setScheduledStartDate(Date scheduledStartDate) {
-        this.scheduledStartDate = scheduledStartDate;
-    }
-
-    public Date getScheduledEndDate() {
-        return scheduledEndDate;
-    }
-
-    public void setScheduledEndDate(Date scheduledEndDate) {
-        this.scheduledEndDate = scheduledEndDate;
     }
 
     public Set<ProjectMember> getProjectMembers() {
@@ -79,10 +68,5 @@ public class Project extends NamedEntity {
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
-
-    @Override
-    public String toString() {
-        return this.id + " " + this.getName();
-    } 
 
 }

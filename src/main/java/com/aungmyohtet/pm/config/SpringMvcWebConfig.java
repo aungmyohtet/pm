@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.config;
 
 import java.util.Properties;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -86,5 +87,10 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
         eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
         eventMulticaster.setErrorHandler(TaskUtils.LOG_AND_SUPPRESS_ERROR_HANDLER);
         return eventMulticaster;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
