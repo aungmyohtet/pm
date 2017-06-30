@@ -10,12 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.repository.OrganizationMemberRepository;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.OrganizationService;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
+
+    @Autowired
+    private OrganizationMemberRepository organizationMemberRepository;
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -37,12 +41,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addByUser(Organization organization, String userEmail) {
         User user = userRepository.findByEmail(userEmail);
+        organizationRepository.save(organization);
         OrganizationMember organizationMember = new OrganizationMember();
         organizationMember.setOrganization(organization);
         organizationMember.setUser(user);
         organizationMember.setRole("owner");
-        organization.getOrganizationMembers().add(organizationMember);
-        organizationRepository.save(organization);
+        organizationMemberRepository.add(organizationMember);
     }
 
     @Override

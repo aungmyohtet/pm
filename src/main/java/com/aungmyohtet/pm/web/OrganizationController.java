@@ -24,6 +24,7 @@ import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.UserService;
 
@@ -35,6 +36,9 @@ public class OrganizationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrganizationMemberService organizationMemberService;
 
     @Autowired
     private OrganizationService organizationService;
@@ -70,6 +74,20 @@ public class OrganizationController {
             users.add(member.getUser());
         }
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+    }
+    
+    @RequestMapping(value = "/organizations/{id}/members/new", method = RequestMethod.GET)
+    public String showOrganizationMemberForm(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("organizationId", id);
+        return "organizationMemberForm";
+    }
+    
+    @RequestMapping(value = "/organizations/{id}/members/new", method = RequestMethod.POST)
+    public String addMemberToOrganization(@PathVariable("id") int id, Model model, @ModelAttribute User user) {
+        System.out.println("user email is " + user.getEmail());
+        organizationMemberService.addMemberToOrganization(user.getEmail(), id);
+        return "redirect:/organizations/" + id + "/members";
     }
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
