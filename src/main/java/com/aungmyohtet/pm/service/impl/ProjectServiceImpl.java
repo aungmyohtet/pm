@@ -1,9 +1,12 @@
 package com.aungmyohtet.pm.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aungmyohtet.pm.dto.ProjectDto;
+import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.ProjectMember;
@@ -15,6 +18,9 @@ import com.aungmyohtet.pm.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -43,6 +49,12 @@ public class ProjectServiceImpl implements ProjectService {
         Organization organization = organizationRepository.findById(organizationId);
         project.setOrganization(organization);
         projectRepository.save(project);
+    }
+
+    @Override
+    public ProjectDto converToDto(Project project) {
+        ProjectDto projectDto = modelMapper.map(project, ProjectDto.class);
+        return projectDto;
     }
 
 }

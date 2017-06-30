@@ -3,6 +3,7 @@ package com.aungmyohtet.pm.service;
 import java.util.List;
 
 import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.web.error.InvalidTokenException;
 import com.aungmyohtet.pm.web.error.UserNotExistException;
@@ -27,5 +28,6 @@ public interface UserService {
 
     UserDto converToDto(User user);
 
+    List<Organization> findOrganizationsByUser(String email);
 
 }

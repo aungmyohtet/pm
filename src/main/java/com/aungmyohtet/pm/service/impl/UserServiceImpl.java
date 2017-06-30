@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Role;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.entity.VerificationToken;
@@ -108,6 +109,12 @@ public class UserServiceImpl implements UserService {
     public UserDto converToDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Organization> findOrganizationsByUser(String email) {
+        return userRepository.findOrganizationsByUser(email);
     }
 
 }

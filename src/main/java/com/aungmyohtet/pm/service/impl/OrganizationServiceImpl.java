@@ -3,15 +3,19 @@ package com.aungmyohtet.pm.service.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.OrganizationMemberRepository;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
+import com.aungmyohtet.pm.repository.RoleRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.OrganizationService;
 
@@ -19,7 +23,13 @@ import com.aungmyohtet.pm.service.OrganizationService;
 public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     private OrganizationMemberRepository organizationMemberRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -45,7 +55,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         OrganizationMember organizationMember = new OrganizationMember();
         organizationMember.setOrganization(organization);
         organizationMember.setUser(user);
-        organizationMember.setRole("owner");
+        organizationMember.setRole(roleRepository.findByName("MANAGER"));
         organizationMemberRepository.add(organizationMember);
     }
 
@@ -59,6 +69,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     public List<OrganizationMember> findMembersByOrganization(int id) {
         return organizationRepository.findMembersByOrganization(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> findProjectsByOrganization(int id) {
+        return organizationRepository.findProjectsByOrganization(id);
+    }
+
+    @Override
+    public OrganizationDto convertToDto(Organization organization) {
+        return modelMapper.map(organization, OrganizationDto.class);
     }
 
 }

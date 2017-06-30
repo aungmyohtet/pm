@@ -20,22 +20,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aungmyohtet.pm.dto.OrganizationDto;
+import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
+import com.aungmyohtet.pm.service.ProjectService;
 import com.aungmyohtet.pm.service.UserService;
 
 @Controller
 public class OrganizationController {
 
     @Autowired
-    private ModelMapper modelMapper;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private ProjectService projectService;
 
     @Autowired
     private OrganizationMemberService organizationMemberService;
@@ -92,7 +96,18 @@ public class OrganizationController {
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     @ResponseBody
-    public String list(Model model) {
-        return "To show organization list";
+    public List<OrganizationDto> list(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        List<Organization> organizations = userService.findOrganizationsByUser(email);
+        return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/organizations/{id}/projects", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ProjectDto> showOrganizationProjects(@PathVariable("id") int id, Model model)
+    {
+        List<Project> projects = organizationService.findProjectsByOrganization(id);
+        return projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
     }
 }

@@ -26,7 +26,8 @@ public class OrganizationMember implements Serializable {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    private String role;
+    @ManyToOne
+    private Role role;
 
     public User getUser() {
         return user;
@@ -44,11 +45,11 @@ public class OrganizationMember implements Serializable {
         this.organization = organization;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

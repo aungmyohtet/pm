@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
 
 @Repository
@@ -54,6 +55,13 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     @Override
     public List<OrganizationMember> findMembersByOrganization(int id) {
         Query query = entityManager.createQuery("select m from OrganizationMember m where m.organization.id = :id", OrganizationMember.class);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Project> findProjectsByOrganization(int id) {
+        Query query = entityManager.createQuery("select p from Project p where p.organization.id = :id", Project.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

@@ -1,5 +1,8 @@
 package com.aungmyohtet.pm.repository;
 
+import java.util.List;
+
+import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.User;
 
 public interface UserRepository {
@@ -8,4 +11,5 @@ public interface UserRepository {
 
     User findByEmail(String email);
 
+    List<Organization> findOrganizationsByUser(String email);
 }

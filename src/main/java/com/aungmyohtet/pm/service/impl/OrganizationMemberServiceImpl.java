@@ -11,11 +11,15 @@ import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.OrganizationMemberRepository;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
+import com.aungmyohtet.pm.repository.RoleRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 
 @Service
 public class OrganizationMemberServiceImpl implements OrganizationMemberService {
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -37,7 +41,7 @@ public class OrganizationMemberServiceImpl implements OrganizationMemberService 
         OrganizationMember organizationMember = new OrganizationMember();
         organizationMember.setOrganization(organization);
         organizationMember.setUser(user);
-        organizationMember.setRole("DEVELOPER");
+        organizationMember.setRole(roleRepository.findByName("DEVELOPER"));
         organizationMemberRepository.add(organizationMember);
     }
 

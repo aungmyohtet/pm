@@ -1,5 +1,8 @@
 package com.aungmyohtet.pm.repository.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -7,6 +10,8 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import com.aungmyohtet.pm.entity.Organization;
+import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.UserRepository;
 
@@ -40,6 +45,18 @@ public class UserRepositoryImpl implements UserRepository {
             System.err.println(e.getMessage());
         }
         return user;
+    }
+
+    @Override
+    public List<Organization> findOrganizationsByUser(String email) {
+        Query query = entityManager.createQuery("SELECT m FROM OrganizationMember m WHERE m.user.email=?");
+        query.setParameter(1, email);
+        List<OrganizationMember> members =  query.getResultList();
+        List<Organization> organizations = new ArrayList<>();
+        for (OrganizationMember member : members) {
+            organizations.add(member.getOrganization());
+        }
+        return organizations;
     }
 
 }
