@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Signup</title>
+</head>
+<body>
+	<form action="#" th:action="@{/tasks/{taskId}/assign(taskId=${taskId})}" th:object="${user}" method="post">
+	   <input type="text" th:field="*{email}" placeholder="Email" />
+	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid email</span>
+	   <br/>
+	   <input type="submit" value="Assign"/>
+	</form>
+</body>
+</html>

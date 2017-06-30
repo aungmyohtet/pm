@@ -25,7 +25,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task findById(int id) {
-        return null;
+        return entityManager.find(Task.class, id);
     }
 
 }

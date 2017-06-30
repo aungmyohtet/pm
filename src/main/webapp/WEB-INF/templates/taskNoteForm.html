@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New Comment</title>
+</head>
+<body>
+	<form action="#" th:action="@{/tasks/{taskId}/comments/new(taskId=${taskId})}" th:object="${taskNote}" method="post">
+	   <input type="text" th:field="*{comment}" placeholder="Comment"/>
+	   <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Invalid Comments</span>
+	   <br/>
+	   <input type="submit" value="Add"/>
+	</form>
+</body>
+</html>
