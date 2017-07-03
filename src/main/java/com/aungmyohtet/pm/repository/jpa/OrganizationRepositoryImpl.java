@@ -66,4 +66,42 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         return query.getResultList();
     }
 
+    @Override
+    public Organization findByName(String name) {
+        Query query = entityManager.createQuery("select o from Organization o where o.name = :name", Organization.class);
+        query.setParameter("name", name);
+        Organization organization = null;
+        try {
+            organization = (Organization) query.getSingleResult();
+        } catch (Exception e) {
+        }
+        return organization;
+    }
+
+    @Override
+    public Organization findByNameFetchingMembers(String name) {
+        Query q = entityManager.createQuery("SELECT o FROM Organization o JOIN FETCH o.organizationMembers i WHERE o.name = :name");
+        q.setParameter("name", name);
+        Organization organization = null;
+        try {
+            organization = (Organization) q.getSingleResult();
+        } catch(NoResultException e) {
+        }
+        return organization;
+    }
+
+    @Override
+    public List<OrganizationMember> findMembersByOrganizationName(String name) {
+        Query query = entityManager.createQuery("select m from OrganizationMember m where m.organization.name = :name", OrganizationMember.class);
+        query.setParameter("name", name);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Project> findProjectsByOrganizationName(String name) {
+        Query query = entityManager.createQuery("select p from Project p where p.organization.name = :name", Project.class);
+        query.setParameter("name", name);
+        return query.getResultList();
+    }
+
 }
