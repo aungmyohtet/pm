@@ -30,4 +30,8 @@ public interface UserService {
 
     List<Organization> findOrganizationsByUser(String email);
 
+    List<Organization> findOrganizationsCreatedByUser(String email);
+
+    List<Organization> findOrganizationsInvolvingUser(String email);
+
 }

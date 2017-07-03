@@ -13,6 +13,7 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Role;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.entity.VerificationToken;
+import com.aungmyohtet.pm.repository.OrganizationRepository;
 import com.aungmyohtet.pm.repository.RoleRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.repository.VerificationTokenRepository;
@@ -115,6 +116,18 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<Organization> findOrganizationsByUser(String email) {
         return userRepository.findOrganizationsByUser(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Organization> findOrganizationsCreatedByUser(String email) {
+        return userRepository.findOrganizationsCreatedByUser(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Organization> findOrganizationsInvolvingUser(String email) {
+        return userRepository.findOrganizationsInvolvingUser(email);
     }
 
 }

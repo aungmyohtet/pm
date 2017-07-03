@@ -12,4 +12,8 @@ public interface UserRepository {
     User findByEmail(String email);
 
     List<Organization> findOrganizationsByUser(String email);
+
+    List<Organization> findOrganizationsCreatedByUser(String email);
+
+    List<Organization> findOrganizationsInvolvingUser(String email);
 }

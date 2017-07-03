@@ -59,4 +59,36 @@ public class UserRepositoryImpl implements UserRepository {
         return organizations;
     }
 
+    @Override
+    public List<Organization> findOrganizationsCreatedByUser(String email) {
+        //Query query = entityManager.createQuery("SELECT m FROM OrganizationMember m "
+                //+ "JOIN FETCH Organization o ");
+        Query query = entityManager.createQuery("SELECT o FROM Organization o "
+                + "JOIN FETCH o.organizationMembers om "
+                + "JOIN FETCH om.user u "
+                + "JOIN FETCH om.role r "
+                + "WHERE u.email=? AND r.name=?", Organization.class);
+        query.setParameter(1, email);
+        query.setParameter(2, "MANAGER");
+        /*List<OrganizationMember> members =  query.getResultList();
+        List<Organization> organizations = new ArrayList<>();
+        for (OrganizationMember member : members) {
+            organizations.add(member.getOrganization());
+        }*/
+        //return organizations;
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Organization> findOrganizationsInvolvingUser(String email) {
+        Query query = entityManager.createQuery("SELECT o FROM Organization o "
+                + "JOIN FETCH o.organizationMembers om "
+                + "JOIN FETCH om.user u "
+                + "JOIN FETCH om.role r "
+                + "WHERE u.email=? AND r.name=?", Organization.class);
+        query.setParameter(1, email);
+        query.setParameter(2, "DEVELOPER");
+        return query.getResultList();
+    }
+
 }

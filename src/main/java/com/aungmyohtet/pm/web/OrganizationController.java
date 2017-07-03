@@ -79,14 +79,14 @@ public class OrganizationController {
         }
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
     }
-    
+
     @RequestMapping(value = "/organizations/{id}/members/new", method = RequestMethod.GET)
     public String showOrganizationMemberForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("organizationId", id);
         return "organizationMemberForm";
     }
-    
+
     @RequestMapping(value = "/organizations/{id}/members/new", method = RequestMethod.POST)
     public String addMemberToOrganization(@PathVariable("id") int id, Model model, @ModelAttribute User user) {
         System.out.println("user email is " + user.getEmail());
@@ -100,6 +100,24 @@ public class OrganizationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         List<Organization> organizations = userService.findOrganizationsByUser(email);
+        return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/organizations/my", method = RequestMethod.GET)
+    @ResponseBody
+    public List<OrganizationDto> getOwnedOrganizations(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        List<Organization> organizations = userService.findOrganizationsCreatedByUser(email);
+        return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/organizations/in", method = RequestMethod.GET)
+    @ResponseBody
+    public List<OrganizationDto> getInvolvedOrganizations(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        List<Organization> organizations = userService.findOrganizationsInvolvingUser(email);
         return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
     }
 
