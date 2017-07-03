@@ -4,7 +4,7 @@
 <title>Signup</title>
 </head>
 <body>
-	<form action="#" th:action="@{/tasks/{taskId}/assign(taskId=${taskId})}" th:object="${user}" method="post">
+	<form action="#" th:action="@{/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/assign(organizationId=${organizationId}, projectName=${projectName}, taskNo=${taskNo})}" th:object="${user}" method="post">
 	   <input type="text" th:field="*{email}" placeholder="Email" />
 	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid email</span>
 	   <br/>

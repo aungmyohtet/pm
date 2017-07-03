@@ -9,4 +9,6 @@ public interface TaskRepository {
     Task findById(int id);
 
     Integer findTaskMaxNoByOrganizationAndProject(int organizationId, String projectName);
+
+    Task find(int organizationId, String projectName, int taskNo);
 }

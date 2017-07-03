@@ -46,4 +46,22 @@ public class TaskRepositoryImpl implements TaskRepository {
         return no;
     }
 
+    @Override
+    public Task find(int organizationId, String projectName, int taskNo) {
+        Query query = entityManager.createQuery("SELECT t FROM Task t "
+                + "JOIN t.project p "
+                + "JOIN p.organization o "
+                + "WHERE o.id = ? AND p.name = ? AND t.no = ?");
+        query.setParameter(1, organizationId);
+        query.setParameter(2, projectName);
+        query.setParameter(3, taskNo);
+        Task task = null;
+        try {
+            task = (Task) query.getSingleResult();
+        } catch(Exception e) {
+
+        }
+        return task;
+    }
+
 }

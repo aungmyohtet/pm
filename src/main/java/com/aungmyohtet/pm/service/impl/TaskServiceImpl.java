@@ -71,6 +71,8 @@ public class TaskServiceImpl implements TaskService {
     public void findProjectAndAddTask(int organizationId, String projectName, Task task) {
         Project project =projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
         task.setProject(project);
+        int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationAndProject(organizationId, projectName);
+        task.setNo(currentMaxTaskNo + 1); 
         project.getTasks().add(task);
     }
 
@@ -78,6 +80,24 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     public Integer findTaskMaxNoByOrganizationAndProject(int organizationId, String projectName) {
         return taskRepository.findTaskMaxNoByOrganizationAndProject(organizationId, projectName);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAssignUser(int organizationId, String projectName, int taskNo, String userEmail) {
+        Task task = taskRepository.find(organizationId, projectName, taskNo);
+        User user = userRepository.findByEmail(userEmail);
+        task.setAssignee(user);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddCommentByUser(int organizationId, String projectName, int taskNo, TaskNote taskNote, String userEmail) {
+        User user = userRepository.findByEmail(userEmail);
+        Task task = taskRepository.find(organizationId, projectName, taskNo);
+        taskNote.setTask(task);
+        taskNote.setCommentedBy(user);
+        taskNoteRepository.save(taskNote);
     }
 
 }
