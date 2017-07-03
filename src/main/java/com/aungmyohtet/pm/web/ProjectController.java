@@ -32,43 +32,43 @@ public class ProjectController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/new", method = RequestMethod.GET)
-    public String showProjectForm(Model model, @PathVariable("organizationId") int organizationId) {
+    @RequestMapping(value = "/{organizationName}/projects/new", method = RequestMethod.GET)
+    public String showProjectForm(Model model, @PathVariable("organizationName") String organizationName) {
         model.addAttribute("project", new Project());
-        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("organizationName", organizationName);
         return "projectForm";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/new", method = RequestMethod.POST)
-    public String addProject(@Validated @ModelAttribute Project project, BindingResult result, Model model, @PathVariable("organizationId") int organizationId) {
+    @RequestMapping(value = "{organizationName}/projects/new", method = RequestMethod.POST)
+    public String addProject(@Validated @ModelAttribute Project project, BindingResult result, Model model, @PathVariable("organizationName") String organizationName) {
         if (result.hasErrors()) {
             return "projectForm";
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // we used email in user details service
-        projectService.addToOrganizationByUser(project, organizationId, email);
+        projectService.addToOrganizationByUser(project, organizationName, email);
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/members", method = RequestMethod.GET)
+    @RequestMapping(value = "{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserDto> showProjectMembers(@PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName, Model model) {
-        List<User> users = userService.findMembersOfProject(organizationId, projectName);
+    public List<UserDto> showProjectMembers(@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, Model model) {
+        List<User> users = userService.findMembersOfProject(organizationName, projectName);
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/members/new", method = RequestMethod.GET)
-    private String showProjectMemberForm(Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.GET)
+    private String showProjectMemberForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         model.addAttribute("user", new User());
-        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         return "projectMemberForm";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/members/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.POST)
     @ResponseBody
-    private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName) {
-        projectService.addMemberToProject(user.getEmail(), organizationId, projectName);
+    private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+        projectService.addMemberToProject(user.getEmail(), organizationName, projectName);
         return "successfully added member to project";
     }
 

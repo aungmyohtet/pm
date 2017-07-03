@@ -16,4 +16,8 @@ public interface ProjectService {
     List<Project> findByOrganization(int organizationId);
 
     void addMemberToProject(String userEmail, int organizationId, String projectName);
+
+    void addToOrganizationByUser(Project project, String organizationName, String email);
+
+    void addMemberToProject(String email, String organizationName, String projectName);
 }
