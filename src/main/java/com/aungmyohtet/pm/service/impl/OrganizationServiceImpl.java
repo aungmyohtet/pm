@@ -82,4 +82,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         return modelMapper.map(organization, OrganizationDto.class);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> findProjectsByOrganization(String name) {
+        return organizationRepository.findProjectsByOrganizationName(name);
+    }
+
 }

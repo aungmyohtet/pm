@@ -4,7 +4,7 @@
 <title>New Organization Member Form</title>
 </head>
 <body>
-    <form action="#" th:action="@{/organizations/{organizationId}/members/new(organizationId=${organizationId})}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/{organizationName}/members/new(organizationName=${organizationName})}" th:object="${user}" method="post">
 	   <input type="text" th:field="*{email}" placeholder="Email"/>
 	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid Email</span>
 	   <br/>
