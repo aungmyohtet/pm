@@ -50,7 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectMember projectMember = new ProjectMember();
         projectMember.setProject(project);
         projectMember.setUser(user);
-        projectMember.setRole("owner");
+        projectMember.setRole(roleRepository.findByName("OWNER"));
         project.getProjectMembers().add(projectMember);
         Organization organization = organizationRepository.findById(organizationId);
         project.setOrganization(organization);
@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectMember projectMember = new ProjectMember();
         projectMember.setProject(project);
         projectMember.setUser(user);
-        projectMember.setRole("DEVELOPER");
+        projectMember.setRole(roleRepository.findByName("DEVELOPER"));
         project.getProjectMembers().add(projectMember);
     }
 

@@ -25,7 +25,8 @@ public class ProjectMember implements Serializable {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private String role;
+    @ManyToOne
+    private Role role;
 
     public User getUser() {
         return user;
@@ -43,11 +44,11 @@ public class ProjectMember implements Serializable {
         this.project = project;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
