@@ -56,4 +56,25 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         return project;
     }
 
+    @Override
+    public List<Project> findByOrganizationName(String organizationName) {
+        Query query = entityManager.createQuery("SELECT p FROM Project p WHERE p.organization.name = ?", Project.class);
+        query.setParameter(1, organizationName);
+        return query.getResultList();
+    }
+
+    @Override
+    public Project findByOrganizationNameAndProjectName(String organizationName, String projectName) {
+        Query query = entityManager.createQuery("SELECT p FROM Project p WHERE p.organization.name = ? AND p.name = ?");
+        query.setParameter(1, organizationName);
+        query.setParameter(2, projectName);
+        Project project = null;
+        try {
+            return (Project) query.getSingleResult();
+        } catch (Exception e) {
+
+        }
+        return project;
+    }
+
 }

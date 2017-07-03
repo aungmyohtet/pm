@@ -64,4 +64,38 @@ public class TaskRepositoryImpl implements TaskRepository {
         return task;
     }
 
+    @Override
+    public Integer findTaskMaxNoByOrganizationNameAndProjectName(String organizationName, String projectName) {
+        Query query = entityManager.createQuery("SELECT MAX(t.no) FROM Task t "
+                + "JOIN t.project p "
+                + "JOIN p.organization o "
+                + "WHERE o.name = ? AND p.name = ?");
+        query.setParameter(1, organizationName);
+        query.setParameter(2, projectName);
+        Integer no = 0;
+        try {
+            no = (Integer) query.getSingleResult();
+        } catch(Exception e) {
+
+        }
+        return no;
+    }
+
+    @Override
+    public Task find(String organizationName, String projectName, int taskNo) {
+        Query query = entityManager.createQuery("SELECT t FROM Task t "
+                + "JOIN t.project p "
+                + "JOIN p.organization o "
+                + "WHERE o.name = ? AND p.name = ? AND t.no = ?");
+        query.setParameter(1, organizationName);
+        query.setParameter(2, projectName);
+        query.setParameter(3, taskNo);
+        Task task = null;
+        try {
+            task = (Task) query.getSingleResult();
+        } catch(Exception e) {
+
+        }
+        return task;    }
+
 }
