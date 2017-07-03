@@ -72,11 +72,12 @@ public class OrganizationController {
     @ResponseBody
     public List<UserDto> showOrganizationMembers(@PathVariable("id") int id, Model model)
     {
-        List<User> users = new ArrayList<>();
+        /*List<User> users = new ArrayList<>();
         List<OrganizationMember> members = organizationService.findMembersByOrganization(id);
         for (OrganizationMember member : members) {
             users.add(member.getUser());
-        }
+        }*/
+        List<User> users = userService.findMembersOfOrganization(id);
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
     }
 

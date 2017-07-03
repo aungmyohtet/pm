@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.UserRepository;
 
@@ -61,8 +62,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<Organization> findOrganizationsCreatedByUser(String email) {
-        //Query query = entityManager.createQuery("SELECT m FROM OrganizationMember m "
-                //+ "JOIN FETCH Organization o ");
         Query query = entityManager.createQuery("SELECT o FROM Organization o "
                 + "JOIN FETCH o.organizationMembers om "
                 + "JOIN FETCH om.user u "
@@ -70,12 +69,6 @@ public class UserRepositoryImpl implements UserRepository {
                 + "WHERE u.email=? AND r.name=?", Organization.class);
         query.setParameter(1, email);
         query.setParameter(2, "MANAGER");
-        /*List<OrganizationMember> members =  query.getResultList();
-        List<Organization> organizations = new ArrayList<>();
-        for (OrganizationMember member : members) {
-            organizations.add(member.getOrganization());
-        }*/
-        //return organizations;
         return query.getResultList();
     }
 
@@ -88,6 +81,28 @@ public class UserRepositoryImpl implements UserRepository {
                 + "WHERE u.email=? AND r.name=?", Organization.class);
         query.setParameter(1, email);
         query.setParameter(2, "DEVELOPER");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<User> findMembersOfOrganization(int id) {
+        Query query = entityManager.createQuery("SELECT u FROM User u "
+                + "JOIN FETCH u.organizationMembers om "
+                + "JOIN FETCH om.organization o "
+                + "WHERE o.id=?", User.class);
+        query.setParameter(1, id);
+        //query.setParameter(2, "DEVELOPER");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<User> findMembersOfPoject(Project project) {
+        Query query = entityManager.createQuery("SELECT u FROM User u "
+                + "JOIN FETCH u.projectMembers pm "
+                + "JOIN FETCH pm.project p "
+                + "WHERE p=?", User.class);
+        query.setParameter(1, project);
+        //query.setParameter(2, "DEVELOPER");
         return query.getResultList();
     }
 

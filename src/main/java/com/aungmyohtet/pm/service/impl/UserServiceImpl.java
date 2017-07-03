@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Role;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.entity.VerificationToken;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
+import com.aungmyohtet.pm.repository.ProjectRepository;
 import com.aungmyohtet.pm.repository.RoleRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.repository.VerificationTokenRepository;
@@ -32,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
     
     @Autowired
     ModelMapper modelMapper;
@@ -129,5 +134,18 @@ public class UserServiceImpl implements UserService {
     public List<Organization> findOrganizationsInvolvingUser(String email) {
         return userRepository.findOrganizationsInvolvingUser(email);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findMembersOfOrganization(int id) {
+        return userRepository.findMembersOfOrganization(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findMembersOfProject(int organizationId, String projectName) {
+        Project project = projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
+        return userRepository.findMembersOfPoject(project);
+    } 
 
 }

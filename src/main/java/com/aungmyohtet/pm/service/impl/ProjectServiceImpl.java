@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.service.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.aungmyohtet.pm.entity.ProjectMember;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.OrganizationRepository;
 import com.aungmyohtet.pm.repository.ProjectRepository;
+import com.aungmyohtet.pm.repository.RoleRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.ProjectService;
 
@@ -30,6 +33,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -55,6 +61,24 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto converToDto(Project project) {
         ProjectDto projectDto = modelMapper.map(project, ProjectDto.class);
         return projectDto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> findByOrganization(int organizationId) {
+        return projectRepository.findByOrganization(organizationId);
+    }
+
+    @Override
+    @Transactional
+    public void addMemberToProject(String userEmail, int organizationId, String projectName) {
+        User user = userRepository.findByEmail(userEmail);
+        Project project = projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setUser(user);
+        projectMember.setRole("DEVELOPER");
+        project.getProjectMembers().add(projectMember);
     }
 
 }

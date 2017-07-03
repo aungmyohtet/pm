@@ -34,4 +34,8 @@ public interface UserService {
 
     List<Organization> findOrganizationsInvolvingUser(String email);
 
+    List<User> findMembersOfOrganization(int id);
+
+    List<User> findMembersOfProject(int organizationId, String projectName);
+
 }

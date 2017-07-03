@@ -1,7 +1,10 @@
 package com.aungmyohtet.pm.repository.jpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +33,27 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project findById(int id) {
         return entityManager.find(Project.class, id);
+    }
+
+    @Override
+    public List<Project> findByOrganization(int organizationId) {
+        Query query = entityManager.createQuery("SELECT p FROM Project p WHERE p.organization.id = ?", Project.class);
+        query.setParameter(1, organizationId);
+        return query.getResultList();
+    }
+
+    @Override
+    public Project findByOrganizationIdAndProjectName(int organizationId, String projectName) {
+        Query query = entityManager.createQuery("SELECT p FROM Project p WHERE p.organization.id = ? AND p.name = ?");
+        query.setParameter(1, organizationId);
+        query.setParameter(2, projectName);
+        Project project = null;
+        try {
+            return (Project) query.getSingleResult();
+        } catch (Exception e) {
+
+        }
+        return project;
     }
 
 }

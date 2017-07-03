@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.service;
 
+import java.util.List;
+
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.entity.Project;
 
@@ -10,4 +12,8 @@ public interface ProjectService {
     void addToOrganizationByUser(Project project, int organizationId, String userEmail);
 
     ProjectDto converToDto(Project project);
+
+    List<Project> findByOrganization(int organizationId);
+
+    void addMemberToProject(String userEmail, int organizationId, String projectName);
 }
