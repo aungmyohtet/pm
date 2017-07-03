@@ -10,6 +10,8 @@ public class Task extends ScheduledEntity {
 
     private String title;
 
+    private int no;
+
     @ManyToOne
     private Project project;
 
@@ -26,6 +28,14 @@ public class Task extends ScheduledEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public Project getProject() {

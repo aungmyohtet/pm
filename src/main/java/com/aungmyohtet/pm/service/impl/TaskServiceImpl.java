@@ -66,4 +66,18 @@ public class TaskServiceImpl implements TaskService {
         taskNoteRepository.save(taskNote);
     }
 
+    @Override
+    @Transactional
+    public void findProjectAndAddTask(int organizationId, String projectName, Task task) {
+        Project project =projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
+        task.setProject(project);
+        project.getTasks().add(task);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer findTaskMaxNoByOrganizationAndProject(int organizationId, String projectName) {
+        return taskRepository.findTaskMaxNoByOrganizationAndProject(organizationId, projectName);
+    }
+
 }

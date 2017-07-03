@@ -4,7 +4,7 @@
 <title>New Task</title>
 </head>
 <body>
-	<form action="#" th:action="@{/projects/{projectId}/tasks/new(projectId=${projectId})}" th:object="${task}" method="post">
+	<form action="#" th:action="@{/organizations/{organizationId}/projects/{projectName}/tasks/new(organizationId=${organizationId}, projectName=${projectName})}" th:object="${task}" method="post">
 	   <input type="text" th:field="*{title}" placeholder="Title"/>
 	   <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid title</span>
 	   <br/>

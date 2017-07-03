@@ -10,4 +10,8 @@ public interface TaskService {
 
     void addCommentToTaskByUser(String comment, int taskId, String userEmail);
 
+    void findProjectAndAddTask(int organizationId, String projectName, Task task);
+
+    Integer findTaskMaxNoByOrganizationAndProject(int organizationId, String projectName);
+
 }
