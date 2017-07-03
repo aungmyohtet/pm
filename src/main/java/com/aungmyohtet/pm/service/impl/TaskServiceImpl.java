@@ -100,4 +100,32 @@ public class TaskServiceImpl implements TaskService {
         taskNoteRepository.save(taskNote);
     }
 
+    @Override
+    @Transactional
+    public void findProjectAndAddTask(String organizationName, String projectName, Task task) {
+        Project project =projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        task.setProject(project);
+        int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationNameAndProjectName(organizationName, projectName);
+        task.setNo(currentMaxTaskNo + 1);
+        project.getTasks().add(task);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email) {
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        User user = userRepository.findByEmail(email);
+        task.setAssignee(user);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddCommentByUser(String organizationName, String projectName, int taskNo, TaskNote taskNote, String email) {
+        User user = userRepository.findByEmail(email);
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        taskNote.setTask(task);
+        taskNote.setCommentedBy(user);
+        taskNoteRepository.save(taskNote);
+    }
+
 }

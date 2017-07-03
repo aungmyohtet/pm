@@ -4,7 +4,7 @@
 <title>New Comment</title>
 </head>
 <body>
-	<form action="#" th:action="@{/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationId=${organizationId}, projectName=${projectName}, taskNo=${taskNo})}" th:object="${taskNote}" method="post">
+	<form action="#" th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}" th:object="${taskNote}" method="post">
 	   <input type="text" th:field="*{comment}" placeholder="Comment"/>
 	   <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Invalid Comments</span>
 	   <br/>

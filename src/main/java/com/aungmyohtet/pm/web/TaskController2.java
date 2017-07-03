@@ -28,29 +28,29 @@ public class TaskController2 {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/new", method = RequestMethod.GET)
-    public String showTaskForm(Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/new", method = RequestMethod.GET)
+    public String showTaskForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         model.addAttribute("task", new Task());
-        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         return "taskForm";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/new", method = RequestMethod.POST)
-    public String addProject(@Validated @ModelAttribute Task task, BindingResult result, Model model,@PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/new", method = RequestMethod.POST)
+    public String addProject(@Validated @ModelAttribute Task task, BindingResult result, Model model,@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         if (result.hasErrors()) {
             return "taskForm";
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // we used email in user details service
-        taskService.findProjectAndAddTask(organizationId, projectName, task);
+        taskService.findProjectAndAddTask(organizationName, projectName, task);
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.GET)
-    public String showAssigneeForm(Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.GET)
+    public String showAssigneeForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
         model.addAttribute("user", new User());
-        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         model.addAttribute("taskNo", taskNo);
         return "taskAssigneeForm";
@@ -63,26 +63,26 @@ public class TaskController2 {
         return String.valueOf(maxTaskNoByProject);
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.POST)
-    public String assign(@ModelAttribute User user, Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
-        taskService.findTaskAndAssignUser(organizationId, projectName, taskNo, user.getEmail());
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.POST)
+    public String assign(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
+        taskService.findTaskAndAssignUser(organizationName, projectName, taskNo, user.getEmail());
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.GET)
-    public String showTaskNoteForm(Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.GET)
+    public String showTaskNoteForm(Model model, @PathVariable("organizationId") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
         model.addAttribute("taskNote", new TaskNote());
-        model.addAttribute("organizationId", organizationId);
+        model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         model.addAttribute("taskNo", taskNo);
         return "taskNoteForm";
     }
 
-    @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.POST)
-    private String createTaskNote(@ModelAttribute TaskNote taskNote, Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.POST)
+    private String createTaskNote(@ModelAttribute TaskNote taskNote, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        taskService.findTaskAndAddCommentByUser(organizationId, projectName, taskNo, taskNote, email);
+        taskService.findTaskAndAddCommentByUser(organizationName, projectName, taskNo, taskNote, email);
         return "redirect:/organizations";
     }
 

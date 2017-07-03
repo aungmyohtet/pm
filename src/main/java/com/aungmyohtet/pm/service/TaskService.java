@@ -19,4 +19,10 @@ public interface TaskService {
 
     void findTaskAndAddCommentByUser(int organizationId, String projectName, int taskNo, TaskNote taskNote, String userEmail);
 
+    void findProjectAndAddTask(String organizationName, String projectName, Task task);
+
+    void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email);
+
+    void findTaskAndAddCommentByUser(String organizationName, String projectName, int taskNo, TaskNote taskNote, String email);
+
 }
