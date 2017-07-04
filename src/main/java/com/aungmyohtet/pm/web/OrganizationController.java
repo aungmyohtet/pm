@@ -95,13 +95,28 @@ public class OrganizationController {
         return "redirect:/" + organizationName + "/members";
     }
 
-    @RequestMapping(value = "/organizations", method = RequestMethod.GET)
+    @RequestMapping(value = "/json/organizations", method = RequestMethod.GET)
     @ResponseBody
     public List<OrganizationDto> list(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         List<Organization> organizations = userService.findOrganizationsByUser(email);
         return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/organizations", method = RequestMethod.GET)
+    public String showOrganizations(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        model.addAttribute("ownedOrganizations", userService.findOrganizationsCreatedByUser(email));
+        model.addAttribute("involvedOrganizations", userService.findOrganizationsInvolvingUser(email));
+        return "organizations";
+    }
+
+    @RequestMapping(value = "/{organizationName}", method = RequestMethod.GET)
+    @ResponseBody
+    public String showOrganizationName(@PathVariable("organizationName") String organizationName) {
+        return organizationName;
     }
 
     @RequestMapping(value = "/organizations/my", method = RequestMethod.GET)

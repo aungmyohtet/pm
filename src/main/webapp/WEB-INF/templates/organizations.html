@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Organizations</title>
+</head>
+<body>
+    <h4>Organizations you created.</h4>
+    <ul th:each="ownedOrganization : ${ownedOrganizations}">
+        <li><a th:href="@{/{organizationName}(organizationName=${ownedOrganization.name})}">
+                 <span th:text="${ownedOrganization.Name}"></span> </a></li>
+    </ul>
+
+    <h4>Organizations you are involved in.</h4>
+    <ul th:each="involvedOrganization : ${involvedOrganizations}">
+        <li><a th:href="@{/{organizationName}(organizationName=${involvedOrganization.name})}">
+                <span th:text="${involvedOrganization.Name}"></span> </a></li>
+    </ul>
+
+</body>
+</html>
