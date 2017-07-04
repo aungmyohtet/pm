@@ -114,9 +114,9 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/{organizationName}", method = RequestMethod.GET)
-    @ResponseBody
-    public String showOrganizationName(@PathVariable("organizationName") String organizationName) {
-        return organizationName;
+    public String showOrganizationName(@PathVariable("organizationName") String organizationName, Model model) {
+        model.addAttribute("page_title", organizationName);
+        return "organizationHome";
     }
 
     @RequestMapping(value = "/organizations/my", method = RequestMethod.GET)
@@ -137,11 +137,21 @@ public class OrganizationController {
         return organizations.stream().map(organization -> organizationService.convertToDto(organization)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/{organizationName}/projects", method = RequestMethod.GET)
+    @RequestMapping(value = "/json/{organizationName}/projects", method = RequestMethod.GET)
     @ResponseBody
-    public List<ProjectDto> showOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model)
+    public List<ProjectDto> getOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model)
     {
         List<Project> projects = organizationService.findProjectsByOrganization(organizationName);
         return projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects", method = RequestMethod.GET)
+    public String showOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model)
+    {
+        List<Project> projects = organizationService.findProjectsByOrganization(organizationName);
+        List<ProjectDto> projectDtos =  projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projects", projectDtos);
+        return "projectList";
     }
 }

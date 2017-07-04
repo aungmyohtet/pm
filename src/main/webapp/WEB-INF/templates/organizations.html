@@ -5,6 +5,8 @@
 <title>Organizations</title>
 </head>
 <body>
+    <a th:href="@{/organizations/new}">
+                New Organization</a>
     <h4>Organizations you created.</h4>
     <ul th:each="ownedOrganization : ${ownedOrganizations}">
         <li><a th:href="@{/{organizationName}(organizationName=${ownedOrganization.name})}">

@@ -47,7 +47,7 @@ public class ProjectController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // we used email in user details service
         projectService.addToOrganizationByUser(project, organizationName, email);
-        return "redirect:/organizations";
+        return "redirect:/" + organizationName + "/projects";
     }
 
     @RequestMapping(value = "{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
