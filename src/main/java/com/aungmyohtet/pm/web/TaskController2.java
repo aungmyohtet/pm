@@ -91,7 +91,17 @@ public class TaskController2 {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         taskService.findTaskAndAddCommentByUser(organizationName, projectName, taskNo, taskNote, email);
-        return "redirect:/organizations";
+        return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks/" + taskNo;
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}", method = RequestMethod.GET)
+    public String showTaskDetails(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
+        model.addAttribute("taskNote", new TaskNote());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projectName", projectName);
+        model.addAttribute("taskNo", taskNo);
+        model.addAttribute("comments", taskService.findTaskNotes(organizationName, projectName, taskNo));
+        return "taskDetails";
     }
 
 }

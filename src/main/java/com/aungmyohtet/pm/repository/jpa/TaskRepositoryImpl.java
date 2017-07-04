@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.aungmyohtet.pm.entity.Task;
+import com.aungmyohtet.pm.entity.TaskNote;
 import com.aungmyohtet.pm.repository.TaskRepository;
 
 @Repository
@@ -107,6 +108,19 @@ public class TaskRepositoryImpl implements TaskRepository {
         query.setParameter(1, organizationName);
         query.setParameter(2, projectName);
         return query.getResultList();
+    }
+
+    @Override
+    public List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo) {
+        Query query = entityManager.createQuery("SELECT n FROM TaskNote n " +
+                "JOIN n.task t " +
+                "JOIN t.project p " +
+                    "JOIN p.organization o " +
+                        "WHERE o.name = ? AND p.name = ? AND t.no = ?", TaskNote.class);
+            query.setParameter(1, organizationName);
+            query.setParameter(2, projectName);
+            query.setParameter(3, taskNo);
+            return query.getResultList();
     }
 
 }

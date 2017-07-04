@@ -8,6 +8,8 @@ public class UserDto {
 
     private String lastName;
 
+    private String email;
+
     public Integer getId() {
         return id;
     }
@@ -32,13 +34,12 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public String getEmai() {
-        return emai;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmai(String emai) {
-        this.emai = emai;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    private String emai;
 }

@@ -141,4 +141,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.find(organizationName, projectName);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo) {
+        return taskRepository.findTaskNotes(organizationName, projectName, taskNo);
+    }
+
 }
