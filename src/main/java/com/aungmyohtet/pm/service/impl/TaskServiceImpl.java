@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
     public void assignUserToTask(String userEmail, int taskId) {
         User user = userRepository.findByEmail(userEmail);
         Task task = taskRepository.findById(taskId);
-        task.setAssignee(user);
+        task.getAssignees().add(user);
         taskRepository.save(task);
     }
 
@@ -89,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
     public void findTaskAndAssignUser(int organizationId, String projectName, int taskNo, String userEmail) {
         Task task = taskRepository.find(organizationId, projectName, taskNo);
         User user = userRepository.findByEmail(userEmail);
-        task.setAssignee(user);
+        task.getAssignees().add(user);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class TaskServiceImpl implements TaskService {
     public void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email) {
         Task task = taskRepository.find(organizationName, projectName, taskNo);
         User user = userRepository.findByEmail(email);
-        task.setAssignee(user);
+        task.getAssignees().add(user);
     }
 
     @Override
@@ -145,6 +145,12 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     public List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo) {
         return taskRepository.findTaskNotes(organizationName, projectName, taskNo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Task find(String organizationName, String projectName, int taskNo) {
+        return taskRepository.find(organizationName, projectName, taskNo);
     }
 
 }
