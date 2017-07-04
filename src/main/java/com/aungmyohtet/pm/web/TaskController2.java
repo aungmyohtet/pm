@@ -74,7 +74,7 @@ public class TaskController2 {
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.POST)
     public String assign(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
         taskService.findTaskAndAssignUser(organizationName, projectName, taskNo, user.getEmail());
-        return "redirect:/organizations";
+        return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks/" + taskNo;
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.GET)
@@ -101,6 +101,8 @@ public class TaskController2 {
         model.addAttribute("projectName", projectName);
         model.addAttribute("taskNo", taskNo);
         model.addAttribute("comments", taskService.findTaskNotes(organizationName, projectName, taskNo));
+        model.addAttribute("user", new User());
+        model.addAttribute("task", taskService.find(organizationName, projectName, taskNo));
         return "taskDetails";
     }
 

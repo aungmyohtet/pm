@@ -49,7 +49,19 @@
    
     <br/>
     <h6>Task Details should display task title here</h6>
-    
+
+    <form action="#" th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}" th:object="${user}" method="post">
+	   <input type="text" th:field="*{email}" placeholder="Email" />
+	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid email</span>
+	   <br/>
+	   <input type="submit" value="Assign"/>
+	</form>
+    <div> Task Assignees</div>
+        <ul th:each="assignee : ${task.assignees}">
+            <li><span th:text="${assignee.email}"></span></li>
+        </ul>
+
+        <div>Notes</div>
         <ul th:each="comment : ${comments}">
             <li><span th:text="${comment.comment}"></span></li>
         </ul>

@@ -31,4 +31,6 @@ public interface TaskService {
 
     List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo);
 
+    Task find(String organizationName, String projectName, int taskNo);
+
 }
