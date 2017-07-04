@@ -106,4 +106,15 @@ public class UserRepositoryImpl implements UserRepository {
         return query.getResultList();
     }
 
+    @Override
+    public List<User> findMembersOfOrganization(String name) {
+        Query query = entityManager.createQuery("SELECT u FROM User u "
+                + "JOIN FETCH u.organizationMembers om "
+                + "JOIN FETCH om.organization o "
+                + "WHERE o.name=?", User.class);
+        query.setParameter(1, name);
+        //query.setParameter(2, "DEVELOPER");
+        return query.getResultList();
+    }
+
 }

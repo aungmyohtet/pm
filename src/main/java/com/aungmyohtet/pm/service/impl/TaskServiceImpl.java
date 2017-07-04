@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
     public void assignUserToTask(String userEmail, int taskId) {
         User user = userRepository.findByEmail(userEmail);
         Task task = taskRepository.findById(taskId);
-        task.setAssignee(user);
+        task.getAssignees().add(user);
         taskRepository.save(task);
     }
 
@@ -87,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
     public void findTaskAndAssignUser(int organizationId, String projectName, int taskNo, String userEmail) {
         Task task = taskRepository.find(organizationId, projectName, taskNo);
         User user = userRepository.findByEmail(userEmail);
-        task.setAssignee(user);
+        task.getAssignees().add(user);
     }
 
     @Override
@@ -98,6 +100,57 @@ public class TaskServiceImpl implements TaskService {
         taskNote.setTask(task);
         taskNote.setCommentedBy(user);
         taskNoteRepository.save(taskNote);
+    }
+
+    @Override
+    @Transactional
+    public void findProjectAndAddTask(String organizationName, String projectName, Task task) {
+        Project project =projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        task.setProject(project);
+        List<Task> tasks = taskRepository.find(organizationName, projectName);
+        if (tasks == null || tasks.size() == 0) {
+            task.setNo(1);
+        } else {
+            int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationNameAndProjectName(organizationName, projectName);
+            task.setNo(currentMaxTaskNo + 1);
+        }
+        project.getTasks().add(task);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email) {
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        User user = userRepository.findByEmail(email);
+        task.getAssignees().add(user);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddCommentByUser(String organizationName, String projectName, int taskNo, TaskNote taskNote, String email) {
+        User user = userRepository.findByEmail(email);
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        taskNote.setTask(task);
+        taskNote.setCommentedBy(user);
+        taskNoteRepository.save(taskNote);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Task> findByOrganizationNameAndProjectName(String organizationName, String projectName) {
+        return taskRepository.find(organizationName, projectName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo) {
+        return taskRepository.findTaskNotes(organizationName, projectName, taskNo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Task find(String organizationName, String projectName, int taskNo) {
+        return taskRepository.find(organizationName, projectName, taskNo);
     }
 
 }

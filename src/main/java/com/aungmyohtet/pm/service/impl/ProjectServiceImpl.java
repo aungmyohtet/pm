@@ -81,4 +81,30 @@ public class ProjectServiceImpl implements ProjectService {
         project.getProjectMembers().add(projectMember);
     }
 
+    @Override
+    @Transactional
+    public void addToOrganizationByUser(Project project, String organizationName, String email) {
+        User user = userRepository.findByEmail(email);
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setUser(user);
+        projectMember.setRole(roleRepository.findByName("OWNER"));
+        project.getProjectMembers().add(projectMember);
+        Organization organization = organizationRepository.findByName(organizationName);
+        project.setOrganization(organization);
+        projectRepository.save(project);
+    }
+
+    @Override
+    @Transactional
+    public void addMemberToProject(String email, String organizationName, String projectName) {
+        User user = userRepository.findByEmail(email);
+        Project project = projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setUser(user);
+        projectMember.setRole(roleRepository.findByName("DEVELOPER"));
+        project.getProjectMembers().add(projectMember);
+    }
+
 }

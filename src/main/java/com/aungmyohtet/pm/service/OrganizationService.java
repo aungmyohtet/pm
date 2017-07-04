@@ -21,4 +21,6 @@ public interface OrganizationService {
     List<Project> findProjectsByOrganization(int id);
 
     OrganizationDto convertToDto(Organization organization);
+
+    List<Project> findProjectsByOrganization(String name);
 }

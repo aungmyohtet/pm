@@ -21,4 +21,6 @@ public interface UserRepository {
     List<User> findMembersOfOrganization(int id);
 
     List<User> findMembersOfPoject(Project project);
+
+    List<User> findMembersOfOrganization(String name);
 }

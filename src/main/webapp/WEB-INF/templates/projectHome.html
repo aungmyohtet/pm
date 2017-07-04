@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>New Project</title>
-
-  <style>
+<title>Project Home</title>
+    <style>
         ul.menu-bar {
             list-style-type: none;
             margin: 0;
@@ -31,26 +31,21 @@
         li.menu-item a:hover {
             background-color: #111111;
         }
-        
-        form {
-           margin-top: 30px;
-        }
-    </style>
+</style>
 </head>
-<body>
-      <ul class="menu-bar">
+  <body>
+    <ul class="menu-bar">
         <li class="menu-item"><a href="#organizations" th:href="@{/organizations}">Home</a></li>
         <li class="menu-item"><a href="#projects" th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Pojects</a></li>
         <li class="menu-item"><a href="#boards" th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a></li>
         <li class="menu-item"><a href="#members" th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a></li>
-      </ul>
-	 <div>Add a new member to this organization</div>
-	 <br/>
-	<form action="#" th:action="@{/{organizationName}/members/new(organizationName=${organizationName})}" th:object="${user}" method="post">
-	   <input type="text" th:field="*{email}" placeholder="Email"/>
-	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid Email</span>
-	   <br/>
-	   <input type="submit" value="Add"/>
-	</form>
-</body>
+    </ul>
+
+    <h5 th:text="${projectName}"></h5>
+    <a href="" th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject Members</a>
+
+    &nbsp;
+    <a href="" th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject Tasks</a>
+    
+  </body>
 </html>

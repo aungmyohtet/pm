@@ -45,4 +45,19 @@ public class OrganizationMemberServiceImpl implements OrganizationMemberService 
         organizationMemberRepository.add(organizationMember);
     }
 
+    @Override
+    @Transactional
+    public void addMemberToOrganization(String userEmail, String organizationName) {
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            return;
+        }
+        Organization organization  = organizationRepository.findByName(organizationName);
+        OrganizationMember organizationMember = new OrganizationMember();
+        organizationMember.setOrganization(organization);
+        organizationMember.setUser(user);
+        organizationMember.setRole(roleRepository.findByName("DEVELOPER"));
+        organizationMemberRepository.add(organizationMember);
+    }
+
 }

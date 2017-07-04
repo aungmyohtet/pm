@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "task_note")
 public class TaskNote extends BaseEntity {
 
     private String comment;

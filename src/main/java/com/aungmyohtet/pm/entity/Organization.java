@@ -21,6 +21,9 @@ public class Organization extends UniqueNamedEntity {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Project> projects = new HashSet<>();
 
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Board> boards = new HashSet<>();
+
     public String getDescription() {
         return description;
     }
@@ -43,6 +46,14 @@ public class Organization extends UniqueNamedEntity {
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    public Set<Board> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(Set<Board> boards) {
+        this.boards = boards;
     }
 
 }

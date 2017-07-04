@@ -18,4 +18,12 @@ public interface OrganizationRepository {
     List<OrganizationMember> findMembersByOrganization(int id);
 
     List<Project> findProjectsByOrganization(int id);
+
+    Organization findByName(String name);
+
+    Organization findByNameFetchingMembers(String name);
+
+    List<OrganizationMember> findMembersByOrganizationName(String name);
+
+    List<Project> findProjectsByOrganizationName(String name);
 }

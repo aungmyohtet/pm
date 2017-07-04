@@ -146,6 +146,19 @@ public class UserServiceImpl implements UserService {
     public List<User> findMembersOfProject(int organizationId, String projectName) {
         Project project = projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
         return userRepository.findMembersOfPoject(project);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findMembersOfOrganization(String name) {
+        return userRepository.findMembersOfOrganization(name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findMembersOfProject(String organizationName, String projectName) {
+        Project project = projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        return userRepository.findMembersOfPoject(project);
     } 
 
 }
