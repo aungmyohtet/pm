@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.repository;
 
+import java.util.List;
+
 import com.aungmyohtet.pm.entity.Task;
 
 public interface TaskRepository {
@@ -15,5 +17,7 @@ public interface TaskRepository {
     Integer findTaskMaxNoByOrganizationNameAndProjectName(String organizationName, String projectName);
 
     Task find(String organizationName, String projectName, int taskNo);
+
+    List<Task> find(String organizationName, String projectName);
 
 }

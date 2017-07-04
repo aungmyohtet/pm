@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,8 +107,13 @@ public class TaskServiceImpl implements TaskService {
     public void findProjectAndAddTask(String organizationName, String projectName, Task task) {
         Project project =projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
         task.setProject(project);
-        int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationNameAndProjectName(organizationName, projectName);
-        task.setNo(currentMaxTaskNo + 1);
+        List<Task> tasks = taskRepository.find(organizationName, projectName);
+        if (tasks == null || tasks.size() == 0) {
+            task.setNo(1);
+        } else {
+            int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationNameAndProjectName(organizationName, projectName);
+            task.setNo(currentMaxTaskNo + 1);
+        }
         project.getTasks().add(task);
     }
 
@@ -126,6 +133,12 @@ public class TaskServiceImpl implements TaskService {
         taskNote.setTask(task);
         taskNote.setCommentedBy(user);
         taskNoteRepository.save(taskNote);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Task> findByOrganizationNameAndProjectName(String organizationName, String projectName) {
+        return taskRepository.find(organizationName, projectName);
     }
 
 }

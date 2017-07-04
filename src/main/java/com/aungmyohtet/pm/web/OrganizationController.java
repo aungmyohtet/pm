@@ -68,9 +68,9 @@ public class OrganizationController {
         return "redirect:/organizations";
     }
 
-    @RequestMapping(value = "/{organizationName}/members", method = RequestMethod.GET)
+    @RequestMapping(value = "/json/{organizationName}/members", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserDto> showOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model)
+    public List<UserDto> getOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model)
     {
         /*List<User> users = new ArrayList<>();
         List<OrganizationMember> members = organizationService.findMembersByOrganization(id);
@@ -79,6 +79,15 @@ public class OrganizationController {
         }*/
         List<User> users = userService.findMembersOfOrganization(organizationName);
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/{organizationName}/members", method = RequestMethod.GET)
+    public String showOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model) {
+        List<User> users = userService.findMembersOfOrganization(organizationName);
+        List<UserDto> userDtos = users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("members", userDtos);
+        return "organizationMembers";
     }
 
     @RequestMapping(value = "/{organizationName}/members/new", method = RequestMethod.GET)

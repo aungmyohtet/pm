@@ -28,6 +28,14 @@ public class TaskController2 {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks", method = RequestMethod.GET)
+    public String showProjectTasks(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projectName", projectName);
+        model.addAttribute("tasks", taskService.findByOrganizationNameAndProjectName(organizationName, projectName));
+        return "tasks";
+    }
+
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/new", method = RequestMethod.GET)
     public String showTaskForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         model.addAttribute("task", new Task());
@@ -44,7 +52,7 @@ public class TaskController2 {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // we used email in user details service
         taskService.findProjectAndAddTask(organizationName, projectName, task);
-        return "redirect:/organizations";
+        return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks";
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign", method = RequestMethod.GET)
@@ -55,7 +63,7 @@ public class TaskController2 {
         model.addAttribute("taskNo", taskNo);
         return "taskAssigneeForm";
     }
-    
+
     @RequestMapping(value = "/organizations/{organizationId}/projects/{projectName}/max_task_no", method = RequestMethod.GET)
     @ResponseBody
     public String showMaxTaskNo(Model model, @PathVariable("organizationId") int organizationId, @PathVariable("projectName") String projectName) {

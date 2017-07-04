@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.service;
 
+import java.util.List;
+
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 
@@ -24,5 +26,7 @@ public interface TaskService {
     void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email);
 
     void findTaskAndAddCommentByUser(String organizationName, String projectName, int taskNo, TaskNote taskNote, String email);
+
+    List<Task> findByOrganizationNameAndProjectName(String organizationName, String projectName);
 
 }

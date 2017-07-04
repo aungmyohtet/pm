@@ -50,11 +50,21 @@ public class ProjectController {
         return "redirect:/" + organizationName + "/projects";
     }
 
-    @RequestMapping(value = "{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
+    @RequestMapping(value = "/json/{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserDto> showProjectMembers(@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, Model model) {
+    public List<UserDto> getProjectMembers(@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, Model model) {
         List<User> users = userService.findMembersOfProject(organizationName, projectName);
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
+    public String showProjectMembers(@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, Model model) {
+        List<User> users = userService.findMembersOfProject(organizationName, projectName);
+        List<UserDto> members =  users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projectName", projectName);
+        model.addAttribute("members", members);
+        return "projectMembers";
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.GET)
@@ -66,10 +76,16 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.POST)
-    @ResponseBody
     private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         projectService.addMemberToProject(user.getEmail(), organizationName, projectName);
-        return "successfully added member to project";
+        return "redirect:/" + organizationName + "/projects/" + projectName + "/members";
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}", method = RequestMethod.GET)
+    private String showProjectHome(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projectName", projectName);
+        return "projectHome";
     }
 
 }
