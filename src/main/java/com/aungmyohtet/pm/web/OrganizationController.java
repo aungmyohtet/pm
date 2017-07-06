@@ -1,12 +1,13 @@
 package com.aungmyohtet.pm.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,11 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
-import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.service.BoardService;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ProjectService;
@@ -165,6 +167,21 @@ public class OrganizationController {
         model.addAttribute("projects", projectDtos);
         return "projectList";
     }
+
+    @RequestMapping(value = "/{organizationName}/boards", method = RequestMethod.GET)
+    public String showOrganizationBoards(@PathVariable("organizationName") String organizationName, Model model) {
+        List<Board> allBoards = organizationService.findBoardsByOrganization(organizationName);
+        List<Board> boards = new ArrayList<>();
+
+        for (Board board : allBoards) {
+            if (board.getStartShownDate().before(Calendar.getInstance().getTime()) && board.getLastShownDate().after(Calendar.getInstance().getTime())) {
+                boards.add(board);
+            }
+        }
+
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("boards", boards);
+        return "organizationBoards";
 
     @RequestMapping(value = "/{organizationName}/resources", method = RequestMethod.GET)
     public String showOrganizationResources(@PathVariable("organizationName") String organizationName, Model model) {
