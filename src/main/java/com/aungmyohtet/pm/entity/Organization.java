@@ -24,7 +24,18 @@ public class Organization extends UniqueNamedEntity {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Board> boards = new HashSet<>();
 
-    public String getDescription() {
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
+
+    public Set<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+
+	public String getDescription() {
         return description;
     }
 

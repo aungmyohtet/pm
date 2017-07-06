@@ -46,5 +46,37 @@ li.menu-item a:hover {
 		<li class="menu-item"><a href="#events"
 			th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a></li>
 	</ul>
+	<br />
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+
+	<div>
+		<a
+			th:href="@{/{organizationName}/events/new(organizationName=${organizationName})}">New
+			Event</a>
+		<h3>Events in this organization</h3>
+		<table th:each="event : ${events}">
+			<tr>
+				<td></td>
+				<td th:text="${event.name}"></td>
+			</tr>
+			<tr>
+				<td>Start Date :</td>
+				<td th:text="${event.startDate}"></td>
+			</tr>
+			<tr>
+
+				<td>End Date :</td>
+				<td th:text="${event.endDate}"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</div>
 </body>
 </html>
