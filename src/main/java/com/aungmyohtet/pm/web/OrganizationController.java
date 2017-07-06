@@ -182,6 +182,7 @@ public class OrganizationController {
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
         return "organizationBoards";
+    }
 
     @RequestMapping(value = "/{organizationName}/resources", method = RequestMethod.GET)
     public String showOrganizationResources(@PathVariable("organizationName") String organizationName, Model model) {
