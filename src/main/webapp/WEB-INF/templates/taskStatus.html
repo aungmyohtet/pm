@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Task Status</title>
+</head>
+<body>
+<body>
+	<form action="#"
+		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+		th:object="${status}" method="post">
+		<select th:field="*{name}">
+			<option value="Defaule">--Select Task Status--</option>
+			<option th:each="statusName : ${statusNames}"
+				th:value="${statusName.id}" th:text="${statusName.name}" />
+		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
+			Status</span> <br /> <input type="submit" value="Add" />
+	</form>
+</body>
+</body>
+</html>

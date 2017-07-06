@@ -1,16 +1,19 @@
 package com.aungmyohtet.pm.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.entity.Project;
+import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.ProjectRepository;
+import com.aungmyohtet.pm.repository.StatusRepository;
 import com.aungmyohtet.pm.repository.TaskNoteRepository;
 import com.aungmyohtet.pm.repository.TaskRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
@@ -31,20 +34,23 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskNoteRepository taskNoteRepository;
 
+    @Autowired
+    private StatusRepository statusRepository;
+
     @Override
     @Transactional
     public void addToProject(Task task, int projectId) {
         Project project = projectRepository.findById(projectId);
-        //* This works.
-        //task.setProject(project);
-        //taskRepository.save(task);
-        //* //
-        
-        //* This also works? yes this also works
+        // * This works.
+        // task.setProject(project);
+        // taskRepository.save(task);
+        // * //
+
+        // * This also works? yes this also works
         project.getTasks().add(task);
         task.setProject(project);// id of project missing without this line
         projectRepository.save(project);
-        //*//
+        // *//
     }
 
     @Override
@@ -71,10 +77,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public void findProjectAndAddTask(int organizationId, String projectName, Task task) {
-        Project project =projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
+        Project project = projectRepository.findByOrganizationIdAndProjectName(organizationId, projectName);
         task.setProject(project);
         int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationAndProject(organizationId, projectName);
-        task.setNo(currentMaxTaskNo + 1); 
+        task.setNo(currentMaxTaskNo + 1);
         project.getTasks().add(task);
     }
 
@@ -105,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public void findProjectAndAddTask(String organizationName, String projectName, Task task) {
-        Project project =projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        Project project = projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
         task.setProject(project);
         List<Task> tasks = taskRepository.find(organizationName, projectName);
         if (tasks == null || tasks.size() == 0) {
@@ -114,7 +120,8 @@ public class TaskServiceImpl implements TaskService {
             int currentMaxTaskNo = taskRepository.findTaskMaxNoByOrganizationNameAndProjectName(organizationName, projectName);
             task.setNo(currentMaxTaskNo + 1);
         }
-        project.getTasks().add(task);
+        // project.getTasks().add(task);
+        taskRepository.save(task);
     }
 
     @Override
@@ -153,4 +160,19 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.find(organizationName, projectName, taskNo);
     }
 
+    @Override
+    @Transactional
+    public void findTaskAndAddStatus(int organizationId, String projectName, int taskNo, int statusId) {
+        Task task = taskRepository.find(organizationId, projectName, taskNo);
+        Status statusResult = statusRepository.findById(statusId);
+        task.getStatus().add(statusResult);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddStatus(String organizationName, String projectName, int taskNo, int statusId) {
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        Status statusResult = statusRepository.findById(statusId);
+        task.getStatus().add(statusResult);
+    }
 }
