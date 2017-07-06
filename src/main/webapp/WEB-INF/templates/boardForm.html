@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New Board</title>
+<link rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		$(".datepicker").datepicker();
+	});
+	/*]]>*/
+</script>
+</head>
+<body>
+
+	<form action="#" th:action="@{/{organizationName}/boards/new(organizationName=${organizationName})}" th:object="${board}" method="post">	 
+	   <input type="text" th:field="*{title}" placeholder="Title" />
+	   <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid title</span>
+	   <br/>
+	   <input type="text" th:field="*{content}" placeholder="Content" />
+	   <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Invalid Content</span>
+	   <br/>   	   
+	   <input type="text" th:field="*{createdDate}"
+					placeholder="Enter Created Date" class="datepicker" />	   
+	   <br/>
+	   <input type="text" th:field="*{startShownDate}" placeholder="Start Show Date" class="datepicker" />	   
+	   <br/>
+	   <input type="text" th:field="*{lastShownDate}" placeholder="Last Show Date" class="datepicker"/>	   
+	   <br/>
+	   <font color="red"><p th:text="${dateError}"></p></font>
+	   <br/>
+	   <input type="submit" value="Add"/>
+	</form>
+</body>
+</html>

@@ -1,12 +1,13 @@
 package com.aungmyohtet.pm.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
-import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.service.BoardService;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ProjectService;
@@ -70,13 +72,12 @@ public class OrganizationController {
 
     @RequestMapping(value = "/json/{organizationName}/members", method = RequestMethod.GET)
     @ResponseBody
-    public List<UserDto> getOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model)
-    {
-        /*List<User> users = new ArrayList<>();
-        List<OrganizationMember> members = organizationService.findMembersByOrganization(id);
-        for (OrganizationMember member : members) {
-            users.add(member.getUser());
-        }*/
+    public List<UserDto> getOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model) {
+        /*
+         * List<User> users = new ArrayList<>(); List<OrganizationMember> members =
+         * organizationService.findMembersByOrganization(id); for (OrganizationMember member : members) {
+         * users.add(member.getUser()); }
+         */
         List<User> users = userService.findMembersOfOrganization(organizationName);
         return users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
     }
@@ -148,19 +149,33 @@ public class OrganizationController {
 
     @RequestMapping(value = "/json/{organizationName}/projects", method = RequestMethod.GET)
     @ResponseBody
-    public List<ProjectDto> getOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model)
-    {
+    public List<ProjectDto> getOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model) {
         List<Project> projects = organizationService.findProjectsByOrganization(organizationName);
         return projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{organizationName}/projects", method = RequestMethod.GET)
-    public String showOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model)
-    {
+    public String showOrganizationProjects(@PathVariable("organizationName") String organizationName, Model model) {
         List<Project> projects = organizationService.findProjectsByOrganization(organizationName);
-        List<ProjectDto> projectDtos =  projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
+        List<ProjectDto> projectDtos = projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projects", projectDtos);
         return "projectList";
+    }
+
+    @RequestMapping(value = "/{organizationName}/boards", method = RequestMethod.GET)
+    public String showOrganizationBoards(@PathVariable("organizationName") String organizationName, Model model) {
+        List<Board> allBoards = organizationService.findBoardsByOrganization(organizationName);
+        List<Board> boards = new ArrayList<>();
+
+        for (Board board : allBoards) {
+            if (board.getStartShownDate().before(Calendar.getInstance().getTime()) && board.getLastShownDate().after(Calendar.getInstance().getTime())) {
+                boards.add(board);
+            }
+        }
+
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("boards", boards);
+        return "organizationBoards";
     }
 }
