@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Resource;
-import com.aungmyohtet.pm.form.ResourceForm;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ResourceService;
 
