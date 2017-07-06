@@ -88,4 +88,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findProjectsByOrganizationName(name);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Organization findByName(String name) {
+        return organizationRepository.findByName(name);
+    }
 }
