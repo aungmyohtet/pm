@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.service;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 
@@ -20,6 +21,10 @@ public interface TaskService {
     void findTaskAndAssignUser(int organizationId, String projectName, int taskNo, String userEmail);
 
     void findTaskAndAddCommentByUser(int organizationId, String projectName, int taskNo, TaskNote taskNote, String userEmail);
+
+    void findTaskAndAddStatus(int organizationId, String projectName, int taskNo, int statusId);
+
+    void findTaskAndAddStatus(String organizationName, String projectName, int taskNo, int statusId);
 
     void findProjectAndAddTask(String organizationName, String projectName, Task task);
 
