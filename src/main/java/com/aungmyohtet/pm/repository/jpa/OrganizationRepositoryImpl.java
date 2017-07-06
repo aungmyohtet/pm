@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.Project;
@@ -46,8 +47,8 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         Organization organization = null;
         try {
             organization = (Organization) q.getSingleResult();
-        } catch(NoResultException e) {
-            
+        } catch (NoResultException e) {
+
         }
         return organization;
     }
@@ -85,7 +86,7 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         Organization organization = null;
         try {
             organization = (Organization) q.getSingleResult();
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
         }
         return organization;
     }
@@ -104,4 +105,10 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         return query.getResultList();
     }
 
+    @Override
+    public List<Board> findBoardsByOrganizationName(String organizationName) {
+        Query query = entityManager.createQuery("select b from Board b where b.organization.name = :name", Board.class);
+        query.setParameter("name", organizationName);
+        return query.getResultList();
+    }
 }
