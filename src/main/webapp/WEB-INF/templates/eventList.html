@@ -31,7 +31,47 @@ li.menu-item a {
 li.menu-item a:hover {
 	background-color: #111111;
 }
+
+body {
+		margin: 40px 10px;
+		padding: 0;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
 </style>
+
+<link href='/resources/css/fullcalendar.min.css' rel='stylesheet' />
+<link href='/resources/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='/resources/js/moment.min.js'></script>
+<script src='/resources/js/jquery.min.js'></script>
+<script src='/resources/js/fullcalendar.min.js'></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+	$(document).ready(function() {
+		
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			defaultDate: '2017-05-12',
+			navLinks: true, // can click day/week names to navigate views
+			editable: true,
+			eventLimit: true, // allow "more" link when too many events
+			events: [[${events}]]
+		});
+		
+	});
+	/*]]>*/
+</script>
+
 </head>
 <body>
 	<ul class="menu-bar">
@@ -60,16 +100,16 @@ li.menu-item a:hover {
 		<table th:each="event : ${events}">
 			<tr>
 				<td></td>
-				<td th:text="${event.name}"></td>
+				<td th:text="${event.title}"></td>
 			</tr>
 			<tr>
 				<td>Start Date :</td>
-				<td th:text="${event.startDate}"></td>
+				<td th:text="${event.start}"></td>
 			</tr>
 			<tr>
 
 				<td>End Date :</td>
-				<td th:text="${event.endDate}"></td>
+				<td th:text="${event.end}"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -78,5 +118,8 @@ li.menu-item a:hover {
 		</table>
 
 	</div>
+	
+	<div id='calendar'></div>
+	
 </body>
 </html>

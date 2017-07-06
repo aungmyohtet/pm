@@ -7,10 +7,10 @@ import com.aungmyohtet.pm.entity.Organization;
 
 public interface EventRepository {
 
-	List<Event> findEventsOfOrganization(String organizationName);
+    List<Event> findEventsOfOrganization(String organizationName);
 
-	Organization findByName(String organizationName);
+    Organization findByName(String organizationName);
 
-	void add(Organization organization);
+    void add(Organization organization);
 
 }

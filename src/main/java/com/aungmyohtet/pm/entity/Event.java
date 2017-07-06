@@ -17,55 +17,55 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table
-public class Event extends BaseEntity implements Serializable{
+public class Event extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = -3548346235522111519L;
+    private static final long serialVersionUID = -3548346235522111519L;
 
-	@NotEmpty
-	private String name;
+    @NotEmpty
+    private String title;
 
-	@NotNull
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date startDate;
+    @NotNull
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date start;
 
-	@NotNull
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date endDate;
+    @NotNull
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date end;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "organization_id")
-	private Organization organization;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
 
-	public String getName() {
-		return name;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStart() {
+        return start;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setStart(Date start) {
+        this.start = start;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEnd() {
+        return end;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEnd(Date end) {
+        this.end = end;
+    }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+    public Organization getOrganization() {
+        return organization;
+    }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
 }

@@ -14,29 +14,28 @@ import com.aungmyohtet.pm.repository.EventRepository;
 @Repository
 public class EventRepositoryImpl implements EventRepository {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public List<Event> findEventsOfOrganization(String organizationName) {
-		Query query = entityManager
-				.createQuery("SELECT e FROM Event e " + "JOIN FETCH e.organization o " + "WHERE o.name=?", Event.class);
-		query.setParameter(1, organizationName);
-		// query.setParameter(2, "DEVELOPER");
-		return query.getResultList();
-	}
+    @Override
+    public List<Event> findEventsOfOrganization(String organizationName) {
+        Query query = entityManager.createQuery("SELECT e FROM Event e " + "JOIN FETCH e.organization o " + "WHERE o.name=?", Event.class);
+        query.setParameter(1, organizationName);
+        // query.setParameter(2, "DEVELOPER");
+        return query.getResultList();
+    }
 
-	@Override
-	public Organization findByName(String organizationName) {
-		Query query = entityManager.createQuery("SELECT o FROM Organization o WHERE o.name=?");
-		query.setParameter(1, organizationName);
-		Organization organization = (Organization) query.getSingleResult();
-		return organization;
-	}
+    @Override
+    public Organization findByName(String organizationName) {
+        Query query = entityManager.createQuery("SELECT o FROM Organization o WHERE o.name=?");
+        query.setParameter(1, organizationName);
+        Organization organization = (Organization) query.getSingleResult();
+        return organization;
+    }
 
-	@Override
-	public void add(Organization organization) {
-		entityManager.persist(organization);
-	}
+    @Override
+    public void add(Organization organization) {
+        entityManager.persist(organization);
+    }
 
 }
