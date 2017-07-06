@@ -27,11 +27,13 @@ import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
+import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.BoardService;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ProjectService;
+import com.aungmyohtet.pm.service.ResourceService;
 import com.aungmyohtet.pm.service.UserService;
 
 @Controller
@@ -48,6 +50,9 @@ public class OrganizationController {
 
     @Autowired
     private OrganizationService organizationService;
+
+    @Autowired
+    private ResourceService resourceService;
 
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
@@ -177,5 +182,14 @@ public class OrganizationController {
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
         return "organizationBoards";
+
+    @RequestMapping(value = "/{organizationName}/resources", method = RequestMethod.GET)
+    public String showOrganizationResources(@PathVariable("organizationName") String organizationName, Model model) {
+
+        Organization organization = organizationService.findByName(organizationName);
+        List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("resources", resources);
+        return "organizationResourceList";
     }
 }

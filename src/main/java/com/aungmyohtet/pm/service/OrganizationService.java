@@ -26,4 +26,6 @@ public interface OrganizationService {
     List<Project> findProjectsByOrganization(String name);
 
     List<Board> findBoardsByOrganization(String organizationName);
+    
+    Organization findByName(String name);
 }

@@ -95,4 +95,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findBoardsByOrganizationName(organizationName);
         
     }   
+
+    public Organization findByName(String name) {
+        return organizationRepository.findByName(name);
+    }
 }
