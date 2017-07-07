@@ -72,10 +72,7 @@ li.menu-item a:hover {
 	<ul th:each="comment : ${comments}">
 		<li><span th:text="${comment.comment}"></span></li>
 	</ul>
-	<div>Task Status:</div>
-	<ul th:each="status : ${statusNamesResult}">
-		<li><span th:text="${status.name}"></span></li>
-	</ul>
+
 	<form action="#"
 		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
 		th:object="${taskNote}" method="post">
@@ -83,6 +80,11 @@ li.menu-item a:hover {
 			th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Invalid
 			Comments</span> <br /> <input type="submit" value="Add" />
 	</form>
+
+	<div>Task Status:</div>
+	<ul th:each="status : ${statusNamesResult}">
+		<li><span th:text="${status.name}"></span></li>
+	</ul>
 
 	<form action="#"
 		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
@@ -93,6 +95,23 @@ li.menu-item a:hover {
 				th:value="${statusName.id}" th:text="${statusName.name}" />
 		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
 			Status</span> <br /> <input type="submit" value="Add" />
+	</form>
+
+	<div>Task Technology Tags:</div>
+	<ul th:each="technologyTag : ${technologyTagNamesResult}">
+		<li><span th:text="${technologyTag.name}"></span></li>
+	</ul>
+
+	<form action="#"
+		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/technologyTag/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+		th:object="${technologyTag}" method="post">
+		<select th:field="*{name}">
+			<option value="Defaule">--Select Task Status--</option>
+			<option th:each="technologyTagName : ${technologyTagNames}"
+				th:value="${technologyTagName.id}"
+				th:text="${technologyTagName.name}" />
+		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
+			Technology Tag</span> <br /> <input type="submit" value="Add" />
 	</form>
 </body>
 </html>
