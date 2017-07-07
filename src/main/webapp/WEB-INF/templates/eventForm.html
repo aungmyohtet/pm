@@ -70,10 +70,11 @@ form {
 	<form action="#"
 		th:action="@{/{organizationName}/events/new(organizationName=${organizationName})}"
 		th:object="${event}" method="post">
-		<input type="text" th:field="*{name}" placeholder="Event Name" />
-		<input type="text" th:field="*{startDate}" placeholder="Event Start Date" class="datepicker" />
-		<input type="text" th:field="*{endDate}" placeholder="Event End Date" class="datepicker" />
-		<input type="submit" value="Add Event" />
+		<input type="text" th:field="*{title}" placeholder="Event Name" /> <input
+			type="text" th:field="*{start}" placeholder="Event Start Date"
+			class="datepicker" /> <input type="text" th:field="*{end}"
+			placeholder="Event End Date" class="datepicker" /> <input
+			type="submit" value="Add Event" />
 	</form>
 </body>
 </html>

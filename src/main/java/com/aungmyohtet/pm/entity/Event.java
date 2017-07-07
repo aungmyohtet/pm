@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,42 +21,42 @@ public class Event extends BaseEntity implements Serializable{
 	private static final long serialVersionUID = -3548346235522111519L;
 
 	@NotEmpty
-	private String name;
+	private String title;
 
 	@NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date startDate;
+	private Date start;
 
 	@NotNull
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private Date endDate;
+	private Date end;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "organization_id")
 	private Organization organization;
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getStart() {
+		return start;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStart(Date start) {
+		this.start = start;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getEnd() {
+		return end;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public Organization getOrganization() {
