@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.web;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,7 @@ public class BoardController {
             return "boardForm";
         }
 
+        board.setCreatedDate(Calendar.getInstance().getTime());
         boardService.addBoardToOrganization(board, organizationName);
         return "redirect:/" + organizationName + "/boards";
     }
