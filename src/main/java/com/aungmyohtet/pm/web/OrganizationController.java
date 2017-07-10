@@ -104,8 +104,17 @@ public class OrganizationController {
     }
 
     @RequestMapping(value = "/{organizationName}/members/new", method = RequestMethod.POST)
-    public String addMemberToOrganization(@PathVariable("organizationName") String organizationName, Model model, @ModelAttribute User user) {
-        System.out.println("user email is " + user.getEmail());
+    public String addMemberToOrganization(@PathVariable("organizationName") String organizationName, Model model, @Validated @ModelAttribute User user, BindingResult result) {
+        if (userService.findByEmail(user.getEmail()) == null) {
+            result.rejectValue("email", "user.email", "Email does not exist.");
+            return "organizationMemberForm";
+        }
+
+        User users = userService.findMembersOfOrganization(organizationName, user.getEmail());
+        if (users != null) {
+            result.rejectValue("email", "user.email", "User already exist in this organization.");
+            return "organizationMemberForm";
+        }
         organizationMemberService.addMemberToOrganization(user.getEmail(), organizationName);
         return "redirect:/" + organizationName + "/members";
     }

@@ -42,4 +42,8 @@ public interface UserService {
 
     List<User> findMembersOfProject(String organizationName, String projectName);
 
+    User findMembersOfProject(String organizationName, String projectName, String email);
+
+    User findMembersOfOrganization(String name, String email);
+
 }
