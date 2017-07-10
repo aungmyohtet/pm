@@ -36,6 +36,9 @@ public class Organization extends UniqueNamedEntity {
 	}
 
 	public String getDescription() {
+    private Set<Resource> resources = new HashSet<>();
+
+    public String getDescription() {
         return description;
     }
 
@@ -67,4 +70,11 @@ public class Organization extends UniqueNamedEntity {
         this.boards = boards;
     }
 
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
+    }
 }

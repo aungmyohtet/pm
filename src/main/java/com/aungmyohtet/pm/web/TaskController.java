@@ -68,5 +68,4 @@ public class TaskController {
         taskService.addCommentToTaskByUser(taskNote.getComment(), taskId, email);
         return "redirect:/organizations";
     }
-
 }

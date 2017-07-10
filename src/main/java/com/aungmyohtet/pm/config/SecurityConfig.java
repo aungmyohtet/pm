@@ -43,5 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/organizations")
                     .and().logout().logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
                          .and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+     
+        http.csrf().disable();
     }
 }

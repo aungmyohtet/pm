@@ -39,15 +39,24 @@ li.menu-item a:hover {
 			th:href="@{/organizations}">Home</a></li>
 		<li class="menu-item"><a href="#resource"
 			th:href="@{/{organizationName}/resources(organizationName=${organizationName})}">Resources</a></li>
-
 		<li class="menu-item"><a href="#projects"
 			th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Pojects</a></li>
 		<li class="menu-item"><a href="#boards"
 			th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a></li>
 		<li class="menu-item"><a href="#members"
 			th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a></li>
-		<li class="menu-item"><a href="#events"
-			th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a></li>
 	</ul>
+	<div>
+		<h5>Upload New Resource</h5>
+		<form action="#"
+			th:action="@{/{organizationName}/resources/new(organizationName=${organizationName})}"
+			th:object="${resource}" method="post" enctype="multipart/form-data">
+
+			Upload a document <input type="file" name="file"
+				placeholder="No file chosen" /> 
+				  <span th:if="${#fields.hasErrors('filePath')}" th:errors="*{filePath}"></span><br /> <input type="submit"
+				value="Upload" />
+		</form>
+	</div>
 </body>
 </html>

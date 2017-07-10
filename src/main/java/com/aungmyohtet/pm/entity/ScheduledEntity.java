@@ -1,23 +1,27 @@
 package com.aungmyohtet.pm.entity;
 
-import java.sql.Date;
-
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @MappedSuperclass
 public class ScheduledEntity extends BaseEntity {
 
     @Column(name = "scheduled_startdate")
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date scheduledStartDate;
 
     @Column(name = "scheduled_enddate")
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date scheduledFinishedDate;
 
     @Column(name = "actual_startdate")
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date actualStartDate;
 
     @Column(name = "actual_enddate")
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date actualFinishedDate;
 
     public Date getScheduledStartDate() {
@@ -51,5 +55,4 @@ public class ScheduledEntity extends BaseEntity {
     public void setActualFinishedDate(Date actualFinishedDate) {
         this.actualFinishedDate = actualFinishedDate;
     }
-
 }
