@@ -35,7 +35,6 @@ public class Organization extends UniqueNamedEntity {
 		this.events = events;
 	}
 
-	public String getDescription() {
     private Set<Resource> resources = new HashSet<>();
 
     public String getDescription() {
