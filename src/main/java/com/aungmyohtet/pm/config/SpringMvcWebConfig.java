@@ -2,7 +2,9 @@ package com.aungmyohtet.pm.config;
 
 import java.util.Properties;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,9 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Configuration
 @EnableWebMvc
@@ -92,7 +97,18 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper mapper = new ModelMapper();
+        mapper.addConverter(new Converter<Date, String>() {
+
+            @Override
+            public String convert(MappingContext<Date, String> arg0) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                return dateFormat.format(arg0.getSource());
+            }
+
+        });
+
+        return mapper;
     }
 
     /* Upload Resource File */
