@@ -29,6 +29,10 @@ public class Task extends ScheduledEntity {
     @JoinTable(name = "task_status", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "status_id", referencedColumnName = "id"))
     private Set<Status> status;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "task_technologytag", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "technologytag_id", referencedColumnName = "id"))
+    private Set<TechnologyTag> technologyTag;
+
     private int weight;
 
     private int score;
@@ -87,5 +91,13 @@ public class Task extends ScheduledEntity {
 
     public void setStatus(Set<Status> status) {
         this.status = status;
+    }
+
+    public Set<TechnologyTag> getTechnologyTag() {
+        return technologyTag;
+    }
+
+    public void setTechnologyTag(Set<TechnologyTag> technologyTag) {
+        this.technologyTag = technologyTag;
     }
 }

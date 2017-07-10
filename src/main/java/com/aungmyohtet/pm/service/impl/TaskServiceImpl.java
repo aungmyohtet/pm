@@ -11,11 +11,13 @@ import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
+import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.ProjectRepository;
 import com.aungmyohtet.pm.repository.StatusRepository;
 import com.aungmyohtet.pm.repository.TaskNoteRepository;
 import com.aungmyohtet.pm.repository.TaskRepository;
+import com.aungmyohtet.pm.repository.TechnologyTagRepository;
 import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.TaskService;
 
@@ -36,6 +38,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private StatusRepository statusRepository;
+
+    @Autowired
+    private TechnologyTagRepository technologyTagRepository;
 
     @Override
     @Transactional
@@ -174,5 +179,21 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.find(organizationName, projectName, taskNo);
         Status statusResult = statusRepository.findById(statusId);
         task.getStatus().add(statusResult);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddTechnologyTag(int organizationId, String projectName, int taskNo, int technologyTagId) {
+        Task task = taskRepository.find(organizationId, projectName, taskNo);
+        Status statusResult = statusRepository.findById(technologyTagId);
+        task.getStatus().add(statusResult);
+    }
+
+    @Override
+    @Transactional
+    public void findTaskAndAddTechnologyTag(String organizationName, String projectName, int taskNo, int technologyTagId) {
+        Task task = taskRepository.find(organizationName, projectName, taskNo);
+        TechnologyTag technologyTagResult = technologyTagRepository.findById(technologyTagId);
+        task.getTechnologyTag().add(technologyTagResult);
     }
 }

@@ -26,6 +26,10 @@ public interface TaskService {
 
     void findTaskAndAddStatus(String organizationName, String projectName, int taskNo, int statusId);
 
+    void findTaskAndAddTechnologyTag(int organizationId, String projectName, int taskNo, int technologyTagId);
+
+    void findTaskAndAddTechnologyTag(String organizationName, String projectName, int taskNo, int technologyTagId);
+
     void findProjectAndAddTask(String organizationName, String projectName, Task task);
 
     void findTaskAndAssignUser(String organizationName, String projectName, int taskNo, String email);
@@ -37,5 +41,4 @@ public interface TaskService {
     List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo);
 
     Task find(String organizationName, String projectName, int taskNo);
-
 }
