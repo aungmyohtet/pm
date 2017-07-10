@@ -12,5 +12,15 @@ public class ReactTestController {
     public String test1(Model model) {
         return "react/test1";
     }
+    
+    @RequestMapping(value = "/react/board", method = RequestMethod.GET)
+    public String showBoard(Model model) {
+        return "react/board";
+    }
+    
+    @RequestMapping(value = "/react/task", method = RequestMethod.GET)
+    public String showTask(Model model) {
+        return "react/task";
+    }
 
 }
