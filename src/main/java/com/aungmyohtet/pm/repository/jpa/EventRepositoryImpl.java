@@ -39,4 +39,13 @@ public class EventRepositoryImpl implements EventRepository {
 		entityManager.persist(organization);
 	}
 
+    @Override
+    public Event findByEventName(String eventName) {
+        // TODO Auto-generated method stub
+        Query query = entityManager.createQuery("SELECT e FROM Event e WHERE e.title=?");
+        query.setParameter(1, eventName);
+        Event event = (Event) query.getSingleResult();
+        return event;
+    }
+
 }

@@ -8,11 +8,7 @@
 <script src="/resources/js/moment.min.js"></script>
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/fullcalendar.min.js"></script>
-<!-- <script src="/resources/js/code.jquery.com-jquery-latest.min.js"></script>
-<script src="/resources/js/code.jquery.com-ui-1.12.0-jquery-ui.js"></script>
-<script src="/resources/js/pubsub.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script> -->
+
 <script th:inline="javascript">
 
 /*<![CDATA[*/
@@ -28,12 +24,40 @@
 			navLinks : true, // can click day/week names to navigate views
 			editable : true,
 			eventLimit : true, // allow "more" link when too many events
-			events: [[${events}]]
+			events: [[${events}]],
+		    eventClick: function(event){
+		    	var startDate =$.fullCalendar.moment(event.start).format('YYYY-MM-DD');
+		    	var endDate;
+		    	console.log("end date " + event.end);
+		    	if(event.end == null){
+		    		endDate = $.fullCalendar.moment(event.start).format('YYYY-MM-DD');
+		    	}
+		    	else{
+		    		endDate = $.fullCalendar.moment(event.end).format('YYYY-MM-DD');
+		    	}
+		    	OpenWindow=window.open("", "newwin", "height=210, width=400");
+		    	OpenWindow.document.write("<TITLE>Event Detail</TITLE>")
+		    	OpenWindow.document.write("<BODY>")
+		    	OpenWindow.document.write("<center><h3>Event Detail</h3>")
+		    	OpenWindow.document.write("<table border=1 cellpadding=10>")
+		    	OpenWindow.document.write("<tr><td>Title</td><td>")
+		    	OpenWindow.document.write("<b>event.title</b>")
+		    	OpenWindow.document.write("</td></tr>")
+		    	OpenWindow.document.write("<tr><td>Start Date</td><td>")
+		    	OpenWindow.document.write(startDate)
+		    	OpenWindow.document.write("</td></tr>")
+		    	OpenWindow.document.write("<tr><td>End Date</td><td>")
+		    	OpenWindow.document.write(endDate)
+		    	OpenWindow.document.write("</td></tr></table>")
+		    	OpenWindow.document.write("</center></BODY>")
+		    	OpenWindow.document.write("</HTML>")
+
+		    	OpenWindow.document.close()
+		    	self.name="main"
+		    	}		   
 		});
 	});
-
-
-		/*]]>*/
+	/*]]>*/
 		</script>
 
 <style>

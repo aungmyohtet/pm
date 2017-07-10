@@ -13,4 +13,6 @@ public interface EventRepository {
 
 	void add(Organization organization);
 
+    Event findByEventName(String eventName);
+
 }

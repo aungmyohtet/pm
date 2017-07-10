@@ -46,4 +46,9 @@ public class EventSericeImpl implements EventService {
         return modelMapper.map(event, EventDto.class);
     }
 
+    @Override
+    public Event findByEventName(String eventName) {
+        // TODO Auto-generated method stub
+        return eventRepository.findByEventName(eventName);
+    }
 }

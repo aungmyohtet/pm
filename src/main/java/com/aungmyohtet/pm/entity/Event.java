@@ -20,7 +20,6 @@ public class Event extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = -3548346235522111519L;
 
-	@NotEmpty
 	private String title;
 
 	@NotNull

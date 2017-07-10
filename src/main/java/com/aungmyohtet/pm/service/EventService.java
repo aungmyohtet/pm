@@ -13,4 +13,6 @@ public interface EventService {
 
     EventDto convertToDto(Event event);
 
+    Event findByEventName(String eventName);
+
 }

@@ -53,6 +53,7 @@ form {
 </script>
 </head>
 <body>
+
 	<ul class="menu-bar">
 		<li class="menu-item"><a href="#organizations"
 			th:href="@{/organizations}">Home</a></li>
@@ -65,16 +66,38 @@ form {
 		<li class="menu-item"><a href="#events"
 			th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a></li>
 	</ul>
+	<br />
+	<br />
+	<br />
+	<br />
 	<div>Add a new Event to this organization</div>
 	<br />
+	<font color="red"><p th:text="${eventNameError}"></p></font>
+	<font color="red"><p th:text="${dateEmptyError}"></p></font>
+	<font color="red"><p th:text="${dateError}"></p></font>
+
+
 	<form action="#"
 		th:action="@{/{organizationName}/events/new(organizationName=${organizationName})}"
 		th:object="${event}" method="post">
-		<input type="text" th:field="*{title}" placeholder="Event Name" /> <input
-			type="text" th:field="*{start}" placeholder="Event Start Date"
-			class="datepicker" /> <input type="text" th:field="*{end}"
-			placeholder="Event End Date" class="datepicker" /> <input
-			type="submit" value="Add Event" />
+
+		<table>
+			<tr>
+				<td><input type="text" th:field="*{title}"
+					placeholder="Event Name" /></td>
+			</tr>
+			<tr>
+				<td><input type="text" th:field="*{start}"
+					placeholder="Event Start Date" class="datepicker" /></td>
+			</tr>
+			<tr>
+				<td><input type="text" th:field="*{end}"
+					placeholder="Event End Date" class="datepicker" /></td>
+			</tr>
+		</table>
+
+		<input type="submit" value="Add Event" />
+
 	</form>
 </body>
 </html>
