@@ -7,6 +7,10 @@
 </head>
 <body>
 	<div th:include="fragments/header"></div>
+	<br />
+	<br />
+	<br />
+	<br />
 	<div>Add a new member to this organization</div>
 	<br />
 	<form action="#"
@@ -14,7 +18,7 @@
 		th:object="${user}" method="post">
 		<input type="text" th:field="*{email}" placeholder="Email" /> <span
 			th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
-			Email</span> <br /> <input type="submit" value="Add" />
+			Email</span><br /> <input type="submit" value="Add" />
 	</form>
 </body>
 </html>

@@ -27,6 +27,10 @@ public class TaskController2 {
 
     @Autowired
     private UserService userService;
+    @ModelAttribute("module")
+    String module() {
+        return "projects";
+    }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks", method = RequestMethod.GET)
     public String showProjectTasks(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
