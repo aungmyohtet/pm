@@ -170,6 +170,7 @@ public class OrganizationController {
         List<ProjectDto> projectDtos = projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projects", projectDtos);
+        model.addAttribute("module", "projects");
         return "projectList";
     }
 
@@ -186,6 +187,7 @@ public class OrganizationController {
 
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
+        model.addAttribute("module", "boards");
         return "organizationBoards";
     }
 
@@ -196,6 +198,7 @@ public class OrganizationController {
         List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("resources", resources);
+        model.addAttribute("module", "resources");
         return "organizationResourceList";
     }
 }

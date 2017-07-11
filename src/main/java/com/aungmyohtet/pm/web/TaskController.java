@@ -31,6 +31,11 @@ public class TaskController {
 		return "taskForm";
 	}
 
+    @ModelAttribute("module")
+    String module() {
+        return "projects";
+    }
+
 	@RequestMapping(value = "/projects/{projectId}/tasks/new", method = RequestMethod.POST)
 	public String addProject(@Validated @ModelAttribute Task task, BindingResult result, Model model,
 			@PathVariable("projectId") int projectId) {
