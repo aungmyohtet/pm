@@ -1,13 +1,13 @@
 package com.aungmyohtet.pm.entity;
 
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -24,6 +24,14 @@ public class Task extends ScheduledEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "task_assignee", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> assignees;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "task_status", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "status_id", referencedColumnName = "id"))
+    private Set<Status> status;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "task_technologytag", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "technologytag_id", referencedColumnName = "id"))
+    private Set<TechnologyTag> technologyTag;
 
     private int weight;
 
@@ -77,4 +85,19 @@ public class Task extends ScheduledEntity {
         this.score = score;
     }
 
+    public Set<Status> getStatus() {
+        return status;
+    }
+
+    public void setStatus(Set<Status> status) {
+        this.status = status;
+    }
+
+    public Set<TechnologyTag> getTechnologyTag() {
+        return technologyTag;
+    }
+
+    public void setTechnologyTag(Set<TechnologyTag> technologyTag) {
+        this.technologyTag = technologyTag;
+    }
 }

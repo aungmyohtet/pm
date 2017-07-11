@@ -22,5 +22,4 @@ public interface TaskRepository {
     List<Task> find(String organizationName, String projectName);
 
     List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo);
-
 }

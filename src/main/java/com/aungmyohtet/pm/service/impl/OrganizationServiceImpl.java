@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.dto.OrganizationDto;
+import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.Project;
@@ -88,4 +89,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findProjectsByOrganizationName(name);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Board> findBoardsByOrganization(String organizationName) {
+        return organizationRepository.findBoardsByOrganizationName(organizationName);
+        
+    }   
+
+    public Organization findByName(String name) {
+        return organizationRepository.findByName(name);
+    }
 }

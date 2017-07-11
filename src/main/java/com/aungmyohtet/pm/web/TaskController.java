@@ -63,12 +63,11 @@ public class TaskController {
 		return "taskNoteForm";
 	}
 
-	@RequestMapping(value = "/tasks/{taskId}/comments/new", method = RequestMethod.POST)
-	private String createTaskNote(@ModelAttribute TaskNote taskNote, Model model, @PathVariable("taskId") int taskId) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		taskService.addCommentToTaskByUser(taskNote.getComment(), taskId, email);
-		return "redirect:/organizations";
-	}
-
+    @RequestMapping(value = "/tasks/{taskId}/comments/new", method = RequestMethod.POST)
+    private String createTaskNote(@ModelAttribute TaskNote taskNote, Model model, @PathVariable("taskId") int taskId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        taskService.addCommentToTaskByUser(taskNote.getComment(), taskId, email);
+        return "redirect:/organizations";
+    }
 }
