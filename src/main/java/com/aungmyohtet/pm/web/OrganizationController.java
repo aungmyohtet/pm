@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
@@ -58,6 +57,11 @@ public class OrganizationController {
 
     @Autowired
     private ResourceService resourceService;
+
+    @ModelAttribute("module")
+    String module() {
+        return "home";
+    }
 
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
@@ -98,6 +102,7 @@ public class OrganizationController {
         List<UserDto> userDtos = users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("members", userDtos);
+        model.addAttribute("module", "members");
         return "organizationMembers";
     }
 
@@ -187,6 +192,7 @@ public class OrganizationController {
         List<ProjectDto> projectDtos = projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projects", projectDtos);
+        model.addAttribute("module", "projects");
         return "projectList";
     }
 
@@ -203,6 +209,7 @@ public class OrganizationController {
 
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
+        model.addAttribute("module", "boards");
         return "organizationBoards";
     }
 
@@ -213,6 +220,7 @@ public class OrganizationController {
         List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("resources", resources);
+        model.addAttribute("module", "resources");
         return "organizationResourceList";
     }
 }
