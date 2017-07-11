@@ -1,12 +1,16 @@
 package com.aungmyohtet.pm.web;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,12 +33,13 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
-import com.aungmyohtet.pm.service.BoardService;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ProjectService;
 import com.aungmyohtet.pm.service.ResourceService;
 import com.aungmyohtet.pm.service.UserService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class OrganizationController {
@@ -105,9 +110,26 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{organizationName}/members/new", method = RequestMethod.POST)
     public String addMemberToOrganization(@PathVariable("organizationName") String organizationName, Model model, @ModelAttribute User user) {
-        System.out.println("user email is " + user.getEmail());
+
         organizationMemberService.addMemberToOrganization(user.getEmail(), organizationName);
         return "redirect:/" + organizationName + "/members";
+    }
+
+    @RequestMapping(value = "/{organizationName}/members/new/searchMembers", method = RequestMethod.GET)
+    public void searchMembers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String email = request.getParameter("term");
+        try {
+            List<User> users = userService.searchMembers(email);
+
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            String searchResult = gson.toJson(users);
+
+            PrintWriter writer = response.getWriter();
+            writer.write(searchResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/json/organizations", method = RequestMethod.GET)

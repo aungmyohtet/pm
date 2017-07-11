@@ -52,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
     public List<Organization> findOrganizationsByUser(String email) {
         Query query = entityManager.createQuery("SELECT m FROM OrganizationMember m WHERE m.user.email=?");
         query.setParameter(1, email);
-        List<OrganizationMember> members =  query.getResultList();
+        List<OrganizationMember> members = query.getResultList();
         List<Organization> organizations = new ArrayList<>();
         for (OrganizationMember member : members) {
             organizations.add(member.getOrganization());
@@ -62,11 +62,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<Organization> findOrganizationsCreatedByUser(String email) {
-        Query query = entityManager.createQuery("SELECT o FROM Organization o "
-                + "JOIN FETCH o.organizationMembers om "
-                + "JOIN FETCH om.user u "
-                + "JOIN FETCH om.role r "
-                + "WHERE u.email=? AND r.name=?", Organization.class);
+        Query query = entityManager.createQuery(
+                "SELECT o FROM Organization o " + "JOIN FETCH o.organizationMembers om " + "JOIN FETCH om.user u " + "JOIN FETCH om.role r " + "WHERE u.email=? AND r.name=?",
+                Organization.class);
         query.setParameter(1, email);
         query.setParameter(2, "MANAGER");
         return query.getResultList();
@@ -74,11 +72,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<Organization> findOrganizationsInvolvingUser(String email) {
-        Query query = entityManager.createQuery("SELECT o FROM Organization o "
-                + "JOIN FETCH o.organizationMembers om "
-                + "JOIN FETCH om.user u "
-                + "JOIN FETCH om.role r "
-                + "WHERE u.email=? AND r.name=?", Organization.class);
+        Query query = entityManager.createQuery(
+                "SELECT o FROM Organization o " + "JOIN FETCH o.organizationMembers om " + "JOIN FETCH om.user u " + "JOIN FETCH om.role r " + "WHERE u.email=? AND r.name=?",
+                Organization.class);
         query.setParameter(1, email);
         query.setParameter(2, "DEVELOPER");
         return query.getResultList();
@@ -86,35 +82,33 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findMembersOfOrganization(int id) {
-        Query query = entityManager.createQuery("SELECT u FROM User u "
-                + "JOIN FETCH u.organizationMembers om "
-                + "JOIN FETCH om.organization o "
-                + "WHERE o.id=?", User.class);
+        Query query = entityManager.createQuery("SELECT u FROM User u " + "JOIN FETCH u.organizationMembers om " + "JOIN FETCH om.organization o " + "WHERE o.id=?", User.class);
         query.setParameter(1, id);
-        //query.setParameter(2, "DEVELOPER");
+        // query.setParameter(2, "DEVELOPER");
         return query.getResultList();
     }
 
     @Override
     public List<User> findMembersOfPoject(Project project) {
-        Query query = entityManager.createQuery("SELECT u FROM User u "
-                + "JOIN FETCH u.projectMembers pm "
-                + "JOIN FETCH pm.project p "
-                + "WHERE p=?", User.class);
+        Query query = entityManager.createQuery("SELECT u FROM User u " + "JOIN FETCH u.projectMembers pm " + "JOIN FETCH pm.project p " + "WHERE p=?", User.class);
         query.setParameter(1, project);
-        //query.setParameter(2, "DEVELOPER");
+        // query.setParameter(2, "DEVELOPER");
         return query.getResultList();
     }
 
     @Override
     public List<User> findMembersOfOrganization(String name) {
-        Query query = entityManager.createQuery("SELECT u FROM User u "
-                + "JOIN FETCH u.organizationMembers om "
-                + "JOIN FETCH om.organization o "
-                + "WHERE o.name=?", User.class);
+        Query query = entityManager.createQuery("SELECT u FROM User u " + "JOIN FETCH u.organizationMembers om " + "JOIN FETCH om.organization o " + "WHERE o.name=?", User.class);
         query.setParameter(1, name);
-        //query.setParameter(2, "DEVELOPER");
+        // query.setParameter(2, "DEVELOPER");
         return query.getResultList();
     }
 
+    @Override
+    public List<User> searchMembers(String email) {
+        Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.email LIKE :email");
+        q.setParameter("email", '%' + email + '%');
+        List<User> users = q.getResultList();
+        return users;
+    }
 }

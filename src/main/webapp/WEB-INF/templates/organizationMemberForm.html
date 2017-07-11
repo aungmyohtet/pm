@@ -2,7 +2,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>New Project</title>
-
   <style>
         ul.menu-bar {
             list-style-type: none;
@@ -36,6 +35,49 @@
            margin-top: 30px;
         }
     </style>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+	/*<![CDATA[*/
+	$(function() {
+		$("#search").autocomplete({
+			source : function(request, response) {
+				$.ajax({
+					url : "new/searchMembers",
+					dataType : 'json',
+					data : request,
+					success : function(data) {
+						if (typeof Array.prototype.forEach != 'function') {
+							Array.prototype.forEach = function(callback) {
+								for (var i = 0; i < this.length; i++) {
+									callback.apply(this, [ this[i], i, this ]);
+								}
+							};
+						}
+
+						var values = data;
+						var newArray = new Array(values.length);
+						var i = 0;
+						values.forEach(function(entry) {
+							var newObject = {
+								label : entry.email
+							};
+							newArray[i] = newObject;
+							i++;
+						});
+
+						response(newArray);
+					}
+				});
+			},
+			minLength : 1
+		});
+	});
+	/*]]>*/
+</script>
 </head>
 <body>
       <ul class="menu-bar">
@@ -47,7 +89,7 @@
 	 <div>Add a new member to this organization</div>
 	 <br/>
 	<form action="#" th:action="@{/{organizationName}/members/new(organizationName=${organizationName})}" th:object="${user}" method="post">
-	   <input type="text" th:field="*{email}" placeholder="Email"/>
+	   <input type="text" th:field="*{email}" placeholder="Email" id="search" />
 	   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid Email</span>
 	   <br/>
 	   <input type="submit" value="Add"/>
