@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Project Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Project Home</title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<style>
+body {
+	padding-top: 100px;
+	padding-left: 100px;
+}
+</style>
 </head>
 <body>
-	<div th:include="fragments/header"></div>
-	<div>
-		<h5 th:text="${projectName}"></h5>
-		<a href=""
-			th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
-			Members</a> &nbsp; <a href=""
-			th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
-			Tasks</a> <br />
-		<h6>Member List</h6>
+    <div th:include="fragments/header"></div>
 
-		<a
-			th:href="@{/{organizationName}/projects/{projectName}/members/new(organizationName=${organizationName}, projectName=${projectName})}">New
-			Member</a>
-		<ul th:each="member : ${members}">
-			<li><span th:text="${member.firstName}"></span> &nbsp; <span
-				th:text="${member.lastName}"></span></li>
-		</ul>
-	</div>
+    <div>
+        <h5 th:text="${projectName}"></h5>
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
+            Members</a>
+        &nbsp;
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
+            Tasks</a>
+        <br />
+        <h6>Member List</h6>
+
+        <a
+            th:href="@{/{organizationName}/projects/{projectName}/members/new(organizationName=${organizationName}, projectName=${projectName})}">New
+            Member</a>
+        <ul th:each="member : ${members}">
+            <li>
+                <span th:text="${member.firstName}"></span> &nbsp; <span
+                    th:text="${member.lastName}"></span>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

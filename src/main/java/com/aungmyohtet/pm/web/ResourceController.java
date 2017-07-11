@@ -37,6 +37,11 @@ public class ResourceController {
         this.resourceService = resourceService;
     }
 
+    @ModelAttribute("module")
+    String module() {
+        return "resources";
+    }
+
     @RequestMapping(value = "/{organizationName}/resources/new", method = RequestMethod.GET)
     public String showOrganizationResourceForm(Model model, @PathVariable("organizationName") String organizationName) {
 

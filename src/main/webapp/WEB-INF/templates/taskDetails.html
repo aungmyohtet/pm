@@ -1,50 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Project Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Project Home</title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<style>
+body {
+	padding-top: 100px;
+	padding-left: 100px;
+}
+</style>
 </head>
 <body>
-	<div th:include="fragments/header"></div>
-	<br />
-	<br />
-	<br />
-	<br />
-	<div>
-		<h5 th:text="${projectName}"></h5>
-		<a href=""
-			th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
-			Members</a> &nbsp; <a href=""
-			th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
-			Tasks</a> <br />
-		<h6>Task Details should display task title here</h6>
+    <div th:include="fragments/header"></div>
 
-		<form action="#"
-			th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-			th:object="${user}" method="post">
-			<input type="text" th:field="*{email}" placeholder="Email" /> <span
-				th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
-				email</span> <br /> <input type="submit" value="Assign" />
-		</form>
-		<div>Task Assignees</div>
-		<ul th:each="assignee : ${task.assignees}">
-			<li><span th:text="${assignee.email}"></span></li>
-		</ul>
+    <div>
+        <h5 th:text="${projectName}"></h5>
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
+            Members</a>
+        &nbsp;
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
+            Tasks</a>
+        <br />
+        <h6>Task Details should display task title here</h6>
 
-		<div>Notes</div>
-		<ul th:each="comment : ${comments}">
-			<li><span th:text="${comment.comment}"></span></li>
-		</ul>
+        <form action="#"
+            th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+            th:object="${user}" method="post">
+            <input type="text" th:field="*{email}" placeholder="Email" />
+            <span th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}">Invalid email</span>
+            <br />
+            <input type="submit" value="Assign" />
+        </form>
+        <div>Task Assignees</div>
+        <ul th:each="assignee : ${task.assignees}">
+            <li>
+                <span th:text="${assignee.email}"></span>
+            </li>
+        </ul>
 
-		<form action="#"
-			th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-			th:object="${taskNote}" method="post">
-			<input type="text" th:field="*{comment}" placeholder="Comment" /> <span
-				th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Invalid
-				Comments</span> <br /> <input type="submit" value="Add" />
-		</form>
-	</div>
+        <div>Notes</div>
+        <ul th:each="comment : ${comments}">
+            <li>
+                <span th:text="${comment.comment}"></span>
+            </li>
+        </ul>
+
+        <form action="#"
+            th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+            th:object="${taskNote}" method="post">
+            <input type="text" th:field="*{comment}"
+                placeholder="Comment" />
+            <span th:if="${#fields.hasErrors('comment')}"
+                th:errors="*{comment}">Invalid Comments</span>
+            <br />
+            <input type="submit" value="Add" />
+        </form>
+    </div>
 
 </body>
 </html>

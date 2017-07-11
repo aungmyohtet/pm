@@ -24,6 +24,11 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    @ModelAttribute("module")
+    String module() {
+        return "boards";
+    }
+
     @RequestMapping(value = "/{organizationName}/boards/new", method = RequestMethod.GET)
     public String showBoardForm(Model model, @PathVariable("organizationName") String organizationName) {
         model.addAttribute("board", new Board());
