@@ -2,8 +2,8 @@ package com.aungmyohtet.pm.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
@@ -15,12 +15,15 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table
 public class User extends Person {
 
     @NotEmpty
+    @Expose
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotEmpty
