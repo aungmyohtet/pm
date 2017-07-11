@@ -82,7 +82,17 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.POST)
-    private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+    private String addMemberToProject(@ModelAttribute User user, BindingResult result, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+        if (userService.findByEmail(user.getEmail()) == null) {
+            result.rejectValue("email", "user.email", "Email does not exist");
+            return "projectMemberForm";
+        }
+
+        User users = userService.findMembersOfProject(organizationName, projectName, user.getEmail());
+        if (users != null) {
+            result.rejectValue("email", "user.email", "Already exists");
+            return "projectMemberForm";
+        }
         projectService.addMemberToProject(user.getEmail(), organizationName, projectName);
         return "redirect:/" + organizationName + "/projects/" + projectName + "/members";
     }

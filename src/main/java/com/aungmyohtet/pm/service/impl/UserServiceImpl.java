@@ -3,6 +3,9 @@ package com.aungmyohtet.pm.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ProjectRepository projectRepository;
-    
+
     @Autowired
     ModelMapper modelMapper;
 
@@ -159,6 +162,18 @@ public class UserServiceImpl implements UserService {
     public List<User> findMembersOfProject(String organizationName, String projectName) {
         Project project = projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
         return userRepository.findMembersOfPoject(project);
-    } 
+    }
 
+    @Override
+    @Transactional
+    public User findMembersOfProject(String organizationName, String projectName, String email) {
+        Project project = projectRepository.findByOrganizationNameAndProjectName(organizationName, projectName);
+        return userRepository.findMembersOfPojects(project, email);
+    }
+
+    @Override
+    @Transactional
+    public User findMembersOfOrganization(String name, String email) {
+        return userRepository.findMembersOfOrganization(name, email);
+    }
 }

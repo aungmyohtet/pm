@@ -22,5 +22,11 @@ public interface UserRepository {
 
     List<User> findMembersOfPoject(Project project);
 
+    User findMembersOfPojects(Project project, String email);
+
     List<User> findMembersOfOrganization(String name);
+
+    List<User> findMembersOfPoject(String email);
+
+    User findMembersOfOrganization(String name, String email);
 }
