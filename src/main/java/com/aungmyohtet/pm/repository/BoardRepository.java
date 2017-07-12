@@ -12,4 +12,6 @@ public interface BoardRepository {
 
     Integer findBoardMaxNoByOrganizationName(String organizationName);
 
+    Board findByOrganizationNameAndBoardNo(String organizationName, int boardNo);
+
 }

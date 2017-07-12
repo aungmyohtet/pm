@@ -3,7 +3,8 @@
     xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title th:text="${page_title}"></title>
+
+<title>Cards List</title>
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
     media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 <style>
@@ -15,18 +16,19 @@ body {
 </head>
 <body>
     <div th:include="fragments/header"></div>
+
     <div>
-        <h5>Boards in this organization</h5>
+        <h4>Cards List</h4>
+        <br />
         <a
-            th:href="@{/{organizationName}/boards/new(organizationName=${organizationName})}">New
-            Board</a>
+            th:href="@{/{organizationName}/boards/{boardNo}/cards/new(organizationName=${organizationName}, boardNo=${boardNo})}">New
+            Card</a>
         <br />
-        <br />
-        <ul th:each="board : ${boards}">
+        <ul th:each="card : ${cards}">
             <li>
                 <a
-                    th:href="@{/{organizationName}/boards/{boardNo}(organizationName=${organizationName}, boardNo=${board.no})}">
-                    <span th:text="${board.name}"></span>
+                    th:href="@{/{organizationName}/boards/{boardNo}/cards/{cardTitle}(organizationName=${organizationName}, boardNo=${boardNo}, cardTitle=${card.title})}">
+                    <span th:text="${card.title}"></span>
                 </a>
             </li>
         </ul>

@@ -5,5 +5,4 @@ import com.aungmyohtet.pm.entity.Board;
 public interface BoardService {
 
     void addBoardToOrganization(Board board, String organizationName);
-
 }
