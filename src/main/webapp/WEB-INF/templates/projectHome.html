@@ -19,12 +19,13 @@ body {
     <div th:include="fragments/header"></div>
 
     <div>
-        <h5 th:text="${projectName}"></h5>
-        <a href=""
+        <h3 th:text="${projectName}"></h3>
+        <br />
+        <a href="" class="btn btn-default"
             th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Members</a>
         &nbsp;
-        <a href=""
+        <a href="" class="btn btn-default"
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
 
