@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org">
 <head>
+<script
+    src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <title>Project Home</title>
 <style>
 ul.menu-bar {
@@ -32,31 +34,99 @@ li.menu-item a:hover {
 	background-color: #111111;
 }
 </style>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document)
+			.ready(
+					function() {
+
+						console.log("Enter function:");
+						$("#addCommentForm").submit(function(event) {
+							// Prevent the form from submitting via the browser.
+							event.preventDefault();
+							ajaxPost();
+						});
+
+						function ajaxPost() {
+							console.log("Enter ajax function");
+							var addcomment = $("#comment").val();
+							var taskNote = {
+								"comment" : addcomment
+							};
+							$
+									.ajax({
+										type : "POST",
+										contentType : "application/json",
+										data : JSON.stringify(taskNote),
+										dataType : 'json',
+										url : "/[[${organizationName}]]/projects/[[${projectName}]]/tasks/[[${taskNo}]]/comments/new",
+										success : function(result) {
+											$('#getResultDiv .list-group li')
+													.remove();
+											var commentList = "";
+
+											$
+													.each(
+															result,
+															function(i,
+																	taskNote) {
+																var taskNote = taskNote.comment
+																		+ "<br\>";
+																$(
+																		'#getResultDiv .list-group')
+																		.append(
+																				'<li><h4 class="list-group-item">'
+																						+ taskNote
+																						+ '</h4></li>')
+															});
+											console.log("Success: ", JSON
+													.stringify(result));
+
+										},
+										error : function(e) {
+											$("#getResultDiv").html(
+													"<strong>Error</strong>");
+											console.log("ERROR: ", e);
+										}
+									});
+						}
+					})
+	/*]]>*/
+</script>
 </head>
 <body>
-	<ul class="menu-bar">
-		<li class="menu-item"><a href="#organizations"
-			th:href="@{/organizations}">Home</a></li>
-		<li class="menu-item"><a href="#projects"
-			th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Pojects</a></li>
-		<li class="menu-item"><a href="#boards"
-			th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a></li>
-		<li class="menu-item"><a href="#members"
-			th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a></li>
-	</ul>
+    <ul class="menu-bar">
+        <li class="menu-item">
+            <a href="#organizations" th:href="@{/organizations}">Home</a>
+        </li>
+        <li class="menu-item">
+            <a href="#projects"
+                th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Projects</a>
+        </li>
+        <li class="menu-item">
+            <a href="#boards"
+                th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a>
+        </li>
+        <li class="menu-item">
+            <a href="#members"
+                th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a>
+        </li>
+    </ul>
 
-	<h5 th:text="${projectName}"></h5>
-	<a href=""
-		th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
-		Members</a> &nbsp;
-	<a href=""
-		th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
-		Tasks</a>
+    <h5 th:text="${projectName}"></h5>
+    <a href=""
+        th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Project
+        Members</a>
+    &nbsp;
+    <a href=""
+        th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Project
+        Tasks</a>
 
-	<br />
-	<h6>Task Details should display task title here</h6>
+    <br />
+    <h6>Task Details should display task title here</h6>
 
-	<form action="#"
+    <!-- <form action="#"
 		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
 		th:object="${user}" method="post">
 		<input type="text" th:field="*{email}" placeholder="Email" /> <span
@@ -67,21 +137,44 @@ li.menu-item a:hover {
 	<ul th:each="assignee : ${task.assignees}">
 		<li><span th:text="${assignee.email}"></span></li>
 	</ul>
+ -->
+    <div>Notes</div>
 
-	<div>Notes</div>
-	<ul th:each="comment : ${comments}">
-		<li><span th:text="${comment.comment}"></span></li>
-	</ul>
 
-	<form action="#"
-		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-		th:object="${taskNote}" method="post">
-		<input type="text" th:field="*{comment}" placeholder="Comment" /> <span
-			th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Invalid
-			Comments</span> <br /> <input type="submit" value="Add" />
-	</form>
+    <ul th:each="comment : ${comments}">
+        <li>
+            <span th:text="${comment.comment}"></span>
+        </li>
+    </ul>
 
-	<div>Task Status:</div>
+    <div id="getResultDiv">
+        <ul class="list-group">
+        </ul>
+    </div>
+
+    <!-- <form th:object="${taskNote}" id="addComment"  action="#"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}">
+		<input type="text" th:field="*{comment}" placeholder="Comment"
+			id="comment" /> <span th:if="${#fields.hasErrors('comment')}"
+			th:errors="*{comment}">Invalid Comments</span> <br /> <input
+			type="submit" value="Add" />
+	</form> -->
+
+    <!--   <form id="addCommentForm"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
+        action="#"> -->
+    <form id="addCommentForm" th:object="${taskNote}"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
+        action="#">
+        <input type="text" placeholder="Comment" id="comment"
+            th:field="*{comment}" />
+        <br />
+        <input type="submit" value="Add" id="addComment" />
+    </form>
+
+
+
+    <!-- <div>Task Status:</div>
 	<ul th:each="status : ${statusNamesResult}">
 		<li><span th:text="${status.name}"></span></li>
 	</ul>
@@ -90,7 +183,7 @@ li.menu-item a:hover {
 		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
 		th:object="${status}" method="post">
 		<select th:field="*{name}">
-			<option value="Defaule">--Select Task Status--</option>
+			<option value="Defaule">Select Task Status</option>
 			<option th:each="statusName : ${statusNames}"
 				th:value="${statusName.id}" th:text="${statusName.name}" />
 		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
@@ -106,12 +199,12 @@ li.menu-item a:hover {
 		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/technologyTag/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
 		th:object="${technologyTag}" method="post">
 		<select th:field="*{name}">
-			<option value="Defaule">--Select Task Status--</option>
+			<option value="Defaule">Select Task Status</option>
 			<option th:each="technologyTagName : ${technologyTagNames}"
 				th:value="${technologyTagName.id}"
 				th:text="${technologyTagName.name}" />
 		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
 			Technology Tag</span> <br /> <input type="submit" value="Add" />
-	</form>
+	</form> -->
 </body>
 </html>

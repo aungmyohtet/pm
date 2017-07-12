@@ -85,8 +85,11 @@ public class TaskRepositoryImpl implements TaskRepository {
         try {
             task = (Task) query.getSingleResult();
         } catch (Exception e) {
-
         }
+        System.out.println("Org name in repository::::"+organizationName);
+        System.out.println("Prj name in repository::::"+projectName);
+        System.out.println("Taskno in repository::::"+taskNo);
+        System.out.println("Task in repository:::::"+task.getId());
         return task;
     }
 
