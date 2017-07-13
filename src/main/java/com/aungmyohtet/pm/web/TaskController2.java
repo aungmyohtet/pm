@@ -32,15 +32,12 @@ import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
-import com.aungmyohtet.pm.message.Response;
 import com.aungmyohtet.pm.service.StatusService;
 import com.aungmyohtet.pm.service.TaskNoteService;
 import com.aungmyohtet.pm.service.TaskService;
 import com.aungmyohtet.pm.service.TechnologyTagService;
 import com.aungmyohtet.pm.service.UserService;
 import com.aungmyohtet.pm.validator.DateEntryValidator;
-import com.aungmyohtet.pm.validator.UserFormValidator;
-import com.google.gson.Gson;
 
 @Controller
 public class TaskController2 {
@@ -152,23 +149,13 @@ public class TaskController2 {
     @ResponseBody
     private List<TaskNoteDto> createTaskNote(@RequestBody TaskNoteDto taskNoteDto, Model model, @PathVariable("organizationName") String organizationName,
             @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
-
-        System.out.println("Enter create task note controller>>>>>>>>>>");
-        System.out.println("Comment is========" + taskNoteDto.getComment());
-        System.out.println("Org name in controller+++++" + organizationName);
-        System.out.println("Prj name in controller+++++" + projectName);
-        System.out.println("Task note no:-------" + taskNo);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         TaskNote taskNote = new TaskNote();
         taskNote.setComment(taskNoteDto.getComment());
         taskService.findTaskAndAddCommentByUser(organizationName, projectName, taskNo, taskNote, email);
-        List<TaskNote> taskNoteList = new ArrayList<TaskNote>();
-        List<TaskNote> taskNotes = taskService.findTaskNotes(organizationName, projectName, taskNo);
-        taskNotes.add(taskNote);
-        taskNoteList.addAll(taskNotes);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>> size" + taskNotes.size());
-        // Response response = new Response("Done", taskNotes);
+        List<TaskNoteDto> taskNotes = new ArrayList<TaskNoteDto>();
+        taskNotes.add(taskNoteDto);
         return taskNotes.stream().map(taskNoe -> taskNoteService.convertToDto(taskNote)).collect(Collectors.toList());
     }
 

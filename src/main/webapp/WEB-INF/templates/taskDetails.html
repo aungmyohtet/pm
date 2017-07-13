@@ -37,53 +37,38 @@ li.menu-item a:hover {
 
 <script th:inline="javascript">
 	/*<![CDATA[*/
-	$(document)
-			.ready(
+	$(document).ready(
 					function() {
-
 						console.log("Enter function:");
 						$("#addCommentForm").submit(function(event) {
 							// Prevent the form from submitting via the browser.
 							event.preventDefault();
 							ajaxPost();
 						});
-
 						function ajaxPost() {
 							console.log("Enter ajax function");
 							var addcomment = $("#comment").val();
 							var taskNote = {
 								"comment" : addcomment
 							};
-							$
-									.ajax({
+							$.ajax({
 										type : "POST",
 										contentType : "application/json",
 										data : JSON.stringify(taskNote),
 										dataType : 'json',
-										url : "/[[${organizationName}]]/projects/[[${projectName}]]/tasks/[[${taskNo}]]/comments/new",
+										url : "/" + [[${organizationName}]] + "/projects/" + [[${projectName}]] + "/tasks/" + [[${taskNo}]] + "/comments/new",
 										success : function(result) {
-											$('#getResultDiv .list-group li')
-													.remove();
-											var commentList = "";
-
-											$
-													.each(
-															result,
-															function(i,
-																	taskNote) {
-																var taskNote = taskNote.comment
-																		+ "<br\>";
-																$(
-																		'#getResultDiv .list-group')
-																		.append(
-																				'<li><h4 class="list-group-item">'
-																						+ taskNote
-																						+ '</h4></li>')
-															});
-											console.log("Success: ", JSON
-													.stringify(result));
-
-										},
+										console.log(result);
+										$.each(result,function(i,taskNote) 
+										{
+											console.log(taskNote);
+											$('#getResultDiv .list-group').append('<li class="list-group-item">'
+																				+ taskNote.comment+ '</li>');
+										});
+										$("#comment").val("");
+										addcomment="";
+										console.log("Success: ", result);
+								   },
 										error : function(e) {
 											$("#getResultDiv").html(
 													"<strong>Error</strong>");
@@ -126,18 +111,22 @@ li.menu-item a:hover {
     <br />
     <h6>Task Details should display task title here</h6>
 
-    <!-- <form action="#"
-		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-		th:object="${user}" method="post">
-		<input type="text" th:field="*{email}" placeholder="Email" /> <span
-			th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
-			email</span> <br /> <input type="submit" value="Assign" />
-	</form>
-	<div>Task Assignees</div>
-	<ul th:each="assignee : ${task.assignees}">
-		<li><span th:text="${assignee.email}"></span></li>
-	</ul>
- -->
+    <form action="#"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+        th:object="${user}" method="post">
+        <input type="text" th:field="*{email}" placeholder="Email" />
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
+            email</span>
+        <br />
+        <input type="submit" value="Assign" />
+    </form>
+    <div>Task Assignees</div>
+    <ul th:each="assignee : ${task.assignees}">
+        <li>
+            <span th:text="${assignee.email}"></span>
+        </li>
+    </ul>
+
     <div>Notes</div>
 
 
@@ -146,23 +135,10 @@ li.menu-item a:hover {
             <span th:text="${comment.comment}"></span>
         </li>
     </ul>
-
     <div id="getResultDiv">
         <ul class="list-group">
         </ul>
     </div>
-
-    <!-- <form th:object="${taskNote}" id="addComment"  action="#"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}">
-		<input type="text" th:field="*{comment}" placeholder="Comment"
-			id="comment" /> <span th:if="${#fields.hasErrors('comment')}"
-			th:errors="*{comment}">Invalid Comments</span> <br /> <input
-			type="submit" value="Add" />
-	</form> -->
-
-    <!--   <form id="addCommentForm"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
-        action="#"> -->
     <form id="addCommentForm" th:object="${taskNote}"
         th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
         action="#">
@@ -172,39 +148,45 @@ li.menu-item a:hover {
         <input type="submit" value="Add" id="addComment" />
     </form>
 
+    <div>Task Status:</div>
+    <ul th:each="status : ${statusNamesResult}">
+        <li>
+            <span th:text="${status.name}"></span>
+        </li>
+    </ul>
 
+    <form action="#"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+        th:object="${status}" method="post">
+        <select th:field="*{name}">
+            <option value="Defaule">Select Task Status</option>
+            <option th:each="statusName : ${statusNames}"
+                th:value="${statusName.id}" th:text="${statusName.name}" />
+        </select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
+            Status</span>
+        <br />
+        <input type="submit" value="Add" />
+    </form>
 
-    <!-- <div>Task Status:</div>
-	<ul th:each="status : ${statusNamesResult}">
-		<li><span th:text="${status.name}"></span></li>
-	</ul>
+    <div>Task Technology Tags:</div>
+    <ul th:each="technologyTag : ${technologyTagNamesResult}">
+        <li>
+            <span th:text="${technologyTag.name}"></span>
+        </li>
+    </ul>
 
-	<form action="#"
-		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-		th:object="${status}" method="post">
-		<select th:field="*{name}">
-			<option value="Defaule">Select Task Status</option>
-			<option th:each="statusName : ${statusNames}"
-				th:value="${statusName.id}" th:text="${statusName.name}" />
-		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-			Status</span> <br /> <input type="submit" value="Add" />
-	</form>
-
-	<div>Task Technology Tags:</div>
-	<ul th:each="technologyTag : ${technologyTagNamesResult}">
-		<li><span th:text="${technologyTag.name}"></span></li>
-	</ul>
-
-	<form action="#"
-		th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/technologyTag/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-		th:object="${technologyTag}" method="post">
-		<select th:field="*{name}">
-			<option value="Defaule">Select Task Status</option>
-			<option th:each="technologyTagName : ${technologyTagNames}"
-				th:value="${technologyTagName.id}"
-				th:text="${technologyTagName.name}" />
-		</select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-			Technology Tag</span> <br /> <input type="submit" value="Add" />
-	</form> -->
+    <form action="#"
+        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/technologyTag/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
+        th:object="${technologyTag}" method="post">
+        <select th:field="*{name}">
+            <option value="Defaule">Select Task Status</option>
+            <option th:each="technologyTagName : ${technologyTagNames}"
+                th:value="${technologyTagName.id}"
+                th:text="${technologyTagName.name}" />
+        </select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
+            Technology Tag</span>
+        <br />
+        <input type="submit" value="Add" />
+    </form>
 </body>
 </html>
