@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>New Board</title>
+<title>New Card</title>
 <link rel="stylesheet"
     href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
 <script
@@ -33,11 +33,26 @@ body {
     <div th:include="fragments/header"></div>
 
     <form action="#"
-        th:action="@{/{organizationName}/boards/new(organizationName=${organizationName})}"
-        th:object="${board}" method="post">
-        <input type="text" th:field="*{name}" placeholder="name" />
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-            board name</span>
+        th:action="@{/{organizationName}/boards/{boardNo}/cards/new(organizationName=${organizationName},boardNo=${boardNo})}"
+        th:object="${card}" method="post">
+
+        <input type="text" th:field="*{title}" placeholder="Title" />
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid
+            title</span>
+        <br />
+        <input type="text" th:field="*{content}" placeholder="Content" />
+        <span th:if="${#fields.hasErrors('content')}"
+            th:errors="*{content}">Invalid Content</span>
+        <br />
+        <input type="text" th:field="*{startShownDate}"
+            placeholder="Start Shown Date" class="datepicker" />
+        <br />
+        <input type="text" th:field="*{lastShownDate}"
+            placeholder="Last Shown Date" class="datepicker" />
+        <br />
+        <font color="red">
+            <p th:text="${dateError}"></p>
+        </font>
         <br />
         <input type="submit" value="Add" />
     </form>

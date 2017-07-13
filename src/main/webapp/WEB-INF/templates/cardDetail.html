@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Card Detail</title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<style>
+body {
+	padding-top: 100px;
+	padding-left: 100px;
+}
+</style>
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <div>
+        <h4>Card Detail</h4>
+        <table cellpadding="8">
+            <tr>
+                <td>Title</td>
+                <td>
+                    <span th:text="${card.title}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Content</td>
+                <td>
+                    <span th:text="${card.content}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Start Shown Date</td>
+                <td>
+                    <span th:text="${card.startShownDate}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Last Shown Date</td>
+                <td>
+                    <span th:text="${card.lastShownDate}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Created Date</td>
+                <td>
+                    <span th:text="${card.createdDate}"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
