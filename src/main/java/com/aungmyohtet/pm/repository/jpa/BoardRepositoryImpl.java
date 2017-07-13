@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import com.aungmyohtet.pm.entity.Board;
+import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.repository.BoardRepository;
 
 @Repository
@@ -48,5 +49,21 @@ public class BoardRepositoryImpl implements BoardRepository {
 
         }
         return no;
+    }
+
+    @Override
+    public Board findByOrganizationNameAndBoardNo(String organizationName, int boardNo) {
+
+        Query query = entityManager.createQuery("SELECT b FROM Board b WHERE b.organization.name = ? AND b.no = ?");
+        query.setParameter(1, organizationName);
+        query.setParameter(2, boardNo);
+        Board board = null;
+        try {
+            return (Board) query.getSingleResult();
+        } catch (Exception e) {
+
+        }
+        return board;
+
     }
 }

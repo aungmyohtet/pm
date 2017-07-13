@@ -1,35 +1,23 @@
 package com.aungmyohtet.pm.entity;
 
-import java.util.Date;
-import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table
 public class Board extends BaseEntity {
 
     @NotEmpty
-    private String title;
-
-    @NotEmpty
-    private String content;
-
-    @Column(name = "createdDate")
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date createdDate;
-
-    @Column(name = "startShownDate")
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date startShownDate;
-
-    @Column(name = "lastShownDate")
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date lastShownDate;
+    private String name;
 
     private int no;
 
@@ -37,44 +25,15 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
     private Organization organization;
 
-    public String getTitle() {
-        return title;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Card> cards = new HashSet<>();
+
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getStartShownDate() {
-        return startShownDate;
-    }
-
-    public void setStartShownDate(Date startShownDate) {
-        this.startShownDate = startShownDate;
-    }
-
-    public Date getLastShownDate() {
-        return lastShownDate;
-    }
-
-    public void setLastShownDate(Date lastShownDate) {
-        this.lastShownDate = lastShownDate;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getNo() {
@@ -93,40 +52,27 @@ public class Board extends BaseEntity {
         this.organization = organization;
     }
 
+    public Set<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(Set<Card> cards) {
+        this.cards = cards;
+    }
+
     public Board() {
         super();
     }
 
-    public Board(String title, String content) {
+    public Board(String name, int no) {
         super();
-        this.title = title;
-        this.content = content;
-    }
-
-    public Board(String title, String content, int no, Organization organization) {
-        super();
-        this.title = title;
-        this.content = content;
+        this.name = name;
         this.no = no;
-        this.organization = organization;
     }
 
-    public Board(String title, String content, Date createdDate, Date startShownDate, Date lastShownDate) {
+    public Board(String name, int no, Organization organization) {
         super();
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.startShownDate = startShownDate;
-        this.lastShownDate = lastShownDate;
-    }
-
-    public Board(String title, String content, Date createdDate, Date startShownDate, Date lastShownDate, int no, Organization organization) {
-        super();
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.startShownDate = startShownDate;
-        this.lastShownDate = lastShownDate;
+        this.name = name;
         this.no = no;
         this.organization = organization;
     }

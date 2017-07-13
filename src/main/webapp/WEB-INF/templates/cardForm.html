@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>New Card</title>
+<link rel="stylesheet"
+    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		$(".datepicker").datepicker();
+	});
+	/*]]>*/
+</script>
+
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<style>
+body {
+	padding-top: 100px;
+	padding-left: 100px;
+}
+</style>
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <form action="#"
+        th:action="@{/{organizationName}/boards/{boardNo}/cards/new(organizationName=${organizationName},boardNo=${boardNo})}"
+        th:object="${card}" method="post">
+
+        <input type="text" th:field="*{title}" placeholder="Title" />
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid
+            title</span>
+        <br />
+        <input type="text" th:field="*{content}" placeholder="Content" />
+        <span th:if="${#fields.hasErrors('content')}"
+            th:errors="*{content}">Invalid Content</span>
+        <br />
+        <input type="text" th:field="*{startShownDate}"
+            placeholder="Start Shown Date" class="datepicker" />
+        <br />
+        <input type="text" th:field="*{lastShownDate}"
+            placeholder="Last Shown Date" class="datepicker" />
+        <br />
+        <font color="red">
+            <p th:text="${dateError}"></p>
+        </font>
+        <br />
+        <input type="submit" value="Add" />
+    </form>
+</body>
+</html>

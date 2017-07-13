@@ -1,12 +1,14 @@
 package com.aungmyohtet.pm.web;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
@@ -29,12 +30,13 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
-import com.aungmyohtet.pm.service.BoardService;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
 import com.aungmyohtet.pm.service.ProjectService;
 import com.aungmyohtet.pm.service.ResourceService;
 import com.aungmyohtet.pm.service.UserService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class OrganizationController {
@@ -53,6 +55,11 @@ public class OrganizationController {
 
     @Autowired
     private ResourceService resourceService;
+
+    @ModelAttribute("module")
+    String module() {
+        return "home";
+    }
 
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
@@ -93,6 +100,7 @@ public class OrganizationController {
         List<UserDto> userDtos = users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("members", userDtos);
+        model.addAttribute("module", "members");
         return "organizationMembers";
     }
 
@@ -105,9 +113,26 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{organizationName}/members/new", method = RequestMethod.POST)
     public String addMemberToOrganization(@PathVariable("organizationName") String organizationName, Model model, @ModelAttribute User user) {
-        System.out.println("user email is " + user.getEmail());
+
         organizationMemberService.addMemberToOrganization(user.getEmail(), organizationName);
         return "redirect:/" + organizationName + "/members";
+    }
+
+    @RequestMapping(value = "/{organizationName}/members/new/searchMembers", method = RequestMethod.GET)
+    public void searchMembers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String email = request.getParameter("term");
+        try {
+            List<User> users = userService.searchMembers(email);
+
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            String searchResult = gson.toJson(users);
+
+            PrintWriter writer = response.getWriter();
+            writer.write(searchResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/json/organizations", method = RequestMethod.GET)
@@ -165,22 +190,16 @@ public class OrganizationController {
         List<ProjectDto> projectDtos = projects.stream().map(project -> projectService.converToDto(project)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projects", projectDtos);
+        model.addAttribute("module", "projects");
         return "projectList";
     }
 
     @RequestMapping(value = "/{organizationName}/boards", method = RequestMethod.GET)
     public String showOrganizationBoards(@PathVariable("organizationName") String organizationName, Model model) {
-        List<Board> allBoards = organizationService.findBoardsByOrganization(organizationName);
-        List<Board> boards = new ArrayList<>();
-
-        for (Board board : allBoards) {
-            if (board.getStartShownDate().before(Calendar.getInstance().getTime()) && board.getLastShownDate().after(Calendar.getInstance().getTime())) {
-                boards.add(board);
-            }
-        }
-
+        List<Board> boards = organizationService.findBoardsByOrganization(organizationName);
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
+        model.addAttribute("module", "boards");
         return "organizationBoards";
     }
 
@@ -191,6 +210,7 @@ public class OrganizationController {
         List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("resources", resources);
+        model.addAttribute("module", "resources");
         return "organizationResourceList";
     }
 }

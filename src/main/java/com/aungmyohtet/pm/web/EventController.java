@@ -22,6 +22,11 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @ModelAttribute("module")
+    String module() {
+        return "events";
+    }
+
     @RequestMapping(value = "/{organizationName}/events", method = RequestMethod.GET)
     public String showEvents(@PathVariable("organizationName") String organizationName, Model model, HttpServletRequest request) {
         List<Event> events = eventService.findEventsOfOrganization(organizationName);

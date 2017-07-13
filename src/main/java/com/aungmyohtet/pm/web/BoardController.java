@@ -1,7 +1,5 @@
 package com.aungmyohtet.pm.web;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +22,11 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    @ModelAttribute("module")
+    String module() {
+        return "boards";
+    }
+
     @RequestMapping(value = "/{organizationName}/boards/new", method = RequestMethod.GET)
     public String showBoardForm(Model model, @PathVariable("organizationName") String organizationName) {
         model.addAttribute("board", new Board());
@@ -38,14 +41,14 @@ public class BoardController {
             return "boardForm";
         }
 
-        String dateError = "Last Date must be greatere than Start Date";
-        if (board.getStartShownDate().after(board.getLastShownDate())) {
-            model.addAttribute("dateError", dateError);
-            return "boardForm";
-        }
-
-        board.setCreatedDate(Calendar.getInstance().getTime());
         boardService.addBoardToOrganization(board, organizationName);
         return "redirect:/" + organizationName + "/boards";
+    }
+
+    @RequestMapping(value = "/{organizationName}/boards/{boardNo}", method = RequestMethod.GET)
+    private String showProjectHome(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardNo") String boardNo) {
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("boardNo", boardNo);
+        return "redirect:/" + organizationName + "/boards/" + boardNo + "/cards";
     }
 }

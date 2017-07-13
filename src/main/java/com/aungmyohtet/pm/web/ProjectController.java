@@ -31,6 +31,10 @@ public class ProjectController {
 
     @Autowired
     private UserService userService;
+    @ModelAttribute("module")
+    String module() {
+        return "projects";
+    }
 
     @RequestMapping(value = "/{organizationName}/projects/new", method = RequestMethod.GET)
     public String showProjectForm(Model model, @PathVariable("organizationName") String organizationName) {
@@ -64,14 +68,16 @@ public class ProjectController {
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         model.addAttribute("members", members);
+        model.addAttribute("module", "members");
         return "projectMembers";
-    }
+        }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.GET)
     private String showProjectMemberForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         model.addAttribute("user", new User());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
+        model.addAttribute("module", "members");
         return "projectMemberForm";
     }
 

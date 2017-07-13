@@ -47,6 +47,10 @@ public class TaskController2 {
 
     @Autowired
     private UserService userService;
+    @ModelAttribute("module")
+    String module() {
+        return "projects";
+    }
 
     @Autowired
     private StatusService statusService;
