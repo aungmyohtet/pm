@@ -137,8 +137,13 @@ public class TaskServiceImpl implements TaskService {
     public void findTaskAndAddCommentByUser(String organizationName, String projectName, int taskNo, TaskNote taskNote, String email) {
         User user = userRepository.findByEmail(email);
         Task task = taskRepository.find(organizationName, projectName, taskNo);
+        System.out.println("Organization Name====="+organizationName);
+        System.out.println("Project name====="+projectName);
+        System.out.println("Task no====="+taskNo);
+        System.out.println("Task id============"+task.getProject().getId());
         taskNote.setTask(task);
         taskNote.setCommentedBy(user);
+        System.out.println("Task note id====="+taskNote.getId());
         taskNoteRepository.save(taskNote);
     }
 

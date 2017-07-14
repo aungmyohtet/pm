@@ -16,19 +16,26 @@ body {
 <body>
     <div th:include="fragments/header"></div>
 
-    <div>
-        <h5>Projects in this organization</h5>
-        <a
-            th:href="@{/{organizationName}/projects/new(organizationName=${organizationName})}">New
-            Project</a>
-        <ul th:each="project : ${projects}">
-            <li>
-                <a
-                    th:href="@{/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
-                    <span th:text="${project.name}"></span>
-                </a>
-            </li>
-        </ul>
+    <div class="list-group">
+        <div>
+            <h3>Projects in this organization</h3>
+        </div>
+
+        <div class="col-sm-2">
+            <ul th:each="project : ${projects}">
+                <li>
+                    <a class="list-group-item"
+                        th:href="@{/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
+                        <span th:text="${project.name}"></span>
+                    </a>
+                </li>
+            </ul>
+            <br />
+            <a
+                th:href="@{/{organizationName}/projects/new(organizationName=${organizationName})}">New
+                Project</a>
+        </div>
     </div>
+
 </body>
 </html>

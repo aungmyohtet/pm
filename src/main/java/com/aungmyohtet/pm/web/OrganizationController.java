@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -198,15 +196,7 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{organizationName}/boards", method = RequestMethod.GET)
     public String showOrganizationBoards(@PathVariable("organizationName") String organizationName, Model model) {
-        List<Board> allBoards = organizationService.findBoardsByOrganization(organizationName);
-        List<Board> boards = new ArrayList<>();
-
-        for (Board board : allBoards) {
-            if (board.getStartShownDate().before(Calendar.getInstance().getTime()) && board.getLastShownDate().after(Calendar.getInstance().getTime())) {
-                boards.add(board);
-            }
-        }
-
+        List<Board> boards = organizationService.findBoardsByOrganization(organizationName);
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("boards", boards);
         model.addAttribute("module", "boards");

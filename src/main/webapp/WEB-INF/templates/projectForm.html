@@ -17,21 +17,37 @@ body {
 <body>
     <div th:include="fragments/header"></div>
 
-    <div>Create a new project in this organization</div>
+    <div>
+        <h3>Create a new project in this organization</h3>
+    </div>
     <br />
     <form action="#"
         th:action="@{/{organizationName}/projects/new(organizationName=${organizationName})}"
         th:object="${project}" method="post">
-        <input type="text" th:field="*{name}" placeholder="Name" />
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-            name</span>
+        <div class="row">
+            <div class="col-sm-1">
+                <label>Name:</label>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" th:field="*{name}" placeholder="Name" />
+            </div>
+            <span th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}">Invalid name</span>
+        </div>
         <br />
-        <input type="text" th:field="*{description}"
-            placeholder="Description" />
-        <span th:if="${#fields.hasErrors('description')}"
-            th:errors="*{description}"></span>
+        <div class="row">
+            <div class="col-sm-1">
+                <label>Description:</label>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" th:field="*{description}"
+                    placeholder="Description" />
+            </div>
+            <span th:if="${#fields.hasErrors('description')}"
+                th:errors="*{description}"></span>
+        </div>
         <br />
-        <input type="submit" value="Add" />
+        <input type="submit" value="Add" class="btn btn-success" />
     </form>
 </body>
 </html>
