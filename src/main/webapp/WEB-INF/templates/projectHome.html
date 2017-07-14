@@ -28,7 +28,10 @@ body {
         <a href="" class="btn btn-default"
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
-
+        &nbsp;
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt
+            For Project Tasks </a>
     </div>
 </body>
 </html>

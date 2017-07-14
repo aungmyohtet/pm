@@ -26,20 +26,22 @@ body {
         <a href=""
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
+        &nbsp;
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt
+            For Project Tasks </a>
         <br />
         <h6>Task List</h6>
-
         <a
             th:href="@{/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}">New
             Task</a>
         <ul th:each="task : ${tasks}">
-            <li>
-                <a
+            <li><a
                     th:href="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}(organizationName=${organizationName}, projectName=${projectName}, taskNo=${task.no})}">
                     <span th:text="${task.title}"></span>
-                </a>
-            </li>
+                </a></li>
         </ul>
     </div>
+
 </body>
 </html>

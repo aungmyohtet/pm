@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aungmyohtet.pm.dto.TaskNoteDto;
 import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
@@ -45,8 +42,6 @@ public class TaskController2 {
     @Autowired
     private TaskService taskService;
 
-    @Autowired
-    private UserService userService;
     @ModelAttribute("module")
     String module() {
         return "projects";
@@ -79,6 +74,15 @@ public class TaskController2 {
         model.addAttribute("projectName", projectName);
         model.addAttribute("tasks", taskService.findByOrganizationNameAndProjectName(organizationName, projectName));
         return "tasks";
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/gantt", method = RequestMethod.GET)
+    public String showGanttChart(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("projectName", projectName);
+        List<Task> tasks = taskService.findByOrganizationNameAndProjectName(organizationName, projectName);
+        model.addAttribute("tasks", tasks.stream().map(task -> taskService.convertToDto(task)).collect(Collectors.toList()));
+        return "showGanttChart";
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/new", method = RequestMethod.GET)
@@ -231,4 +235,5 @@ public class TaskController2 {
         model.addAttribute("technologyTagNames", technologyTagService.findAll());
         return "taskDetails";
     }
+
 }
