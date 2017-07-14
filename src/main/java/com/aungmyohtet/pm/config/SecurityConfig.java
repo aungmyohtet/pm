@@ -44,6 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and().logout().logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
                          .and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
      
-        http.csrf().disable();
+        //http.csrf().disable();
     }
 }

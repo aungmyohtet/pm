@@ -65,6 +65,7 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
+        resolver.setCacheable(false);
         return resolver;
     }
 
@@ -109,14 +110,5 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
         });
 
         return mapper;
-    }
-
-    /* Upload Resource File */
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setDefaultEncoding("utf-8");
-        commonsMultipartResolver.setMaxUploadSize(50000000);
-        return commonsMultipartResolver;
     }
 }
