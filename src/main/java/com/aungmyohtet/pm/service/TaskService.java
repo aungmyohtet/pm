@@ -2,6 +2,9 @@ package com.aungmyohtet.pm.service;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.EventDto;
+import com.aungmyohtet.pm.dto.TaskDto;
+import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
@@ -41,4 +44,6 @@ public interface TaskService {
     List<TaskNote> findTaskNotes(String organizationName, String projectName, int taskNo);
 
     Task find(String organizationName, String projectName, int taskNo);
+
+    TaskDto convertToDto(Task task);
 }
