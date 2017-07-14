@@ -3,7 +3,6 @@ package com.aungmyohtet.pm.web;
 import java.io.IOException;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
@@ -27,11 +26,13 @@ import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Organization;
+import com.aungmyohtet.pm.entity.OrganizationTeam;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.OrganizationMemberService;
 import com.aungmyohtet.pm.service.OrganizationService;
+import com.aungmyohtet.pm.service.OrganizationTeamService;
 import com.aungmyohtet.pm.service.ProjectService;
 import com.aungmyohtet.pm.service.ResourceService;
 import com.aungmyohtet.pm.service.UserService;
@@ -55,6 +56,9 @@ public class OrganizationController {
 
     @Autowired
     private ResourceService resourceService;
+
+    @Autowired
+    private OrganizationTeamService organizationTeamService;
 
     @ModelAttribute("module")
     String module() {
@@ -212,5 +216,17 @@ public class OrganizationController {
         model.addAttribute("resources", resources);
         model.addAttribute("module", "resources");
         return "organizationResourceList";
+    }
+
+    @RequestMapping(value = "/{organizationName}/teams", method = RequestMethod.GET)
+    public String showOrganizationTeam(Model model, @PathVariable("organizationName") String organizationName) {
+
+        Organization organization = organizationService.findByName(organizationName);
+        List<OrganizationTeam> organizationTeams = organizationTeamService.findTeamByOrganizationId(organization.getId());
+        model.addAttribute("organizationTeam", new OrganizationTeam());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("organizationTeams", organizationTeams);
+        model.addAttribute("module", "teams");
+        return "organizationTeamList";
     }
 }

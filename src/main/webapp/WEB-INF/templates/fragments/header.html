@@ -1,49 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Insert title here</title>
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top"
-		th:fragment="header">
-		<div class="container">
-			<div class="navbar-collapse collapse">
+    <nav class="navbar navbar-inverse navbar-fixed-top"
+        th:fragment="header">
+        <div class="container">
+            <div class="navbar-collapse collapse">
 
-				<ul class="nav navbar-nav">
-					<li th:classappend="${module == 'home' ? 'active':''}"><a
-						href="
-						#organizations" th:href="@{/organizations}">Home</a>
+                <ul class="nav navbar-nav">
+                    <li
+                        th:classappend="${module == 'home' ? 'active':''}">
+                        <a href="
+						#organizations"
+                            th:href="@{/organizations}">Home</a>
 
-					</li>
+                    </li>
 
-					<li th:classappend="${module == 'projects' ? 'active':''}"><a
-						href="
+                    <li
+                        th:classappend="${module == 'projects' ? 'active':''}">
+                        <a href="
 						#projects"
-						th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Projects</a></li>
+                            th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Projects</a>
+                    </li>
 
-					<li th:classappend="${module == 'boards' ? 'active':''}"><a
-						href="
+                    <li
+                        th:classappend="${module == 'boards' ? 'active':''}">
+                        <a href="
 						#boards"
-						th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a></li>
+                            th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a>
+                    </li>
 
-					<li th:classappend="${module == 'events' ? 'active':''}"><a
-						href="
+                    <li
+                        th:classappend="${module == 'events' ? 'active':''}">
+                        <a href="
 						#events"
-						th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a></li>
+                            th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a>
+                    </li>
 
-					<li th:classappend="${module == 'members' ? 'active':''}"><a
-						href="
+                    <li
+                        th:classappend="${module == 'members' ? 'active':''}">
+                        <a href="
 						#members"
-						th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a></li>
+                            th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a>
+                    </li>
+                    <li
+                        th:classappend="${module == 'teams' ? 'active':''}">
+                        <a href="
+                        #members"
+                            th:href="@{/{organizationName}/teams(organizationName=${organizationName})}">Teams</a>
+                    </li>
 
-				</ul>
-			</div>
-		</div>
-	</nav>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>

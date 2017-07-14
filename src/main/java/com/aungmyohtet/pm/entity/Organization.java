@@ -30,6 +30,9 @@ public class Organization extends UniqueNamedEntity {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Resource> resources = new HashSet<>();
 
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<OrganizationTeam> organizationTeams = new HashSet<>();
+
     public Set<Event> getEvents() {
         return events;
     }
