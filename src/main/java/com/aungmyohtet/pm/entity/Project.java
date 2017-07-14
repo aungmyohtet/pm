@@ -29,6 +29,17 @@ public class Project extends ScheduledEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProjectTeam> projectTeams = new HashSet<>();
+
+    public Set<ProjectTeam> getProjectTeams() {
+        return projectTeams;
+    }
+
+    public void setProjectTeams(Set<ProjectTeam> projectTeams) {
+        this.projectTeams = projectTeams;
+    }
+
     public String getName() {
         return name;
     }

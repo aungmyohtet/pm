@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Project Home</title>
+<title>Project Teams</title>
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
     media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 <style>
@@ -20,19 +19,28 @@ body {
 
     <div>
         <h3 th:text="${projectName}"></h3>
-        <br />
-        <a href="" class="btn btn-default"
+        <a href=""
             th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Members</a>
         &nbsp;
-        <a href="" class="btn btn-default"
+        <a href=""
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
-        &nbsp;
-        <a href="" class="btn btn-default"
-            th:href="@{/{organizationName}/projects/{projectName}/teams(organizationName=${organizationName}, projectName=${projectName})}">Poject
-            Teams</a>
+        <br />
+        <br />
+        <h4>Project Teams</h4>
 
+        <a
+            th:href="@{/{organizationName}/projects/{projectName}/teams/new(organizationName=${organizationName}, projectName=${projectName})}">New
+            Project Team</a>
+        <br />
+        <ul th:each="projectTeam : ${projectTeams}">
+            <li>
+                <span th:text="${projectTeam.name}"></span>
+                :
+                <span th:text="${projectTeam.description}"></span>
+            </li>
+        </ul>
     </div>
 </body>
 </html>
