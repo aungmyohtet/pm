@@ -1,12 +1,11 @@
 package com.aungmyohtet.pm.service.impl;
 
 import java.util.List;
-import java.util.Set;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.aungmyohtet.pm.dto.TaskDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Status;
 import com.aungmyohtet.pm.entity.Task;
@@ -28,6 +27,9 @@ public class TaskServiceImpl implements TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
@@ -46,16 +48,9 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void addToProject(Task task, int projectId) {
         Project project = projectRepository.findById(projectId);
-        // * This works.
-        // task.setProject(project);
-        // taskRepository.save(task);
-        // * //
-
-        // * This also works? yes this also works
         project.getTasks().add(task);
         task.setProject(project);// id of project missing without this line
         projectRepository.save(project);
-        // *//
     }
 
     @Override
@@ -195,5 +190,10 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.find(organizationName, projectName, taskNo);
         TechnologyTag technologyTagResult = technologyTagRepository.findById(technologyTagId);
         task.getTechnologyTag().add(technologyTagResult);
+    }
+
+    @Override
+    public TaskDto convertToDto(Task task) {
+        return modelMapper.map(task, TaskDto.class);
     }
 }

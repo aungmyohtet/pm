@@ -26,6 +26,10 @@ body {
         <a href=""
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
+        &nbsp;
+        <a href=""
+            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt
+            For Project Tasks </a>
         <br />
         <h6>Task Details should display task title here</h6>
 
@@ -40,16 +44,12 @@ body {
         </form>
         <div>Task Assignees</div>
         <ul th:each="assignee : ${task.assignees}">
-            <li>
-                <span th:text="${assignee.email}"></span>
-            </li>
+            <li><span th:text="${assignee.email}"></span></li>
         </ul>
 
         <div>Notes</div>
         <ul th:each="comment : ${comments}">
-            <li>
-                <span th:text="${comment.comment}"></span>
-            </li>
+            <li><span th:text="${comment.comment}"></span></li>
         </ul>
 
         <form action="#"
@@ -62,6 +62,7 @@ body {
             <br />
             <input type="submit" value="Add" />
         </form>
+
     </div>
 
 </body>
