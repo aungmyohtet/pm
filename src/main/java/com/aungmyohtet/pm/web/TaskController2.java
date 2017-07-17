@@ -1,11 +1,20 @@
 package com.aungmyohtet.pm.web;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -33,7 +42,6 @@ import com.aungmyohtet.pm.service.StatusService;
 import com.aungmyohtet.pm.service.TaskNoteService;
 import com.aungmyohtet.pm.service.TaskService;
 import com.aungmyohtet.pm.service.TechnologyTagService;
-import com.aungmyohtet.pm.service.UserService;
 import com.aungmyohtet.pm.validator.DateEntryValidator;
 
 @Controller
@@ -83,6 +91,56 @@ public class TaskController2 {
         List<Task> tasks = taskService.findByOrganizationNameAndProjectName(organizationName, projectName);
         model.addAttribute("tasks", tasks.stream().map(task -> taskService.convertToDto(task)).collect(Collectors.toList()));
         return "showGanttChart";
+    }
+
+    @RequestMapping(value = "/{organizationName}/projects/{projectName}/export-tasks-to-excel", method = RequestMethod.GET)
+    public void exportProjectTasks(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName,
+            HttpServletResponse response) throws ServletException, IOException {
+        List<Task> tasks = taskService.findByOrganizationNameAndProjectName(organizationName, projectName);
+        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<String> startDates = new ArrayList<>();
+        ArrayList<String> endDates = new ArrayList<>();
+
+        for (Task task : tasks) {
+            titles.add(task.getTitle());
+            startDates.add(task.getScheduledStartDate().toString());
+            endDates.add(task.getScheduledFinishedDate().toString());
+        }
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Tasks");
+        int rowIndex = tasks.size();
+        int colIndex = 3;
+        Object[][] dataList = new Object[rowIndex][colIndex];
+
+        for (int j = 0; j < rowIndex; j++) {
+            dataList[j][0] = titles.get(j);
+            dataList[j][1] = startDates.get(j);
+            dataList[j][2] = endDates.get(j);
+        }
+        int rowNum = 0;
+        for (Object[] data : dataList) {
+            Row row = sheet.createRow(rowNum++);
+            int colNum = 0;
+            for (Object field : data) {
+                Cell cell = row.createCell(colNum++);
+                if (field instanceof String) {
+                    cell.setCellValue((String) field);
+                } else if (field instanceof Integer) {
+                    cell.setCellValue((Integer) field);
+                }
+            }
+        }
+        String fileName = "Tasks.xls";
+        response.setContentType("application/vnd.ms-excel");
+        response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        try {
+            workbook.write(response.getOutputStream());
+            response.getOutputStream().flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/new", method = RequestMethod.GET)

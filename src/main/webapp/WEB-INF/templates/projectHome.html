@@ -29,9 +29,14 @@ body {
             th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
             Tasks</a>
         &nbsp;
-        <a href=""
+        <a href="" class="btn btn-default"
             th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt
-            For Project Tasks </a>
+            For Project Tasks</a>
+        &nbsp;
+        <a href="" class="btn btn-default"
+            th:href="@{/{organizationName}/projects/{projectName}/export-tasks-to-excel(organizationName=${organizationName}, projectName=${projectName})}">
+            Export Project Tasks</a>
+
     </div>
 </body>
 </html>
