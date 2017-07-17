@@ -23,6 +23,11 @@ body {
         <a
             th:href="@{/{organizationName}/members/new(organizationName=${organizationName})}">New
             Member</a>
+        &nbsp;&nbsp;
+
+        <a
+            th:href="@{/{organizationName}/members/exportCSV(organizationName=${organizationName})}">Export
+            Members As CSV </a>
         <ul th:each="member : ${members}">
             <li>
                 <span th:text="${member.firstName}"></span> <span

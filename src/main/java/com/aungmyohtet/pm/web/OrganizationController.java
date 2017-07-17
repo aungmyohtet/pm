@@ -3,7 +3,6 @@ package com.aungmyohtet.pm.web;
 import java.io.IOException;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
+
 import com.aungmyohtet.pm.dto.OrganizationDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
@@ -205,12 +209,25 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{organizationName}/resources", method = RequestMethod.GET)
     public String showOrganizationResources(@PathVariable("organizationName") String organizationName, Model model) {
-
         Organization organization = organizationService.findByName(organizationName);
         List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("resources", resources);
         model.addAttribute("module", "resources");
         return "organizationResourceList";
+    }
+
+    @RequestMapping(value = "/{organizationName}/members/exportCSV", method = RequestMethod.GET)
+    public void exportOrganizationMembersAsCSV(@PathVariable("organizationName") String organizationName, Model model, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        List<User> users = userService.findMembersOfOrganization(organizationName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"organization-member-csv.csv\"");
+        String[] header = { "Id", "Firstname", "LastName", "Email" };
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+        csvWriter.writeHeader(header);
+        for (User user : users) {
+            csvWriter.write(user, header);
+        }
+        csvWriter.close();
     }
 }
