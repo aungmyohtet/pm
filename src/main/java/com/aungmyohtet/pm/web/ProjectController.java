@@ -21,6 +21,7 @@ import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.ProjectService;
+import com.aungmyohtet.pm.service.TaskService;
 import com.aungmyohtet.pm.service.UserService;
 
 @Controller
@@ -31,6 +32,10 @@ public class ProjectController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TaskService taskService;
+
     @ModelAttribute("module")
     String module() {
         return "projects";
@@ -64,13 +69,13 @@ public class ProjectController {
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members", method = RequestMethod.GET)
     public String showProjectMembers(@PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName, Model model) {
         List<User> users = userService.findMembersOfProject(organizationName, projectName);
-        List<UserDto> members =  users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
+        List<UserDto> members = users.stream().map(user -> userService.converToDto(user)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         model.addAttribute("members", members);
         model.addAttribute("module", "members");
         return "projectMembers";
-        }
+    }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.GET)
     private String showProjectMemberForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
@@ -82,7 +87,8 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/members/new", method = RequestMethod.POST)
-    private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
+    private String addMemberToProject(@ModelAttribute User user, Model model, @PathVariable("organizationName") String organizationName,
+            @PathVariable("projectName") String projectName) {
         projectService.addMemberToProject(user.getEmail(), organizationName, projectName);
         return "redirect:/" + organizationName + "/projects/" + projectName + "/members";
     }
@@ -91,7 +97,7 @@ public class ProjectController {
     private String showProjectHome(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName) {
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
-        return "projectHome";
+        model.addAttribute("tasks", taskService.findByOrganizationNameAndProjectName(organizationName, projectName));
+        return "tasks";
     }
-
 }
