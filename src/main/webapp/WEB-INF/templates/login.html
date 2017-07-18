@@ -1,20 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<meta name="google-signin-client_id"
+    content="155108207912-cj5o9d5hdn87fk7otmt8v3qh8v51a58q.apps.googleusercontent.com" />
 <head>
 <title>Login</title>
+<script src="https://apis.google.com/js/platform.js" async="true"
+    defer="true"></script>
+
 </head>
 <body>
-    <div th:if="${loginError != null}" th:text="${loginError}">Invalid email or password</div>
-     <div th:if="${logout != null}" th:text="${logout}">You have been logged out</div>
-	<form action="#" th:action="@{/login}" th:object="${user}" method="post">
-	   
-	   <input type="text" th:field="*{email}" placeholder="Email" />
-	   <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid email</p>
-	   
-	   <input type="text" th:field="*{password}" placeholder="Password" />
-	   <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Invalid password</p>
 
-	   <input type="submit" value="Login"/>
-	</form>
+    <script>
+					/*<![CDATA[*/
+					function onSignIn(googleUser) {
+						var profile = googleUser.getBasicProfile();
+						var id_token = googleUser.getAuthResponse().id_token;
+						var xhr = new XMLHttpRequest();
+						xhr.open('GET',
+								'/testSignupToken?id_token=' + id_token, true);
+						xhr.setRequestHeader('Content-Type',
+								'application/x-www-form-urlencoded');
+						xhr.onload = function() {
+							console.log('Signed in as: ' + xhr.responseText);
+						};
+						xhr.send('idtoken=' + id_token);
+						console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+						console.log('first Name: ' + profile.getGivenName());
+						console.log('last Name: ' + profile.getFamilyName());
+						console.log('Image URL: ' + profile.getImageUrl());
+						console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+					}
+
+					/*]]>*/
+				</script>
+
+    <script
+        src="https://apis.google.com/js/platform.js?onload=renderButton"
+        async="true"></script>
+    <div th:if="${loginError != null}" th:text="${loginError}">Invalid
+        email or password</div>
+    <div th:if="${logout != null}" th:text="${logout}">You have
+        been logged out</div>
+    <form action="#" th:action="@{/login}" th:object="${user}"
+        method="post">
+
+        <input type="text" th:field="*{email}" placeholder="Email" />
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
+            email</p>
+
+        <input type="text" th:field="*{password}" placeholder="Password" />
+        <p th:if="${#fields.hasErrors('password')}"
+            th:errors="*{password}">Invalid password</p>
+
+        <input type="submit" value="Login" />
+    </form>
+    <br />
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
 </body>
 </html>

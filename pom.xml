@@ -218,6 +218,20 @@
 			<version>2.4</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-gmail -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-gmail</artifactId>
+			<version>v1-rev65-1.21.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client -->
+		<dependency>
+			<groupId>com.google.api.client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.4.1-beta</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

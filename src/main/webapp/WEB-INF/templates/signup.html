@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
+<meta name="google-signin-client_id"
+    content="155108207912-cj5o9d5hdn87fk7otmt8v3qh8v51a58q.apps.googleusercontent.com" />
 <head>
-<title>Signup</title>
+<title>Login</title>
+<script src="https://apis.google.com/js/platform.js" async="true"
+    defer="true"></script>
+
 </head>
 <body>
+
+    <script>
+					/*<![CDATA[*/
+					function onSignIn(googleUser) {
+						var profile = googleUser.getBasicProfile();
+						var id_token = googleUser.getAuthResponse().id_token;
+						var xhr = new XMLHttpRequest();
+						var url = "/testSignupToken";
+						xhr.open('GET', url, true);
+						xhr.onreadystatechange = function() {//Call a function when the state changes.
+							if (xhr.readyState == 4 && xhr.status == 200) {
+								alert(xhr.responseText);
+							}
+						}
+						xhr.send(null);
+						xhr.onload = function() {
+							console.log('Signed in as: ' + xhr.responseText);
+						};
+						console.log('in javascript----------');
+						console.log('idToken=' + id_token);
+						console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+						console.log('first Name: ' + profile.getGivenName());
+						console.log('last Name: ' + profile.getFamilyName());
+						console.log('Image URL: ' + profile.getImageUrl());
+						console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+					}
+
+					/*]]>*/
+				</script>
+
+    <script
+        src="https://apis.google.com/js/platform.js?onload=renderButton"
+        async="true"></script>
     <form action="#" th:action="@{/signup}" th:object="${user}"
         method="post">
         <input type="text" th:field="*{firstName}"
@@ -33,5 +72,9 @@
         <br />
         <input type="submit" value="Signup" />
     </form>
+    <br />
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    SignUp with Google here
+
 </body>
 </html>
