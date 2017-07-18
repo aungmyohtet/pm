@@ -19,18 +19,49 @@ body {
 
     <div th:include="fragments/header"></div>
 
-    <form action="#" th:action="@{/organizations/new}"
-        th:object="${organization}" method="post">
-        <input type="text" th:field="*{name}" placeholder="Name" />
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-            name</span>
-        <br />
-        <input type="text" th:field="*{description}"
-            placeholder="Description" />
-        <span th:if="${#fields.hasErrors('description')}"
-            th:errors="*{description}"></span>
-        <br />
-        <input type="submit" value="Add" />
-    </form>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Create a new organization</h4>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" action="#"
+                    th:action="@{/organizations/new}"
+                    th:object="${organization}" method="post">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Name">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                th:field="*{name}" placeholder="Name" />
+                        </div>
+                    </div>
+
+                    <span th:if="${#fields.hasErrors('name')}"
+                        th:errors="*{name}">Invalid name</span>
+                    <br />
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Name">Description:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                th:field="*{description}"
+                                placeholder="Description" />
+                        </div>
+                    </div>
+                    <span th:if="${#fields.hasErrors('description')}"
+                        th:errors="*{description}"></span>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit"
+                                class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </body>
 </html>

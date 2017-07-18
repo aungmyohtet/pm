@@ -17,18 +17,25 @@ body {
 </head>
 <body>
     <div th:include="fragments/header"></div>
-
-    <div>
-        <h5>Members in this organization</h5>
-        <a
-            th:href="@{/{organizationName}/members/new(organizationName=${organizationName})}">New
-            Member</a>
-        <ul th:each="member : ${members}">
-            <li>
-                <span th:text="${member.firstName}"></span> <span
-                    th:text="${member.lastName}"></span>
-            </li>
-        </ul>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Members in this organization</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <ul th:each="member : ${members}">
+                        <li>
+                            <span th:text="${member.firstName}"></span>
+                            <span th:text="${member.lastName}"></span>
+                        </li>
+                    </ul>
+                    <a class="btn btn-success pull-center"
+                        th:href="@{/{organizationName}/members/new(organizationName=${organizationName})}">New
+                        Member</a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
