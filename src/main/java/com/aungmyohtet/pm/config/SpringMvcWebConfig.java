@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.config;
 
 import java.util.Properties;
 
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
@@ -26,6 +27,22 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import com.google.api.client.googleapis.apache.GoogleApacheHttpTransport;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.LowLevelHttpRequest;
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonGenerator;
+import com.google.api.client.json.JsonParser;
+import com.google.api.client.json.gson.GsonFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -110,5 +127,15 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
         });
 
         return mapper;
+    }
+
+    @Bean
+    public HttpTransport httpTransport() {
+       return new ApacheHttpTransport();
+    }
+
+    @Bean
+    public JsonFactory jsonFactory() {
+        return new GsonFactory();
     }
 }

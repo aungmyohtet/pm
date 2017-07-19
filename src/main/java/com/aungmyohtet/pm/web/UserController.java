@@ -55,9 +55,11 @@ public class UserController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    HttpTransport transport;
+    @Autowired
+    private HttpTransport transport;
 
-    JsonFactory jsonfactory;
+    @Autowired
+    private JsonFactory jsonfactory;
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String showSignupForm(Model model) {
@@ -107,29 +109,51 @@ public class UserController {
 
     @RequestMapping(value = "/testSignupToken", method = RequestMethod.GET)
     @ResponseBody
-    public String checkToken(WebRequest request) {
+    public String checkToken(WebRequest request, @RequestParam("id_token") String id_token) {
 
         System.out.println("in Controller.......");
-        /*
-         * System.out.println("controller token=" + id_token); String CLIENT_ID =
-         * "155108207912-cj5o9d5hdn87fk7otmt8v3qh8v51a58q.apps.googleusercontent.com"; GoogleIdTokenVerifier verifier = new
-         * GoogleIdTokenVerifier.Builder(transport, jsonfactory).setAudience(Collections.singletonList(CLIENT_ID)) // Or, if
-         * multiple clients access the backend: // .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3)) .build();
-         * // (Receive idTokenString by HTTPS POST) GoogleIdToken idToken = null; try { idToken = verifier.verify(id_token); }
-         * catch (GeneralSecurityException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch (IOException
-         * e1) { // TODO Auto-generated catch block e1.printStackTrace(); } if (idToken != null) { Payload payload =
-         * idToken.getPayload(); // Print user identifier int userId = Integer.parseInt(payload.getSubject());
-         * System.out.println("User ID: " + userId); // Get profile information from payload String email = payload.getEmail();
-         * boolean emailVerified = Boolean.valueOf(payload.getEmailVerified()); String name = (String) payload.get("name");
-         * String familyName = (String) payload.get("family_name"); String givenName = (String) payload.get("given_name"); //
-         * Use or store profile information // ... System.out.println("emailVerified" + emailVerified); User user = new User();
-         * user.setId(userId); user.setFirstName(givenName); user.setLastName(familyName); user.setEmail(email);
-         * user.setEnabled(true); user.setPassword("1111"); userService.createUserAndVerificationToken(user, id_token); try {
-         * eventPublisher.publishEvent(new RegistrationCompleteEvent(user.getEmail(), id_token, request.getLocale(),
-         * request.getContextPath())); } catch (Exception e) { e.printStackTrace(); } return "redirect:/"; } else {
-         * System.out.println("Invalid ID token."); return "signup"; }
-         */
-        return "example";
+
+        System.out.println("controller token=" + id_token);
+        String CLIENT_ID = "155108207912-cj5o9d5hdn87fk7otmt8v3qh8v51a58q.apps.googleusercontent.com";
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonfactory).setAudience(Collections.singletonList(CLIENT_ID)).build();
+        GoogleIdToken idToken = null;
+        try {
+            idToken = verifier.verify(id_token);
+        } catch (GeneralSecurityException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        if (idToken != null) {
+            Payload payload = idToken.getPayload();
+            //int userId = Integer.parseInt(payload.getSubject());
+            //System.out.println("User ID: " + userId);
+            String email = payload.getEmail();
+            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+            String name = (String) payload.get("name");
+            String familyName = (String) payload.get("family_name");
+            String givenName = (String) payload.get("given_name");
+            System.out.println("emailVerified" + emailVerified);
+            System.out.println(">>>>>>>>>>>>> name is " + payload.get("given_name"));
+            User user = new User();
+            //user.setId(userId);
+            user.setFirstName(givenName);
+            user.setLastName(familyName);
+            user.setEmail(email);
+            user.setEnabled(true);
+            user.setPassword("1111");
+            //userService.createUserAndVerificationToken(user, id_token);
+            try {
+                //eventPublisher.publishEvent(new RegistrationCompleteEvent(user.getEmail(), id_token, request.getLocale(), request.getContextPath()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "redirect:/";
+        } else {
+            System.out.println("Invalid ID token.");
+            return "signup";
+        }
+
     }
 
 }
