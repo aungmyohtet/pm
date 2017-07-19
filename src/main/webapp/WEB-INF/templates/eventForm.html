@@ -5,19 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>New Event</title>
-
-<style>
-body {
-	margin-top: 100px;
-	margin-left: 100px;
-	margin-right: 100px;
-}
-
-form {
-	margin-top: 30px;
-}
-</style>
-
 <link rel="stylesheet"
     href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
 <script
@@ -44,42 +31,54 @@ body {
 <body>
 
     <div th:include="fragments/header"></div>
-
-    <div>Add a new Event to this organization</div>
-    <br />
     <font color="red"><p th:text="${eventNameError}"></p></font>
     <font color="red"><p th:text="${dateEmptyError}"></p></font>
     <font color="red"><p th:text="${dateError}"></p></font>
 
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Add a new Event to this organization</h4>
+            </div>
+            <div class="panel-body">
+                <form action="#" class="form-horizontal"
+                    th:action="@{/{organizationName}/events/new(organizationName=${organizationName})}"
+                    th:object="${event}" method="post">
 
-    <form action="#"
-        th:action="@{/{organizationName}/events/new(organizationName=${organizationName})}"
-        th:object="${event}" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Name">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" th:field="*{title}"
+                                placeholder="Event Name" />
+                        </div>
+                    </div>
 
-        <table>
-            <tr>
-                <td>
-                    <input type="text" th:field="*{title}"
-                        placeholder="Event Name" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" th:field="*{start}"
-                        placeholder="Event Start Date"
-                        class="datepicker" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" th:field="*{end}"
-                        placeholder="Event End Date" class="datepicker" />
-                </td>
-            </tr>
-        </table>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"
+                            for="Start Date">Start Date:</label>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" th:field="*{start}" />
+                        </div>
+                    </div>
 
-        <input type="submit" value="Add Event" />
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"
+                            for="End Date">End Date:</label>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" th:field="*{end}" />
+                        </div>
+                    </div>
 
-    </form>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit"
+                                class="btn btn-primary">Add
+                                Event</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
