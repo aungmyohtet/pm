@@ -2,20 +2,18 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
+<title>Task Comment</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
     src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<title>Project Home</title>
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
-    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<style>
-body {
-	padding-top: 100px;
-	padding-left: 100px;
-}
-</style>
-
+<link rel="stylesheet" href="application.css" />
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	$(document).ready(
@@ -62,163 +60,75 @@ body {
 </script>
 </head>
 <body>
-
-    <ul class="menu-bar">
-        <li class="menu-item">
-            <a href="#organizations" th:href="@{/organizations}">Home</a>
-        </li>
-        <li class="menu-item">
-            <a href="#projects"
-                th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Projects</a>
-        </li>
-        <li class="menu-item">
-            <a href="#boards"
-                th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a>
-        </li>
-        <li class="menu-item">
-            <a href="#members"
-                th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a>
-        </li>
-    </ul>
-
-    <h5 th:text="${projectName}"></h5>
-    <a href=""
-        th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Project
-        Members</a>
-    &nbsp;
-    <a href=""
-        th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Project
-        Tasks</a>
-
-    <br />
-    <h6>Task Details should display task title here</h6>
-
-    <form action="#"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-        th:object="${user}" method="post">
-        <input type="text" th:field="*{email}" placeholder="Email" />
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
-            email</span>
-        <br />
-        <input type="submit" value="Assign" />
-    </form>
-    <div>Task Assignees</div>
-    <ul th:each="assignee : ${task.assignees}">
-        <li>
-            <span th:text="${assignee.email}"></span>
-        </li>
-    </ul>
-
-    <div>Notes</div>
-
-
-    <ul th:each="comment : ${comments}">
-        <li>
-            <span th:text="${comment.comment}"></span>
-        </li>
-    </ul>
-    <div id="getResultDiv">
-        <ul class="list-group">
-        </ul>
-    </div>
-    <form id="addCommentForm" th:object="${taskNote}"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
-        action="#">
-        <input type="text" placeholder="Comment" id="comment"
-            th:field="*{comment}" />
-        <br />
-        <input type="submit" value="Add" id="addComment" />
-    </form>
-
-    <div>Task Status:</div>
-    <ul th:each="status : ${statusNamesResult}">
-        <li>
-            <span th:text="${status.name}"></span>
-        </li>
-    </ul>
-
-    <form action="#"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/status/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-        th:object="${status}" method="post">
-        <select th:field="*{name}">
-            <option value="Defaule">Select Task Status</option>
-            <option th:each="statusName : ${statusNames}"
-                th:value="${statusName.id}" th:text="${statusName.name}" />
-        </select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-            Status</span>
-        <br />
-        <input type="submit" value="Add" />
-    </form>
-
-    <div>Task Technology Tags:</div>
-    <ul th:each="technologyTag : ${technologyTagNamesResult}">
-        <li>
-            <span th:text="${technologyTag.name}"></span>
-        </li>
-    </ul>
-
-    <form action="#"
-        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/technologyTag/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-        th:object="${technologyTag}" method="post">
-        <select th:field="*{name}">
-            <option value="Defaule">Select Task Status</option>
-            <option th:each="technologyTagName : ${technologyTagNames}"
-                th:value="${technologyTagName.id}"
-                th:text="${technologyTagName.name}" />
-        </select> <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid
-            Technology Tag</span>
-        <br />
-        <input type="submit" value="Add" />
-    </form>
     <div th:include="fragments/header"></div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 th:text="${projectName}"></h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+                    </li>
+                </ul>
+                <h4 style="margin-top: 20px">Task title</h4>
 
-    <div>
-        <h5 th:text="${projectName}"></h5>
-        <a href=""
-            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
-            Members</a>
-        &nbsp;
-        <a href=""
-            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
-            Tasks</a>
-        &nbsp;
-        <a href=""
-            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt
-            For Project Tasks </a>
-        <br />
-        <h6>Task Details should display task title here</h6>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <!-- <div class="panel-heading">aungmyohtet
+                            commented 5 days ago.</div> -->
+                        <div class="panel-body">
 
-        <form action="#"
-            th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-            th:object="${user}" method="post">
-            <input type="text" th:field="*{email}" placeholder="Email" />
-            <span th:if="${#fields.hasErrors('email')}"
-                th:errors="*{email}">Invalid email</span>
-            <br />
-            <input type="submit" value="Assign" />
-        </form>
-        <div>Task Assignees</div>
-        <ul th:each="assignee : ${task.assignees}">
-            <li><span th:text="${assignee.email}"></span></li>
-        </ul>
+                            <ul th:each="comment : ${comments}">
+                                <li>
+                                    <span th:text="${comment.comment}"></span>
+                                </li>
+                            </ul>
+                            <div id="getResultDiv">
+                                <ul class="list-group">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-        <div>Notes</div>
-        <ul th:each="comment : ${comments}">
-            <li><span th:text="${comment.comment}"></span></li>
-        </ul>
+                    <!--   <div class="panel panel-default">
+                         <div class="panel-heading">aungmyohtet
+                            commented 5 days ago.</div> 
+                        <div class="panel-body">
+                            This is comment line1
+                            <br />
+                            This is comment line2
+                        </div>
+                    </div>
+                </div>-->
 
-        <form action="#"
-            th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName}, projectName=${projectName}, taskNo=${taskNo})}"
-            th:object="${taskNote}" method="post">
-            <input type="text" th:field="*{comment}"
-                placeholder="Comment" />
-            <span th:if="${#fields.hasErrors('comment')}"
-                th:errors="*{comment}">Invalid Comments</span>
-            <br />
-            <input type="submit" value="Add" />
-        </form>
-
+                    <form id="addCommentForm" th:object="${taskNote}"
+                        th:action="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
+                        action="#">
+                        <div class="form-group">
+                            <label for="comment">Your Comment:</label>
+                            <textarea class="form-control" rows="5"
+                                id="comment" th:field="*{comment}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Comment"
+                                id="addComment"
+                                class="btn btn-primary pull-right" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>
