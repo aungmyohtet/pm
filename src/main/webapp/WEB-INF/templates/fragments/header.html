@@ -9,7 +9,55 @@
     media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top"
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Organization Name</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li th:classappend="${module == 'home' ? 'active':''}">
+                    <a href="
+						#organizations"
+                        th:href="@{/organizations}">Home</a>
+
+                </li>
+                <li
+                    th:classappend="${module == 'projects' ? 'active':''}">
+                    <a href="
+						#projects"
+                        th:href="@{/{organizationName}/projects(organizationName=${organizationName})}">Projects</a>
+                </li>
+                <li th:classappend="${module == 'boards' ? 'active':''}">
+                    <a href="
+						#boards"
+                        th:href="@{/{organizationName}/boards(organizationName=${organizationName})}">Boards</a>
+                </li>
+                <li th:classappend="${module == 'events' ? 'active':''}">
+                    <a href="
+						#resources"
+                        th:href="@{/{organizationName}/resources(organizationName=${organizationName})}">Resources</a>
+                </li>
+                <li th:classappend="${module == 'events' ? 'active':''}">
+                    <a href="
+						#events"
+                        th:href="@{/{organizationName}/events(organizationName=${organizationName})}">Events</a>
+                </li>
+                <li
+                    th:classappend="${module == 'members' ? 'active':''}">
+                    <a href="
+						#members"
+                        th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a>
+                </li>
+            </ul>
+
+            <ul class="pull-right nav navbar-nav">
+                <li>
+                    <a href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top"
         th:fragment="header">
         <div class="container">
             <div class="navbar-collapse collapse">
@@ -51,17 +99,15 @@
                             th:href="@{/{organizationName}/members(organizationName=${organizationName})}">Members</a>
                     </li>
 
-                    <li
-                        th:classappend="${module == 'resources' ? 'active':''}">
-                        <a href="
-                        #members"
-                            th:href="@{/{organizationName}/resources(organizationName=${organizationName})}">Resources</a>
+                </ul>
+
+                <ul class="pull-right nav navbar-nav">
+                    <li>
+                        <a href="#">Logout</a>
                     </li>
-
-
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
 </body>
 </html>
