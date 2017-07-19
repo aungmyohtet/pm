@@ -8,30 +8,32 @@
 
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
     media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<style>
-body {
-	padding-top: 100px;
-	padding-left: 100px;
-}
-</style>
 </head>
 <body>
     <div th:include="fragments/header"></div>
 
-    <div>
-        <h5>Upload New Resource</h5>
-        <form action="#"
-            th:action="@{/{organizationName}/resources/new(organizationName=${organizationName})}"
-            th:object="${resource}" method="post"
-            enctype="multipart/form-data">
+    <div class="container">
+        <div class="panel panel-info">
 
-            Upload a document
-            <input type="file" name="file" placeholder="No file chosen" />
-            <span th:if="${#fields.hasErrors('filePath')}"
-                th:errors="*{filePath}"></span>
-            <br />
-            <input type="submit" value="Upload" />
-        </form>
+            <div class="panel-heading">
+                <input class="btn btn-info pull-right" type="file" />
+
+                <h4>Upload New Resource</h4>
+            </div>
+            <form action="#"
+                th:action="@{/{organizationName}/resources/new(organizationName=${organizationName})}"
+                th:object="${resource}" method="post"
+                enctype="multipart/form-data">
+
+                <!-- Upload a document
+                <input type="file" name="file"
+                    placeholder="No file chosen" />
+                <span th:if="${#fields.hasErrors('filePath')}"
+                    th:errors="*{filePath}"></span>
+                <br /> -->
+                <input type="submit" value="Upload" />
+            </form>
+        </div>
     </div>
 </body>
 </html>

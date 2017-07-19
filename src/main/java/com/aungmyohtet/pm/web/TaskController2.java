@@ -134,7 +134,7 @@ public class TaskController2 {
     }
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.GET)
-    public String showTaskNoteForm(Model model, @PathVariable("organizationId") String organizationName, @PathVariable("projectName") String projectName,
+    public String showTaskNoteForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName,
             @PathVariable("taskNo") int taskNo) {
         model.addAttribute("taskNote", new TaskNote());
         model.addAttribute("organizationName", organizationName);
@@ -142,16 +142,6 @@ public class TaskController2 {
         model.addAttribute("taskNo", taskNo);
         return "taskNoteForm";
     }
-
-    /*
-     * @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method =
-     * RequestMethod.POST) private String createTaskNote(@ModelAttribute TaskNote taskNote, Model
-     * model, @PathVariable("organizationName") String organizationName,
-     * @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) { Authentication auth =
-     * SecurityContextHolder.getContext().getAuthentication(); String email = auth.getName();
-     * taskService.findTaskAndAddCommentByUser(organizationName, projectName, taskNo, taskNote, email); return "redirect:/" +
-     * organizationName + "/projects/" + projectName + "/tasks/" + taskNo; }
-     */
 
     @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new", method = RequestMethod.POST)
     @ResponseBody
@@ -162,6 +152,13 @@ public class TaskController2 {
         TaskNote taskNote = new TaskNote();
         taskNote.setComment(taskNoteDto.getComment());
         taskService.findTaskAndAddCommentByUser(organizationName, projectName, taskNo, taskNote, email);
+
+       /* List<TaskNote> taskNoteCommentsBy = taskNoteService.findAllTaskNoteByTask(organizationName, projectName, taskNo);
+
+        for (TaskNote taskNote1 : taskNoteCommentsBy) {
+            System.out.println("Comments by this task======" + taskNote1.getCommentedby().getFirstName());
+            System.out.println("Comment by this user++++++++" + taskNote1.getComment());
+        }*/
         List<TaskNoteDto> taskNotes = new ArrayList<TaskNoteDto>();
         taskNotes.add(taskNoteDto);
         return taskNotes.stream().map(taskNoe -> taskNoteService.convertToDto(taskNote)).collect(Collectors.toList());

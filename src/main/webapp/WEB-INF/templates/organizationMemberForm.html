@@ -59,18 +59,37 @@ body {
 <body>
     <div th:include="fragments/header"></div>
 
-    <div>Add a new member to this organization</div>
-    <br />
-    <form action="#"
-        th:action="@{/{organizationName}/members/new(organizationName=${organizationName})}"
-        th:object="${user}" method="post">
-        <input type="text" th:field="*{email}" placeholder="Email"
-            id="search" />
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Invalid
-            Email</span>
-        <br />
-        <input type="submit" value="Add" />
-    </form>
 
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Add a new member to this organization</h4>
+            </div>
+            <div class="panel-body">
+
+                <form class="form-horizontal" action="#"
+                    th:action="@{/{organizationName}/members/new(organizationName=${organizationName})}"
+                    th:object="${user}" method="post">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Name">Email:</label>
+                        <div class="col-sm-6">
+                            <input type="text" th:field="*{email}"
+                                placeholder="Email" id="search" />
+                        </div>
+                    </div>
+                    <span th:if="${#fields.hasErrors('email')}"
+                        th:errors="*{email}">Invalid Email</span>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit"
+                                class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
