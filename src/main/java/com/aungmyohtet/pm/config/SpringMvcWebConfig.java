@@ -44,6 +44,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Configuration
@@ -121,9 +122,11 @@ public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
             @Override
             public String convert(MappingContext<Date, String> arg0) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                if (arg0 == null) {
+                    return dateFormat.format(Calendar.getInstance());
+                }
                 return dateFormat.format(arg0.getSource());
             }
-
         });
 
         return mapper;

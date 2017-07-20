@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.aungmyohtet.pm.entity.Board;
+import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.service.BoardService;
+import com.aungmyohtet.pm.service.OrganizationService;
 
 @Controller
 public class BoardController {
@@ -21,6 +23,9 @@ public class BoardController {
     public void setBoardService(BoardService boardService) {
         this.boardService = boardService;
     }
+
+    @Autowired
+    private OrganizationService organizationService;
 
     @ModelAttribute("module")
     String module() {
@@ -41,14 +46,15 @@ public class BoardController {
             return "boardForm";
         }
 
-        boardService.addBoardToOrganization(board, organizationName);
+        Organization organization = organizationService.findByName(organizationName);
+        boardService.addBoardToOrganization(board, organization);
         return "redirect:/" + organizationName + "/boards";
     }
 
-    @RequestMapping(value = "/{organizationName}/boards/{boardNo}", method = RequestMethod.GET)
-    private String showProjectHome(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardNo") String boardNo) {
+    @RequestMapping(value = "/{organizationName}/boards/{boardName}", method = RequestMethod.GET)
+    private String showProjectHome(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardName") String boardName) {
         model.addAttribute("organizationName", organizationName);
-        model.addAttribute("boardNo", boardNo);
-        return "redirect:/" + organizationName + "/boards/" + boardNo + "/cards";
+        model.addAttribute("boardName", boardName);
+        return "redirect:/" + organizationName + "/boards/" + boardName + "/cards";
     }
 }

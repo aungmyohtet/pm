@@ -54,7 +54,7 @@ $(document).ready(
                         <ul th:each="board : ${boards}">
                             <li>
                                 <a onclick="function()"
-                                    th:href="@{/{organizationName}/boards/{boardNo}(organizationName=${organizationName}, boardNo=${board.no})}">
+                                    th:href="@{/{organizationName}/boards/{boardName}(organizationName=${organizationName}, boardName=${board.name})}">
                                     <span th:text="${board.name}"></span>
                                 </a>
                             </li>

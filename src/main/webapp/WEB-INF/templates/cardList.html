@@ -21,13 +21,13 @@ body {
         <h4>Cards List</h4>
         <br />
         <a
-            th:href="@{/{organizationName}/boards/{boardNo}/cards/new(organizationName=${organizationName}, boardNo=${boardNo})}">New
+            th:href="@{/{organizationName}/boards/{boardName}/cards/new(organizationName=${organizationName}, boardName=${boardName})}">New
             Card</a>
         <br />
         <ul th:each="card : ${cards}">
             <li>
                 <a
-                    th:href="@{/{organizationName}/boards/{boardNo}/cards/{cardTitle}(organizationName=${organizationName}, boardNo=${boardNo}, cardTitle=${card.title})}">
+                    th:href="@{/{organizationName}/boards/{boardName}/cards/{cardTitle}(organizationName=${organizationName}, boardName=${boardName}, cardTitle=${card.title})}">
                     <span th:text="${card.title}"></span>
                 </a>
             </li>

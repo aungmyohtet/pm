@@ -28,41 +28,41 @@ public class CardController {
     @Autowired
     private BoardService boardService;
 
-    @RequestMapping(value = "/{organizationName}/boards/{boardNo}/cards", method = RequestMethod.GET)
-    public String showCards(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardNo") int boardNo) {
+    @RequestMapping(value = "/{organizationName}/boards/{boardName}/cards", method = RequestMethod.GET)
+    public String showCards(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardName") String boardName) {
         model.addAttribute("organizationName", organizationName);
-        model.addAttribute("boardNo", boardNo);
-        model.addAttribute("cards", cardService.findByOrganizationNameAndBoardNo(organizationName, boardNo));
+        model.addAttribute("boardName", boardName);
+        model.addAttribute("cards", cardService.find(organizationName, boardName));
         // model.addAttribute("boardName", boardService.findBoardNamebyBoardNoAndOrganizationName(boardNo, organizationName));
         return "cardList";
     }
 
-    @RequestMapping(value = "/{organizationName}/boards/{boardNo}/cards/new", method = RequestMethod.GET)
-    public String showCardForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardNo") int boardNo) {
+    @RequestMapping(value = "/{organizationName}/boards/{boardName}/cards/new", method = RequestMethod.GET)
+    public String showCardForm(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardName") String boardName) {
         model.addAttribute("card", new Card());
         model.addAttribute("organizationName", organizationName);
-        model.addAttribute("boardNo", boardNo);
+        model.addAttribute("boardName", boardName);
         return "cardForm";
     }
 
-    @RequestMapping(value = "{organizationName}/boards/{boardNo}/cards/new", method = RequestMethod.POST)
+    @RequestMapping(value = "{organizationName}/boards/{boardName}/cards/new", method = RequestMethod.POST)
     public String addBoard(@Validated @ModelAttribute Card card, BindingResult result, Model model, @PathVariable("organizationName") String organizationName,
-            @PathVariable("boardNo") int boardNo) {
+            @PathVariable("boardName") int boardName) {
 
         if (result.hasErrors()) {
             return "cardForm";
         }
 
-        cardService.findBoardAndAddCard(card, boardNo, organizationName);
-        return "redirect:/" + organizationName + "/boards/" + boardNo + "/cards";
+        cardService.findBoardAndAddCard(card, boardName, organizationName);
+        return "redirect:/" + organizationName + "/boards/" + boardName + "/cards";
     }
 
-    @RequestMapping(value = "/{organizationName}/boards/{boardNo}/cards/{cardTitle}", method = RequestMethod.GET)
-    public String showCardDetails(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardNo") int boardNo,
+    @RequestMapping(value = "/{organizationName}/boards/{boardName}/cards/{cardTitle}", method = RequestMethod.GET)
+    public String showCardDetails(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("boardName") String boardName,
             @PathVariable("cardTitle") String cardTitle) {
         model.addAttribute("organizationName", organizationName);
-        model.addAttribute("boardNo", boardNo);
-        model.addAttribute("card", cardService.find(organizationName, boardNo, cardTitle));
+        model.addAttribute("boardName", boardName);
+        model.addAttribute("card", cardService.findOne(organizationName, boardName, cardTitle));
         return "cardDetail";
     }
 
