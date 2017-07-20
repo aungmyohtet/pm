@@ -2,7 +2,6 @@ package com.aungmyohtet.pm.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -22,7 +21,7 @@ public class Role extends UniqueNamedEntity {
         this.setName(name);
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
     private Set<User> users;

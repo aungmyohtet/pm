@@ -2,7 +2,6 @@ package com.aungmyohtet.pm.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,12 +15,12 @@ public class ProjectMember implements Serializable {
     private static final long serialVersionUID = -3644158629924249422L;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 

@@ -13,7 +13,7 @@ public class VerificationToken extends BaseEntity {
 
     private String token;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
