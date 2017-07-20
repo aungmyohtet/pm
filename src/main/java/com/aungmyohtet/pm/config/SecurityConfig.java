@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/login", "/", "/home","/signup", "/regitrationConfirm", "/user/registration").permitAll().antMatchers("/admin/**").access("hasRole('ADMIN')")
+          .antMatchers("/{organizationName}/members/new").access("@webSecurity.canAddMemberToOrganization(authentication,#organizationName)")
             //.anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/organizations")
                     .and().logout().logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
