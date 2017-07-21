@@ -47,13 +47,14 @@ public class CardController {
 
     @RequestMapping(value = "{organizationName}/boards/{boardName}/cards/new", method = RequestMethod.POST)
     public String addBoard(@Validated @ModelAttribute Card card, BindingResult result, Model model, @PathVariable("organizationName") String organizationName,
-            @PathVariable("boardName") int boardName) {
+            @PathVariable("boardName") String boardName) {
 
         if (result.hasErrors()) {
             return "cardForm";
         }
 
-        cardService.findBoardAndAddCard(card, boardName, organizationName);
+        // to fix here
+        // cardService.findBoardAndAddCard(card, boardName, organizationName);
         return "redirect:/" + organizationName + "/boards/" + boardName + "/cards";
     }
 

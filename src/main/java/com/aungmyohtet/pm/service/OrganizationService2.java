@@ -49,4 +49,6 @@ public interface OrganizationService2 {
 
     void transferMember(User user, Organization from, Organization to);
 
+    Organization findByName(String organizationName);
+
 }

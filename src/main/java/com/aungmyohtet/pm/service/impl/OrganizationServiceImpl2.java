@@ -2,15 +2,39 @@ package com.aungmyohtet.pm.service.impl;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
+import com.aungmyohtet.pm.entity.ProjectMember;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.repository.OrganizationRepository;
+import com.aungmyohtet.pm.repository.ProjectRepository;
+import com.aungmyohtet.pm.repository.RoleRepository;
+import com.aungmyohtet.pm.repository.UserRepository;
 import com.aungmyohtet.pm.service.OrganizationService2;
 
+@Service
 public class OrganizationServiceImpl2 implements OrganizationService2 {
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
     public Set<Organization> findOrganizationsCreatedByUser(User user) {
@@ -49,9 +73,18 @@ public class OrganizationServiceImpl2 implements OrganizationService2 {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasPermission(#organization, 'create-project')")
     public void addProjectToOrganization(Project project, Organization organization) {
-        // TODO Auto-generated method stub
-
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(userEmail);
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setUser(user);
+        projectMember.setRole(roleRepository.findByName("OWNER"));
+        project.getProjectMembers().add(projectMember);
+        project.setOrganization(organization);
+        projectRepository.save(project);
     }
 
     @Override
@@ -124,6 +157,12 @@ public class OrganizationServiceImpl2 implements OrganizationService2 {
     public void transferMember(User user, Organization from, Organization to) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Organization findByName(String organizationName) {
+        return organizationRepository.findByName(organizationName);
     }
 
 }
