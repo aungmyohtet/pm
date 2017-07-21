@@ -10,13 +10,14 @@
 	<url>http://www.github.com/aungmyohtet/pm</url>
 	<properties>
 		<jdk.version>1.8</jdk.version>
-		<springframework.version>4.2.0.RELEASE</springframework.version>
+		<springframework.version>4.3.9.RELEASE</springframework.version>
 		<jstl.version>1.2</jstl.version>
 		<thymeleaf.version>2.1.3.RELEASE</thymeleaf.version>
 		<junit.version>4.12</junit.version>
 		<logback.version>1.1.3</logback.version>
-		<hibernate.version>5.1.0.Final</hibernate.version>
-		<springsecurity.version>4.1.0.RELEASE</springsecurity.version>
+		<hibernate.version>5.1.8.Final</hibernate.version>
+		<springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+        <springdata.version>1.11.4.RELEASE</springdata.version>
 		<passay.version>1.0</passay.version>
 		<!-- guava -->
 		<guava.version>20.0</guava.version>
@@ -39,7 +40,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>${springdata.version}</version>
 		</dependency>
 
 		<dependency>
