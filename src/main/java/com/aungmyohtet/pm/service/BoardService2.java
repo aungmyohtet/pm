@@ -16,6 +16,10 @@ public interface BoardService2 {
 
     void removeCardFromBoard(Card card, Board board);
 
+    List<Card> getCards(Board board);
+
+    // separator
+
     void save(Board board);
 
     List<Board> findAll();
@@ -28,9 +32,9 @@ public interface BoardService2 {
 
     List<Board> findByName(String name);
 
-    List<Board> findByNameAndOrganization(String name, Organization organization);
+    Board findByNameAndOrganization(String name, Organization organization);
 
-    List<Board> findByNameAndOrganizationName(String name, String organizationName);
+    Board findByNameAndOrganizationName(String name, String organizationName);
 
     BoardDto convertToDto(Board board);
 

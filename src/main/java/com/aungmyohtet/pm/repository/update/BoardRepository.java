@@ -19,8 +19,8 @@ public interface BoardRepository {
 
     List<Board> findByName(String name);
 
-    List<Board> findByNameAndOrganization(String name, Organization organization);
+    Board findByNameAndOrganization(String name, Organization organization);
 
-    List<Board> findByNameAndOrganizationName(String name, String organizationName);
+    Board findByNameAndOrganizationName(String name, String organizationName);
 
 }

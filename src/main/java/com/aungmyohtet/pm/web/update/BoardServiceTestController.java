@@ -1,7 +1,6 @@
 package com.aungmyohtet.pm.web.update;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class BoardServiceTestController {
         List<Board> boards =  boardService.findAll();
         return boards.stream().map(board -> boardService.convertToDto(board)).collect(Collectors.toList());
     }
-    
+
     @GetMapping(value = "json/update/boards/search-by-organization")
     @ResponseBody
     private List<BoardDto> findBoardsByOrganization(@RequestParam("organizationName") String organizationName) {

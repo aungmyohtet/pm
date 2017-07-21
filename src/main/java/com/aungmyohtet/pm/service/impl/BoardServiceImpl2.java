@@ -12,6 +12,7 @@ import com.aungmyohtet.pm.dto.BoardDto;
 import com.aungmyohtet.pm.entity.Board;
 import com.aungmyohtet.pm.entity.Card;
 import com.aungmyohtet.pm.entity.Organization;
+import com.aungmyohtet.pm.repository.update.CardRepository;
 import com.aungmyohtet.pm.repository.update.BoardRepository;
 import com.aungmyohtet.pm.service.BoardService2;
 
@@ -20,6 +21,9 @@ public class BoardServiceImpl2 implements BoardService2 {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private CardRepository cardRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -40,6 +44,12 @@ public class BoardServiceImpl2 implements BoardService2 {
     public void removeCardFromBoard(Card card, Board board) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Card> getCards(Board board) {
+        return cardRepository.findByBoard(board);
     }
 
     // The following methods are duplicate methods of repository methods.
@@ -78,12 +88,12 @@ public class BoardServiceImpl2 implements BoardService2 {
     }
 
     @Override
-    public List<Board> findByNameAndOrganization(String name, Organization organization) {
+    public Board findByNameAndOrganization(String name, Organization organization) {
         return this.boardRepository.findByNameAndOrganization(name, organization);
     }
 
     @Override
-    public List<Board> findByNameAndOrganizationName(String name, String organizationName) {
+    public Board findByNameAndOrganizationName(String name, String organizationName) {
         return this.boardRepository.findByNameAndOrganizationName(name, organizationName);
     }
 

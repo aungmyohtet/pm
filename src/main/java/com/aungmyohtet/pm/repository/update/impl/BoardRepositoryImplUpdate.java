@@ -60,19 +60,31 @@ public class BoardRepositoryImplUpdate implements BoardRepository {
     }
 
     @Override
-    public List<Board> findByNameAndOrganization(String name, Organization organization) {
+    public Board findByNameAndOrganization(String name, Organization organization) {
         Query query = this.entityManager.createQuery("select b from Board b where b.name = ? and b.organization = ?", Board.class);
         query.setParameter(1, name);
         query.setParameter(2, organization);
-        return query.getResultList();
+        Board board = null;
+        try {
+            board = (Board) query.getSingleResult();
+        } catch (Exception e) {
+            // to implement
+        }
+        return board;
     }
 
     @Override
-    public List<Board> findByNameAndOrganizationName(String name, String organizationName) {
+    public Board findByNameAndOrganizationName(String name, String organizationName) {
         Query query = this.entityManager.createQuery("select b from Board b where b.name = ? and b.organization.name = ?", Board.class);
         query.setParameter(1, name);
         query.setParameter(2, organizationName);
-        return query.getResultList();
+        Board board = null;
+        try {
+            board = (Board) query.getSingleResult();
+        } catch (Exception exception) {
+            // to implement
+        }
+        return board;
     }
 
 }
