@@ -14,4 +14,6 @@ public interface CardRepository {
     List<Card> findAll();
 
     List<Card> findByBoard(Board board);
+
+    Card findById(int id);
 }

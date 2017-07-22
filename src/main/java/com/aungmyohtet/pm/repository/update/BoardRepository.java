@@ -23,4 +23,6 @@ public interface BoardRepository {
 
     Board findByNameAndOrganizationName(String name, String organizationName);
 
+    Board findById(int id);
+
 }

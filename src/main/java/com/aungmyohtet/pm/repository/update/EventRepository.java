@@ -23,4 +23,6 @@ public interface EventRepository {
 
     List<Event> findByTitleAndOrganizationName(String title, String organizationName);
 
+    Event findById(int id);
+
 }

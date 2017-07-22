@@ -4,6 +4,8 @@
 <head>
 <title>Task Comment</title>
 <meta charset="utf-8" />
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -13,10 +15,11 @@
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
     src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="application.css" />
 <script th:inline="javascript">
 	/*<![CDATA[*/
-	$(document).ready(
+	    var token = $('#_csrf').attr('content');
+        var header = $('#_csrf_header').attr('content');
+		$(document).ready(
 					function() {
 						console.log("Enter function:");
 						$("#addCommentForm").submit(function(event) {
@@ -36,6 +39,9 @@
 										data : JSON.stringify(taskNote),
 										dataType : 'json',
 										url : "/" + [[${organizationName}]] + "/projects/" + [[${projectName}]] + "/tasks/" + [[${taskNo}]] + "/comments/new",
+										beforeSend: function(xhr) {
+											xhr.setRequestHeader(header, token);
+										},
 										success : function(result) {
 										console.log(result);
 										$.each(result,function(i,taskNote) 

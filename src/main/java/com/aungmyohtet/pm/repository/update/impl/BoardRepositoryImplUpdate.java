@@ -87,4 +87,9 @@ public class BoardRepositoryImplUpdate implements BoardRepository {
         return board;
     }
 
+    @Override
+    public Board findById(int id) {
+        return this.entityManager.find(Board.class, id);
+    }
+
 }

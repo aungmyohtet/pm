@@ -17,4 +17,6 @@ public interface ResourceRepository {
 
     void delete(Resource resource);
 
+    Resource findById(int id);
+
 }

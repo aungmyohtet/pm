@@ -23,4 +23,6 @@ public interface ProjectRepository {
 
     List<Project> findByNameAndOrganizationName(String name, String organizationName);
 
+    Project findById(int id);
+
 }

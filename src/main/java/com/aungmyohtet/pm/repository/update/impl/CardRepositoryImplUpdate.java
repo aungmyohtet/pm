@@ -45,4 +45,9 @@ public class CardRepositoryImplUpdate implements CardRepository {
         return query.getResultList();
     }
 
+    @Override
+    public Card findById(int id) {
+        return this.entityManager.find(Card.class, id);
+    }
+
 }
