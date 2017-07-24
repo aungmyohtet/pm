@@ -60,11 +60,17 @@ public class ProjectRepositoryImplUpdate implements ProjectRepository {
     }
 
     @Override
-    public List<Project> findByNameAndOrganization(String name, Organization organization) {
+    public Project findByNameAndOrganization(String name, Organization organization) {
         Query query = this.entityManager.createQuery("select p from Project p where p.organization = ? and p.name = ?", Project.class);
         query.setParameter(1, organization);
         query.setParameter(2, name);
-        return query.getResultList();
+        Project project = null;
+        try {
+            project = (Project) query.getSingleResult();
+        } catch (Exception e) {
+            // to log
+        }
+        return project;
     }
 
     @Override

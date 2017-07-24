@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.entity.Organization;
@@ -14,6 +15,8 @@ import com.aungmyohtet.pm.entity.ProjectMember;
 import com.aungmyohtet.pm.entity.Role;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.repository.update.ProjectRepository;
+import com.aungmyohtet.pm.repository.update.TaskRepository;
 import com.aungmyohtet.pm.service.update.ProjectService;
 
 @Service
@@ -22,6 +25,12 @@ public class ProjectServiceImplUpdate implements ProjectService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
     @Override
     public List<User> getMembers(Project project) {
         // TODO Auto-generated method stub
@@ -29,9 +38,9 @@ public class ProjectServiceImplUpdate implements ProjectService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Task> getTasks(Project project) {
-        // TODO Auto-generated method stub
-        return null;
+        return taskRepository.findByProject(project);
     }
 
     @Override
@@ -101,9 +110,9 @@ public class ProjectServiceImplUpdate implements ProjectService {
     }
 
     @Override
-    public List<Project> findByNameAndOrganization(String name, Organization organization) {
-        // TODO Auto-generated method stub
-        return null;
+    @Transactional(readOnly = true)
+    public Project findByNameAndOrganization(String name, Organization organization) {
+        return projectRepository.findByNameAndOrganization(name, organization);
     }
 
     @Override

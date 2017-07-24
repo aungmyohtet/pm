@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.service.update;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.TaskDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
@@ -29,4 +30,6 @@ public interface TaskService {
     Task findByTitleAndProject(String title, Project project);
 
     Task findByNoAndProject(int no, Project project);
+
+    TaskDto convertToDto(Task task);
 }

@@ -19,7 +19,7 @@ public interface ProjectRepository {
 
     List<Project> findByName(String name);
 
-    List<Project> findByNameAndOrganization(String name, Organization organization);
+    Project findByNameAndOrganization(String name, Organization organization);
 
     List<Project> findByNameAndOrganizationName(String name, String organizationName);
 

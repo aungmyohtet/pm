@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Task Home</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application.css" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 th:text="${projectName}"></h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+                    </li>
+                </ul>
+                <form class="form-inline"
+                    style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="form-group">
+                        <label for="NameOrDescription">Name or
+                            Description:</label>
+                        <input type="text" class="form-control"
+                            id="nameOrDescription"
+                            name="nameOrDescription" />
+                    </div>
+                    <div class="form-group">
+                        <label for="timePeriod">Time Period:</label>
+                        <input type="date" class="form-control"
+                            id="startDate" />
+                        <input type="date" class="form-control"
+                            id="endDate" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply
+                        Filter</button>
+                    <a
+                        th:href="@{/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}"
+                        class="btn btn-success pull-right">Create a
+                        new task</a>
+                </form>
+                <div>
+                    <ul th:each="task : ${tasks}">
+                        <li class="table table-striped">
+                            <a
+                                th:href="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}(organizationName=${organizationName}, projectName=${projectName}, taskNo=${task.no})}">
+                                <span th:text="${task.title}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

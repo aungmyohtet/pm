@@ -14,6 +14,7 @@ import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.entity.Project;
+import com.aungmyohtet.pm.entity.ProjectMember;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.update.BoardRepository;
@@ -255,6 +256,18 @@ public class OrganizationServiceImplUpdate implements OrganizationService {
     @Transactional
     public List<User> getMembers(Organization organization) {
         return userRepository.findByOrganization(organization);
+    }
+
+    @Override
+    @Transactional
+    public void addProjectByUser(Organization organization, Project project, User user) {
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setUser(user);
+        projectMember.setRole(roleRepository.findByName("MANAGER"));
+        project.getProjectMembers().add(projectMember);
+        project.setOrganization(organization);
+        projectRepository.save(project);
     }
 
 }

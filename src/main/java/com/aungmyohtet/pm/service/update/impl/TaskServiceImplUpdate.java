@@ -2,13 +2,22 @@ package com.aungmyohtet.pm.service.update.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.aungmyohtet.pm.dto.TaskDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.update.TaskService;
 
+@Service
 public class TaskServiceImplUpdate implements TaskService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public void assign(Task task, User user) {
@@ -68,6 +77,11 @@ public class TaskServiceImplUpdate implements TaskService {
     public Task findByNoAndProject(int no, Project project) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public TaskDto convertToDto(Task task) {
+        return modelMapper.map(task, TaskDto.class);
     }
 
 }

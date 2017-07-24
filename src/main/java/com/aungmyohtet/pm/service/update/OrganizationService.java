@@ -80,5 +80,7 @@ public interface OrganizationService {
 
     List<User> getMembers(Organization organization);
 
+    void addProjectByUser(Organization organization, Project project, User user);
+
 
 }
