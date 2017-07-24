@@ -13,6 +13,8 @@ import com.aungmyohtet.pm.entity.User;
 
 public interface OrganizationService {
 
+    void addByUser(Organization organization, User user);
+
     List<Organization> findByCreator(User user);
 
     List<Organization> findByMember(User user);

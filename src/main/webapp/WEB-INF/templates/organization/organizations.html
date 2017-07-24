@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Organizations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+    <a th:href="@{/organizations/new}"> New Organization</a>
+    <br />
+    <br />
+    <div class="container">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">Organizations you
+                    created.</div>
+                <div class="list-group">
+                    <ul
+                        th:each="ownedOrganization : ${ownedOrganizations}"
+                        class="list-group-item">
+                        <li>
+                            <a
+                                th:href="@{/{organizationName}(organizationName=${ownedOrganization.name})}">
+                                <span
+                                    th:text="${ownedOrganization.Name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">Organization you are
+                    involved in.</div>
+                <div class="list-group">
+                    <ul
+                        th:each="involvedOrganization : ${involvedOrganizations}"
+                        class="list-group-item">
+                        <li>
+                            <a
+                                th:href="@{/{organizationName}(organizationName=${involvedOrganization.name})}"
+                                class="list-group-item">
+                                <span
+                                    th:text="${involvedOrganization.Name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

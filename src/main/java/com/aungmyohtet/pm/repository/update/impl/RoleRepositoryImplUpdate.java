@@ -38,7 +38,8 @@ public class RoleRepositoryImplUpdate implements RoleRepository {
 
     @Override
     public Role findByName(String name) {
-        Query query = this.entityManager.createQuery("select r from Role r where r.name = ?", Role.class);
+        Query query = this.entityManager.createQuery("SELECT r FROM Role r where r.name = ?", Role.class);
+        query.setParameter(1, name);
         Role role = null;
         try {
             role = (Role) query.getSingleResult();
