@@ -2,10 +2,12 @@ package com.aungmyohtet.pm.service.update.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Role;
@@ -18,6 +20,9 @@ public class UserServiceImplUpdate implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public void save(User user) {
@@ -77,6 +82,11 @@ public class UserServiceImplUpdate implements UserService {
     public List<User> findByProjectAndRole(Project project, Role role) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public UserDto convertToDto(User user) {
+        return modelMapper.map(user, UserDto.class);
     }
 
 }

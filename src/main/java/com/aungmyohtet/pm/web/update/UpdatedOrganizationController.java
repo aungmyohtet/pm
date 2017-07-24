@@ -1,7 +1,10 @@
 package com.aungmyohtet.pm.web.update;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,10 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aungmyohtet.pm.dto.ProjectDto;
+import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Board;
+import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
+import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.update.OrganizationService;
 import com.aungmyohtet.pm.service.update.ProjectService;
@@ -73,5 +82,47 @@ public class UpdatedOrganizationController {
         model.addAttribute("module", "projects");
         return "project/projects";
     }
+
+    @GetMapping(value = "/u/{organizationName}/boards")
+    public String showBoards(@PathVariable("organizationName") String organizationName, Model model) {
+        Organization organization = organizationService.findByName(organizationName);
+        List<Board> boards = organizationService.getBoards(organization);
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("boards", boards);
+        model.addAttribute("module", "boards");
+        return "board/boards";
+    }
+
+    @GetMapping(value = "/u/{organizationName}/resources")
+    public String showResources(@PathVariable("organizationName") String organizationName, Model model) {
+        Organization organization = organizationService.findByName(organizationName);
+        List<Resource> resources = organizationService.getResources(organization);
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("resources", resources);
+        model.addAttribute("module", "resources");
+        return "resource/resources";
+    }
+
+    @GetMapping(value = "/u/{organizationName}/events")
+    public String showEvents(@PathVariable("organizationName") String organizationName, Model model, HttpServletRequest request) {
+        Organization organization = organizationService.findByName(organizationName);
+        List<Event> events = organizationService.getEvents(organization);
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("module", "events");
+        model.addAttribute("events", events);
+        return "event/events";
+    }
+    
+    @GetMapping(value = "/u/{organizationName}/members")
+    public String showOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model) {
+        Organization organization = organizationService.findByName(organizationName);
+        List<User> users = organizationService.getMembers(organization);
+        List<UserDto> userDtos = users.stream().map(user -> userService.convertToDto(user)).collect(Collectors.toList());
+        model.addAttribute("organizationName", organizationName);
+        model.addAttribute("members", userDtos);
+        model.addAttribute("module", "members");
+        return "organization/members";
+    }
+
 
 }

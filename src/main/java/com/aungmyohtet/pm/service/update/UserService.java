@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.service.update;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Role;
@@ -30,4 +31,6 @@ public interface UserService {
     List<User> findByOrganizationAndRole(Organization organization, Role role);
 
     List<User> findByProjectAndRole(Project project, Role role);
+
+    UserDto convertToDto(User user);
 }

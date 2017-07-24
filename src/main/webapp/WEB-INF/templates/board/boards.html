@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title th:text="${page_title}"></title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(
+    function() {
+       console.log("Enter function:");
+         $('.clickable').click(function() {
+          event.preventDefault();
+            ajaxPost();
+     });
+})
+</script>
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a class="btn btn-primary pull-right"
+                    th:href="@{/{organizationName}/boards/new(organizationName=${organizationName})}">New
+                    Board</a>
+                <h4>Boards in this organization</h4>
+            </div>
+            <div class="panel-body">
+
+                <div class="dropdown">
+
+                    <button class="btn btn-primary dropdown-toggle"
+                        type="button" data-toggle="dropdown">
+                        Boards
+                        <span class="caret"></span>
+                    </button>
+
+
+                    <div class="dropdown-menu">
+                        <ul th:each="board : ${boards}">
+                            <li>
+                                <a onclick="function()"
+                                    th:href="@{/{organizationName}/boards/{boardName}(organizationName=${organizationName}, boardName=${board.name})}">
+                                    <span th:text="${board.name}"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

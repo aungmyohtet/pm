@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/admin/**").access("hasRole('ADMIN')")
             .antMatchers("/{organizationName}/members/new").access("@webSecurity.canAddMemberToOrganization(authentication,#organizationName)")
             .anyRequest().authenticated()
-            .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/organizations")
+            .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/u/organizations")
             .and().logout().logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
             .and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
      }

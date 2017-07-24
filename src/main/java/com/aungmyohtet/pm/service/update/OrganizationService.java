@@ -78,5 +78,7 @@ public interface OrganizationService {
     
     OrganizationDto convertToDto(Organization organization);
 
+    List<User> getMembers(Organization organization);
+
 
 }

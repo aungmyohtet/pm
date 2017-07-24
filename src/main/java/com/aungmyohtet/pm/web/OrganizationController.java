@@ -205,7 +205,6 @@ public class OrganizationController {
 
     @RequestMapping(value = "/{organizationName}/resources", method = RequestMethod.GET)
     public String showOrganizationResources(@PathVariable("organizationName") String organizationName, Model model) {
-
         Organization organization = organizationService.findByName(organizationName);
         List<Resource> resources = resourceService.findResourceByOrganizationId(organization.getId());
         model.addAttribute("organizationName", organizationName);

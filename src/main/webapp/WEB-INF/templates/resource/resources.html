@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title th:text="${page_title}"></title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a class="btn btn-success pull-right"
+                    th:href="@{/{organizationName}/resources/new(organizationName=${organizationName})}">New
+                    Resource</a>
+                <h4>Resources in this organization</h4>
+
+            </div>
+
+            <div>
+                <ul th:each="resource : ${resources}">
+                    <li>
+                        <span th:text="${resource.filePath}"></span>
+                        <a
+                            th:href="@{/{organizationName}/resources/{resourceId}/download(organizationName=${organizationName},resourceId=${resource.id})}">
+                            Download </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

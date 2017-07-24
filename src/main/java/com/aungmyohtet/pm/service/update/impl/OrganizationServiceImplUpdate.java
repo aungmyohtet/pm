@@ -22,6 +22,7 @@ import com.aungmyohtet.pm.repository.update.OrganizationRepository;
 import com.aungmyohtet.pm.repository.update.ProjectRepository;
 import com.aungmyohtet.pm.repository.update.ResourceRepository;
 import com.aungmyohtet.pm.repository.update.RoleRepository;
+import com.aungmyohtet.pm.repository.update.UserRepository;
 import com.aungmyohtet.pm.service.update.OrganizationService;
 
 @Service
@@ -44,6 +45,9 @@ public class OrganizationServiceImplUpdate implements OrganizationService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -245,6 +249,12 @@ public class OrganizationServiceImplUpdate implements OrganizationService {
         member.setRole(roleRepository.findByName("MANAGER"));
         organization.getOrganizationMembers().add(member);
         organizationRepository.save(organization);
+    }
+
+    @Override
+    @Transactional
+    public List<User> getMembers(Organization organization) {
+        return userRepository.findByOrganization(organization);
     }
 
 }
