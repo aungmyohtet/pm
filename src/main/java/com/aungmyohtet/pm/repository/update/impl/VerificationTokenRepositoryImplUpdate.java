@@ -12,7 +12,7 @@ import com.aungmyohtet.pm.entity.VerificationToken;
 import com.aungmyohtet.pm.repository.update.VerificationTokenRepository;
 
 @Repository
-public class VerificationTokenRepositoryImpl implements VerificationTokenRepository{
+public class VerificationTokenRepositoryImplUpdate implements VerificationTokenRepository{
 
     @PersistenceContext
     private EntityManager entityManager;
