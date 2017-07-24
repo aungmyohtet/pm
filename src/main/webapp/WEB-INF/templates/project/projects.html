@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Project Lists</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application.css" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <form class="form-inline" style="margin-bottom: 10px;">
+                    <div class="form-group">
+                        <label for="NameOrDescription">Name or
+                            Description:</label>
+                        <input type="text" class="form-control"
+                            id="nameOrDescription"
+                            name="nameOrDescription" />
+                    </div>
+                    <div class="form-group">
+                        <label for="timePeriod">Time Period:</label>
+                        <input type="date" class="form-control"
+                            id="startDate" />
+                        <input type="date" class="form-control"
+                            id="endDate" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply
+                        Filter</button>
+                    <a
+                        th:href="@{/{organizationName}/projects/new(organizationName=${organizationName})}"
+                        class="btn btn-success pull-right">New
+                        project</a>
+                </form>
+                <ul th:each="project : ${projects}">
+                    <li>
+                        <a class="list-group-item"
+                            th:href="@{/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
+                            <span th:text="${project.name}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

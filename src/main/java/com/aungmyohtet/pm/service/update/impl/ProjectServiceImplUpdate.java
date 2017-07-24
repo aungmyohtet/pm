@@ -3,6 +3,11 @@ package com.aungmyohtet.pm.service.update.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.ProjectMember;
@@ -11,7 +16,11 @@ import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.update.ProjectService;
 
+@Service
 public class ProjectServiceImplUpdate implements ProjectService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<User> getMembers(Project project) {
@@ -107,6 +116,11 @@ public class ProjectServiceImplUpdate implements ProjectService {
     public Project findById(int id) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public ProjectDto convertToDto(Project project) {
+        return modelMapper.map(project, ProjectDto.class);
     }
 
 }

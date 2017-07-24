@@ -3,6 +3,7 @@ package com.aungmyohtet.pm.service.update;
 import java.util.Date;
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.ProjectMember;
@@ -46,4 +47,6 @@ public interface ProjectService {
     List<Project> findByNameAndOrganizationName(String name, String organizationName);
 
     Project findById(int id);
+
+    ProjectDto convertToDto(Project project);
 }

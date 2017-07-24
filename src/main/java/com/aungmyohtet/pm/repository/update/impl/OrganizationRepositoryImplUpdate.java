@@ -40,7 +40,8 @@ public class OrganizationRepositoryImplUpdate implements OrganizationRepository 
 
     @Override
     public Organization findByName(String name) {
-        Query query = this.entityManager.createQuery("select o from Organization o where o.name = ?", Organization.class);
+        Query query = this.entityManager.createQuery("SELECT o FROM Organization o WHERE o.name = ?", Organization.class);
+        query.setParameter(1, name);
         try {
             return (Organization) query.getSingleResult();
         } catch (Exception e) {

@@ -35,7 +35,7 @@ public class ProjectRepositoryImplUpdate implements ProjectRepository {
 
     @Override
     public List<Project> findByOrganization(Organization organization) {
-        Query query = this.entityManager.createQuery("select p from Project p where p.organization = ?", Project.class);
+        Query query = this.entityManager.createQuery("SELECT p FROM Project p WHERE p.organization = ?", Project.class);
         query.setParameter(1, organization);
         return query.getResultList();
     }
