@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.aungmyohtet.pm.dto.EventDto;
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
 import com.aungmyohtet.pm.entity.Board;
@@ -25,6 +26,7 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Resource;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.service.update.EventService;
 import com.aungmyohtet.pm.service.update.OrganizationService;
 import com.aungmyohtet.pm.service.update.ProjectService;
 import com.aungmyohtet.pm.service.update.UserService;
@@ -40,6 +42,9 @@ public class UpdatedOrganizationController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private EventService eventService;
 
     @GetMapping(value = "/u/organizations/new")
     public String showForm(Model model) {
@@ -104,12 +109,13 @@ public class UpdatedOrganizationController {
     public String showEvents(@PathVariable("organizationName") String organizationName, Model model, HttpServletRequest request) {
         Organization organization = organizationService.findByName(organizationName);
         List<Event> events = organizationService.getEvents(organization);
+        List<EventDto> eventDtos = events.stream().map(event -> eventService.convertToDto(event)).collect(Collectors.toList());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("module", "events");
-        model.addAttribute("events", events);
+        model.addAttribute("events", eventDtos);
         return "event/events";
     }
-    
+
     @GetMapping(value = "/u/{organizationName}/members")
     public String showOrganizationMembers(@PathVariable("organizationName") String organizationName, Model model) {
         Organization organization = organizationService.findByName(organizationName);

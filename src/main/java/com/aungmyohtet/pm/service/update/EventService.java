@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.service.update;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.EventDto;
 import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Organization;
 
@@ -25,4 +26,6 @@ public interface EventService {
     List<Event> findByTitleAndOrganizationName(String title, String organizationName);
 
     Event findById(int id);
+
+    EventDto convertToDto(Event event);
 }

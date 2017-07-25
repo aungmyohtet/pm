@@ -2,10 +2,12 @@ package com.aungmyohtet.pm.service.update.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aungmyohtet.pm.dto.EventDto;
 import com.aungmyohtet.pm.entity.Event;
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.repository.update.EventRepository;
@@ -16,6 +18,9 @@ public class EventServiceImplUpdate implements EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -69,6 +74,11 @@ public class EventServiceImplUpdate implements EventService {
     @Transactional(readOnly = true)
     public Event findById(int id) {
         return this.eventRepository.findById(id);
+    }
+
+    @Override
+    public EventDto convertToDto(Event event) {
+        return modelMapper.map(event, EventDto.class);
     }
 
 }
