@@ -27,6 +27,8 @@ public interface ProjectService {
 
     void addTask(Project project, Task task);
 
+    void addMember(Project project, User user);
+
     // to write searching methods
 
     // wrap normal repository methods

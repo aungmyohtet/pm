@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-tagsinput.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/bootstrap-tagsinput.js"></script>
+<script src="js/bootstrap3-typeahead.min.js"></script>
+<link rel="stylesheet" href="application.css" />
+<title>Show Gantt Chart</title>
+<script type="text/javascript"
+    src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	google.charts.load('current', {
+		'packages' : [ 'gantt' ]
+	});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() { 
+		var tasks=[[${tasks}]];
+		
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Task ID');
+		data.addColumn('string', 'Task Name');
+		data.addColumn('string', 'Resource');
+		data.addColumn('date', 'Start Date');
+		data.addColumn('date', 'End Date');
+		data.addColumn('number', 'Duration');
+		data.addColumn('number', 'Percent Complete');
+		data.addColumn('string', 'Dependencies');
+		
+		for(var i=0;i<tasks.length;i++){	
+	    data.addRows([					
+	    	[ tasks[i].title, tasks[i].title, tasks[i].title, new Date(tasks[i].scheduledStartDate),
+							new Date(tasks[i].scheduledFinishedDate), null, 10, null ]
+			]);	
+		}
+		
+		var options = {
+			height : 400,
+			gantt : {
+				trackHeight : 30
+			}
+		};
+
+		var chart = new google.visualization.Gantt(document
+				.getElementById('chart_div'));
+		chart.draw(data, options);
+	}
+	/*]]>*/
+</script>
+<style>
+.wrapper {
+	top: 0%;
+	width: 1100px;
+	height: 800px;
+	left: 40%;
+	right: 30%
+}
+</style>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Project Name</h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+                    </li>
+                    <li class="active">
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline"
+                    style="margin-top: 10px; margin-bottom: 10px">
+                    <button type="submit" class="btn btn-primary">Export
+                        to Excel</button>
+                </form>
+                <div id="chart_div" class="wrapper"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

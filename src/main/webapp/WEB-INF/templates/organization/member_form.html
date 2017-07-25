@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>New Project</title>
+<link rel="stylesheet"
+    href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+	/*<![CDATA[*/
+	$(function() {
+		$("#search").autocomplete({
+			source : function(request, response) {
+				$.ajax({
+					url : "new/searchMembers",
+					dataType : 'json',
+					data : request,
+					success : function(data) {
+						if (typeof Array.prototype.forEach != 'function') {
+							Array.prototype.forEach = function(callback) {
+								for (var i = 0; i < this.length; i++) {
+									callback.apply(this, [ this[i], i, this ]);
+								}
+							};
+						}
+
+						var values = data;
+						var newArray = new Array(values.length);
+						var i = 0;
+						values.forEach(function(entry) {
+							var newObject = {
+								label : entry.email
+							};
+							newArray[i] = newObject;
+							i++;
+						});
+
+						response(newArray);
+					}
+				});
+			},
+			minLength : 1
+		});
+	});
+	/*]]>*/
+</script>
+
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Add a new member to this organization</h4>
+            </div>
+            <div class="panel-body">
+
+                <form class="form-horizontal" action="#"
+                    th:action="@{/u/{organizationName}/members/new(organizationName=${organizationName})}"
+                    th:object="${user}" method="post">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Name">Email:</label>
+                        <div class="col-sm-6">
+                            <input type="text" th:field="*{email}"
+                                placeholder="Email" id="search" />
+                        </div>
+                    </div>
+                    <span th:if="${#fields.hasErrors('email')}"
+                        th:errors="*{email}">Invalid Email</span>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit"
+                                class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

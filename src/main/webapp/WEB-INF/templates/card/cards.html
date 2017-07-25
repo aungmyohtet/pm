@@ -16,13 +16,13 @@
         <h4>Cards List</h4>
         <br />
         <a
-            th:href="@{/{organizationName}/boards/{boardName}/cards/new(organizationName=${organizationName}, boardName=${boardName})}">New
+            th:href="@{/u/{organizationName}/boards/{boardName}/cards/new(organizationName=${organizationName}, boardName=${boardName})}">New
             Card</a>
         <br />
         <ul th:each="card : ${cards}">
             <li>
                 <a
-                    th:href="@{/{organizationName}/boards/{boardName}/cards/{cardTitle}(organizationName=${organizationName}, boardName=${boardName}, cardTitle=${card.title})}">
+                    th:href="@{/u/{organizationName}/boards/{boardName}/cards/{cardTitle}(organizationName=${organizationName}, boardName=${boardName}, cardTitle=${card.title})}">
                     <span th:text="${card.title}"></span>
                 </a>
             </li>

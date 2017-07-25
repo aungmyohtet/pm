@@ -121,5 +121,20 @@ public class UpdatedOrganizationController {
         return "organization/members";
     }
 
+    @GetMapping(value = "/u/{organizationName}/members/new")
+    public String showMemberForm(@PathVariable("organizationName") String organizationName, Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("organizationName", organizationName);
+        return "organization/member_form";
+    }
+
+    @PostMapping(value = "/u/{organizationName}/members/new")
+    public String addMember(@PathVariable("organizationName") String organizationName, Model model, @ModelAttribute User userForm) {
+        Organization organization = organizationService.findByName(organizationName);
+        User user = userService.findByEmail(userForm.getEmail());
+        organizationService.addMember(organization, user);
+        return "redirect:/" + organizationName + "/members";
+    }
+
 
 }

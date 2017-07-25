@@ -24,15 +24,15 @@
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#"
-                            th:href="@{/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
                     </li>
                     <li>
                         <a href="#"
-                            th:href="@{/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
                     </li>
                     <li>
                         <a href="#"
-                            th:href="@{/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+                            th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
                     </li>
                 </ul>
                 <form class="form-inline"

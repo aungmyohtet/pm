@@ -16,7 +16,9 @@ import com.aungmyohtet.pm.entity.Role;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.update.ProjectRepository;
+import com.aungmyohtet.pm.repository.update.RoleRepository;
 import com.aungmyohtet.pm.repository.update.TaskRepository;
+import com.aungmyohtet.pm.repository.update.UserRepository;
 import com.aungmyohtet.pm.service.update.ProjectService;
 
 @Service
@@ -31,10 +33,15 @@ public class ProjectServiceImplUpdate implements ProjectService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public List<User> getMembers(Project project) {
-        // TODO Auto-generated method stub
-        return null;
+        return userRepository.findByProject(project);
     }
 
     @Override
@@ -130,6 +137,19 @@ public class ProjectServiceImplUpdate implements ProjectService {
     @Override
     public ProjectDto convertToDto(Project project) {
         return modelMapper.map(project, ProjectDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void addMember(Project project, User user) {
+        // Why this is working?
+        // It can be made better?
+        Project projectEntity = projectRepository.findById(project.getId());
+        ProjectMember member = new ProjectMember();
+        member.setProject(project);
+        member.setUser(user);
+        member.setRole(roleRepository.findByName("DEVELOPER"));
+        projectEntity.getProjectMembers().add(member);
     }
 
 }

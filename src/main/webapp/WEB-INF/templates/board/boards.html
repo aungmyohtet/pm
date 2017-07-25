@@ -30,7 +30,7 @@ $(document).ready(
         <div class="panel panel-info">
             <div class="panel-heading">
                 <a class="btn btn-primary pull-right"
-                    th:href="@{/{organizationName}/boards/new(organizationName=${organizationName})}">New
+                    th:href="@{/u/{organizationName}/boards/new(organizationName=${organizationName})}">New
                     Board</a>
                 <h4>Boards in this organization</h4>
             </div>
@@ -49,7 +49,7 @@ $(document).ready(
                         <ul th:each="board : ${boards}">
                             <li>
                                 <a onclick="function()"
-                                    th:href="@{/{organizationName}/boards/{boardName}(organizationName=${organizationName}, boardName=${board.name})}">
+                                    th:href="@{/u/{organizationName}/boards/{boardName}(organizationName=${organizationName}, boardName=${board.name})}">
                                     <span th:text="${board.name}"></span>
                                 </a>
                             </li>

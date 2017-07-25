@@ -62,7 +62,9 @@ public class UserRepositoryImplUpdate implements UserRepository {
 
     @Override
     public List<User> findByProject(Project project) {
-        return null;
+        Query query = this.entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.projectMembers m WHERE m.project = ?", User.class);
+        query.setParameter(1, project);
+        return query.getResultList();
     }
 
     @Override

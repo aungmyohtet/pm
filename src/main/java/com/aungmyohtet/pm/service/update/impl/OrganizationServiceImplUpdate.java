@@ -120,12 +120,13 @@ public class OrganizationServiceImplUpdate implements OrganizationService {
     @Override
     @Transactional
     public void addMember(Organization organization, User user) {
+        // find organization so it can be managed by entity manager
+        organization = organizationRepository.findById(organization.getId());
         OrganizationMember member = new OrganizationMember();
         member.setOrganization(organization);
         member.setUser(user);
         member.setRole(roleRepository.getDefaultRole());
         organization.getOrganizationMembers().add(member);
-        organizationRepository.save(organization);
     }
 
     @Override

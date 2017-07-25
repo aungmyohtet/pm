@@ -44,7 +44,7 @@
                 <ul th:each="project : ${projects}">
                     <li>
                         <a class="list-group-item"
-                            th:href="@{/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
+                            th:href="@{/u/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
                             <span th:text="${project.name}"></span>
                         </a>
                     </li>
