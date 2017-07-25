@@ -26,14 +26,14 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public List<Card> findByOrganizationNameAndBoardNo(String organizationName, int boardNo) {
-        return cardRepository.find(organizationName, boardNo);
+    public List<Card> find(String organizationName, String boardName) {
+        return cardRepository.find(organizationName, boardName);
     }
 
     @Override
     @Transactional
     public void findBoardAndAddCard(Card card, int boardNo, String organizationName) {
-        Board board = boardRepository.findByOrganizationNameAndBoardNo(organizationName, boardNo);
+        Board board = boardRepository.findOneByOrganizationNameAndBoardNo(organizationName, boardNo);
         Date date = new Date();
         card.setBoard(board);
         card.setCreatedDate(date);
@@ -42,8 +42,8 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public Card find(String organizationName, int boardNo, String cardTitle) {
-        return cardRepository.find(organizationName, boardNo, cardTitle);
+    public Card findOne(String organizationName, String boardName, String cardTitle) {
+        return cardRepository.findOne(organizationName, boardName, cardTitle);
     }
 
 }

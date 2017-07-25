@@ -8,10 +8,10 @@ public interface BoardRepository {
 
     void save(Board board);
 
-    List<Board> find(String organizationName);
+    List<Board> findByOrganizationName(String organizationName);
 
     Integer findBoardMaxNoByOrganizationName(String organizationName);
 
-    Board findByOrganizationNameAndBoardNo(String organizationName, int boardNo);
+    Board findOneByOrganizationNameAndBoardNo(String organizationName, int boardNo);
 
 }

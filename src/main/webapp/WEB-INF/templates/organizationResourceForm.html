@@ -25,12 +25,11 @@
                 th:object="${resource}" method="post"
                 enctype="multipart/form-data">
 
-                <!-- Upload a document
                 <input type="file" name="file"
                     placeholder="No file chosen" />
                 <span th:if="${#fields.hasErrors('filePath')}"
                     th:errors="*{filePath}"></span>
-                <br /> -->
+                <br />
                 <input type="submit" value="Upload" />
             </form>
         </div>

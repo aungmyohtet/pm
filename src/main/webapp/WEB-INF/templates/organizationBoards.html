@@ -10,12 +10,7 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style>
-body {
-	padding-top: 100px;
-	padding-left: 100px;
-}
-</style>
+
 <script type="text/javascript">
 $(document).ready(
     function() {
@@ -54,7 +49,7 @@ $(document).ready(
                         <ul th:each="board : ${boards}">
                             <li>
                                 <a onclick="function()"
-                                    th:href="@{/{organizationName}/boards/{boardNo}(organizationName=${organizationName}, boardNo=${board.no})}">
+                                    th:href="@{/{organizationName}/boards/{boardName}(organizationName=${organizationName}, boardName=${board.name})}">
                                     <span th:text="${board.name}"></span>
                                 </a>
                             </li>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>New Board</title>
+<link rel="stylesheet"
+    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		$(".datepicker").datepicker();
+	});
+	/*]]>*/
+</script>
+
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Create Board</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <form action="#" class="form-horizontal"
+                        th:action="@{/u/{organizationName}/boards/new(organizationName=${organizationName})}"
+                        th:object="${board}" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"
+                                for="Name">Name:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                    th:field="*{name}"
+                                    placeholder="name" />
+                            </div>
+                        </div>
+                        <span th:if="${#fields.hasErrors('name')}"
+                            th:errors="*{name}">Invalid board
+                            name</span>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <button type="submit"
+                                    class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

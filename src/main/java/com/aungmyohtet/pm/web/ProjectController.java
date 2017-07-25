@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aungmyohtet.pm.dto.ProjectDto;
 import com.aungmyohtet.pm.dto.UserDto;
+import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.User;
+import com.aungmyohtet.pm.service.OrganizationService;
+import com.aungmyohtet.pm.service.OrganizationService2;
 import com.aungmyohtet.pm.service.ProjectService;
 import com.aungmyohtet.pm.service.TaskService;
 import com.aungmyohtet.pm.service.UserService;
@@ -35,6 +38,9 @@ public class ProjectController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private OrganizationService2 organizationService;
 
     @ModelAttribute("module")
     String module() {
@@ -55,7 +61,9 @@ public class ProjectController {
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); // we used email in user details service
-        projectService.addToOrganizationByUser(project, organizationName, email);
+        Organization organization = organizationService.findByName(organizationName);
+        organizationService.addProjectToOrganization(project, organization);
+        //projectService.addToOrganizationByUser(project, organizationName, email);
         return "redirect:/" + organizationName + "/projects";
     }
 

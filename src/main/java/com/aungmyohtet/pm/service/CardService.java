@@ -6,10 +6,10 @@ import com.aungmyohtet.pm.entity.Card;
 
 public interface CardService {
 
-    List<Card> findByOrganizationNameAndBoardNo(String organizationName, int boardNo);
+    List<Card> find(String organizationName, String boardName);
 
     void findBoardAndAddCard(Card card, int boardNo, String organizationName);
 
-    Card find(String organizationName, int boardNo, String cardTitle);
+    Card findOne(String organizationName, String boardName, String cardTitle);
 
 }

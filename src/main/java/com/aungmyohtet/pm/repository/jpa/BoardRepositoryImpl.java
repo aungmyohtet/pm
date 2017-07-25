@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import com.aungmyohtet.pm.entity.Board;
-import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.repository.BoardRepository;
 
 @Repository
@@ -29,7 +28,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public List<Board> find(String organizationName) {
+    public List<Board> findByOrganizationName(String organizationName) {
 
         Query query = entityManager.createQuery("SELECT b FROM Board b " + "JOIN b.organization o " + "WHERE o.name = ? ", Board.class);
         query.setParameter(1, organizationName);
@@ -52,8 +51,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Board findByOrganizationNameAndBoardNo(String organizationName, int boardNo) {
-
+    public Board findOneByOrganizationNameAndBoardNo(String organizationName, int boardNo) {
         Query query = entityManager.createQuery("SELECT b FROM Board b WHERE b.organization.name = ? AND b.no = ?");
         query.setParameter(1, organizationName);
         query.setParameter(2, boardNo);

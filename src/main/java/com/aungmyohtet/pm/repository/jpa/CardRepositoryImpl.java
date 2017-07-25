@@ -10,7 +10,6 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.aungmyohtet.pm.entity.Card;
-import com.aungmyohtet.pm.entity.OrganizationMember;
 import com.aungmyohtet.pm.repository.CardRepository;
 
 @Repository
@@ -24,10 +23,10 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public List<Card> find(String organizationName, int boardNo) {
-        Query query = entityManager.createQuery("SELECT c FROM Card c " + "JOIN c.board b " + "JOIN b.organization o " + "WHERE o.name = ? AND b.no = ?", Card.class);
+    public List<Card> find(String organizationName, String boardName) {
+        Query query = entityManager.createQuery("SELECT c FROM Card c " + "JOIN c.board b " + "JOIN b.organization o " + "WHERE o.name = ? AND b.name = ?", Card.class);
         query.setParameter(1, organizationName);
-        query.setParameter(2, boardNo);
+        query.setParameter(2, boardName);
         List<Card> cards = query.getResultList();
         List<Card> resultCards = new ArrayList<Card>();
         for (Card card : cards) {
@@ -48,11 +47,11 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public Card find(String organizationName, int boardNo, String cardTitle) {
-        Query query = entityManager.createQuery("SELECT c FROM Card c " + "JOIN c.board b " + "JOIN b.organization o " + "WHERE o.name = ? AND b.no = ? AND c.title = ?",
+    public Card findOne(String organizationName, String boardName, String cardTitle) {
+        Query query = entityManager.createQuery("SELECT c FROM Card c " + "JOIN c.board b " + "JOIN b.organization o " + "WHERE o.name = ? AND b.name = ? AND c.title = ?",
                 Card.class);
         query.setParameter(1, organizationName);
-        query.setParameter(2, boardNo);
+        query.setParameter(2, boardName);
         query.setParameter(3, cardTitle);
         return (Card) query.getSingleResult();
     }

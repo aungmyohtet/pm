@@ -34,7 +34,7 @@ public class User extends Person {
 
     private boolean enabled;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private Role role;
@@ -45,7 +45,7 @@ public class User extends Person {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProjectMember> projectMembers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "assignees", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "assignees", fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
     public String getEmail() {

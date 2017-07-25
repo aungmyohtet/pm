@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/resources/js/fullcalendar.min.css" rel="stylesheet" />
+<link href="/resources/js/fullcalendar.print.min.css" rel="stylesheet"
+    media="print" />
+<script src="/resources/js/moment.min.js"></script>
+<script src="/resources/js/jquery.min.js"></script>
+<script src="/resources/js/fullcalendar.min.js"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+	$(document).ready(function() {
+		console.log("Inter Method:");
+		$('#calendar').fullCalendar({
+			header : {
+				left : 'prev,next today',
+				center : 'title',
+				right : 'month,basicWeek,basicDay'
+			},
+			defaultDate : '07/17/2017',
+			navLinks : true, // can click day/week names to navigate views
+			editable : true,
+			eventLimit : true, // allow "more" link when too many events
+			events: [[${events}]],
+		    eventClick: function(event){
+		    	var startDate =$.fullCalendar.moment(event.start).format('YYYY-MM-DD');
+		    	var endDate;
+		    	console.log("end date " + event.end);
+		    	if(event.end == null){
+		    		endDate = $.fullCalendar.moment(event.start).format('YYYY-MM-DD');
+		    	}
+		    	else{
+		    		endDate = $.fullCalendar.moment(event.end).format('YYYY-MM-DD');
+		    	}
+		    	OpenWindow=window.open("", "newwin", "height=210, width=400");
+		    	OpenWindow.document.write("<TITLE>Event Detail</TITLE>")
+		    	OpenWindow.document.write("<BODY>")
+		    	OpenWindow.document.write("<center><h3>Event Detail</h3>")
+		    	OpenWindow.document.write("<table border=1 cellpadding=10>")
+		    	OpenWindow.document.write("<tr><td>Title</td><td>")
+		    	OpenWindow.document.write(event.title)
+		    	OpenWindow.document.write("</td></tr>")
+		    	OpenWindow.document.write("<tr><td>Start Date</td><td>")
+		    	OpenWindow.document.write(startDate)
+		    	OpenWindow.document.write("</td></tr>")
+		    	OpenWindow.document.write("<tr><td>End Date</td><td>")
+		    	OpenWindow.document.write(endDate)
+		    	OpenWindow.document.write("</td></tr></table>")
+		    	OpenWindow.document.write("</center></BODY>")
+		    	OpenWindow.document.write("</HTML>")
+
+		    	OpenWindow.document.close()
+		    	self.name="main"
+		    	}		   
+		});
+	});
+	/*]]>*/
+		</script>
+
+<style>
+
+#calendar {
+	max-width: 700px;
+	margin: 0 auto;
+}
+
+form {
+	margin-top: 30px;
+}
+</style>
+
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+
+    <div th:include="fragments/header"></div>
+
+    <a
+        th:href="@{/u/{organizationName}/events/new(organizationName=${organizationName})}">New
+        Event</a>
+    <div id="calendar"></div>
+</body>
+</html>
