@@ -78,4 +78,17 @@ public class TaskRepositoryImplUpdate implements TaskRepository {
         return task;
     }
 
+    @Override
+    public int findMaxTaskNoByProject(Project project) {
+        Query query = entityManager.createQuery("SELECT MAX(t.no) FROM Task t WHERE t.project = ?", Integer.class);
+        query.setParameter(1, project);
+        int maxNo = 1;
+        try {
+            maxNo = (int) query.getSingleResult();
+        } catch (Exception e) {
+            // to log
+        }
+        return maxNo;
+    }
+
 }

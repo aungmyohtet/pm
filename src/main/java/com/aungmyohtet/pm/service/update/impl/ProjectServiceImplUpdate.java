@@ -75,9 +75,11 @@ public class ProjectServiceImplUpdate implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void addTask(Project project, Task task) {
-        // TODO Auto-generated method stub
-        
+        task.setProject(project);
+        task.setNo(taskRepository.findMaxTaskNoByProject(project) + 1);
+        taskRepository.save(task);
     }
 
     @Override

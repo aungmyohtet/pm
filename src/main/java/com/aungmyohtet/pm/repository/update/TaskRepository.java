@@ -21,4 +21,6 @@ public interface TaskRepository {
 
     Task findByNoAndProject(int no, Project project);
 
+    int findMaxTaskNoByProject(Project project);
+
 }

@@ -2,7 +2,17 @@ package com.aungmyohtet.pm.dto;
 
 public class TaskNoteDto {
 
+    private Integer id;
+
     private String comment;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getComment() {
         return comment;

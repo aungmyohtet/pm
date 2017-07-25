@@ -2,6 +2,7 @@ package com.aungmyohtet.pm.service.update;
 
 import java.util.List;
 
+import com.aungmyohtet.pm.dto.TaskNoteDto;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
 
@@ -16,4 +17,6 @@ public interface TaskNoteService {
     TaskNote findById(int id);
 
     List<TaskNote> findByTask(Task task);
+
+    TaskNoteDto convertToDto(TaskNote taskNote);
 }

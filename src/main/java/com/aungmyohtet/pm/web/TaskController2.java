@@ -214,7 +214,7 @@ public class TaskController2 {
         return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks/" + taskNo;
     }
 
-    @RequestMapping(value = "/{organizationName}/projects/{projectName}/tasks/{taskNo}", method = RequestMethod.GET)
+    @RequestMapping(value = "{organizationName}/projects/{projectName}/tasks/{taskNo}", method = RequestMethod.GET)
     public String showTaskDetails(Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName,
             @PathVariable("taskNo") int taskNo) {
         model.addAttribute("taskNote", new TaskNote());
