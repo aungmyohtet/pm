@@ -128,8 +128,8 @@ public class UpdatedTaskController {
 
     @PostMapping(value = "/u/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new")
     @ResponseBody
-    public TaskNoteDto addComment(@RequestBody TaskNoteDto taskNoteDto, Model model, @PathVariable("organizationName") String organizationName, @PathVariable("projectName") String projectName,
-            @PathVariable("taskNo") int taskNo) {
+    public TaskNoteDto addComment(@RequestBody TaskNoteDto taskNoteDto, Model model, @PathVariable("organizationName") String organizationName,
+            @PathVariable("projectName") String projectName, @PathVariable("taskNo") int taskNo) {
         Organization organization = organizationService.findByName(organizationName);
         Project project = projectService.findByNameAndOrganization(projectName, organization);
         Task task = taskService.findByNoAndProject(taskNo, project);
@@ -137,6 +137,7 @@ public class UpdatedTaskController {
         TaskNote taskNote = new TaskNote();
         taskNote.setComment(taskNoteDto.getComment());
         taskNote.setCommentedBy(user);
+        taskNote.setTask(task);
         taskNoteService.save(taskNote);
         return taskNoteDto;
     }
@@ -150,6 +151,7 @@ public class UpdatedTaskController {
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
         model.addAttribute("taskNo", taskNo);
+        model.addAttribute("taskTitle", task.getTitle());
         return "task/details";
     }
 }
