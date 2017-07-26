@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aungmyohtet.pm.dto.TaskNoteDto;
 import com.aungmyohtet.pm.entity.Task;
@@ -22,6 +23,7 @@ public class TaskNoteServiceImplUpdate implements TaskNoteService {
     private TaskNoteRepository taskNoteRepository;
 
     @Override
+    @Transactional
     public void save(TaskNote taskNote) {
         this.taskNoteRepository.save(taskNote);
     }

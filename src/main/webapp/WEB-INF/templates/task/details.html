@@ -1,140 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Task Comment</title>
 <meta charset="utf-8" />
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script th:inline="javascript">
-	/*<![CDATA[*/
-	    var token = $('#_csrf').attr('content');
-        var header = $('#_csrf_header').attr('content');
-		$(document).ready(
-					function() {
-						console.log("Enter function:");
-						$("#addCommentForm").submit(function(event) {
-							// Prevent the form from submitting via the browser.
-							event.preventDefault();
-							ajaxPost();
-						});
-						function ajaxPost() {
-							console.log("Enter ajax function");
-							var addcomment = $("#comment").val();
-							var taskNote = {
-								"comment" : addcomment
-							};
-							$.ajax({
-										type : "POST",
-										contentType : "application/json",
-										data : JSON.stringify(taskNote),
-										dataType : 'json',
-										url : "/" + [[${organizationName}]] + "/projects/" + [[${projectName}]] + "/tasks/" + [[${taskNo}]] + "/comments/new",
-										beforeSend: function(xhr) {
-											xhr.setRequestHeader(header, token);
-										},
-										success : function(result) {
-										console.log(result);
-										$.each(result,function(i,taskNote) 
-										{
-											console.log(taskNote);
-											$('#getResultDiv .list-group').append('<li class="list-group-item">'
-																				+ taskNote.comment+ '</li>');
-										});
-										$("#comment").val("");
-										addcomment="";
-										console.log("Success: ", result);
-								   },
-										error : function(e) {
-											$("#getResultDiv").html(
-													"<strong>Error</strong>");
-											console.log("ERROR: ", e);
-										}
-									});
-						}
-					})
-	/*]]>*/
+	var organizationName = [[${organizationName}]];
+	var projectName = [[${projectName}]];
+	var taskNo = [[${taskNo}]];
 </script>
 </head>
 <body>
-    <div th:include="fragments/header"></div>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4 th:text="${projectName}"></h4>
-            </div>
-            <div class="panel-body">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
-                    </li>
-                </ul>
-                <h4 style="margin-top: 20px">Task title</h4>
+	<div th:include="fragments/header"></div>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 th:text="${projectName}"></h4>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+					</li>
+					<li><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+					</li>
+					<li><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+					</li>
+				</ul>
 
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <!-- <div class="panel-heading">aungmyohtet
-                            commented 5 days ago.</div> -->
-                        <div class="panel-body">
+				<h4 style="margin-top: 20px" th:text="${taskTitle}"></h4>
 
-                            <ul th:each="comment : ${comments}">
-                                <li>
-                                    <span th:text="${comment.comment}"></span>
-                                </li>
-                            </ul>
-                            <div id="getResultDiv">
-                                <ul class="list-group">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+				<div class="panel-group" id="task"></div>
 
-                    <!--   <div class="panel panel-default">
-                         <div class="panel-heading">aungmyohtet
-                            commented 5 days ago.</div> 
-                        <div class="panel-body">
-                            This is comment line1
-                            <br />
-                            This is comment line2
-                        </div>
-                    </div>
-                </div>-->
-
-                    <form id="addCommentForm" th:object="${taskNote}"
-                        th:action="@{/u/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments/new(organizationName=${organizationName},projectName=${projectName},taskNo=${taskNo})}"
-                        action="#">
-                        <div class="form-group">
-                            <label for="comment">Your Comment:</label>
-                            <textarea class="form-control" rows="5"
-                                id="comment" th:field="*{comment}"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Comment"
-                                id="addComment"
-                                class="btn btn-primary pull-right" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </body>
+<script src="/resources/src/client/public/task-bundle.js"></script>
 </html>
