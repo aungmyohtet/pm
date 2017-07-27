@@ -44,9 +44,9 @@ class Task extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="panel-group">
                 <CommentList comments={this.state.taskNotes}></CommentList>
-                <AddComment addComment={this.addComment}></AddComment>
+                <CommentForm addComment={this.addComment}></CommentForm>
             </div>
         );
     }
@@ -56,7 +56,7 @@ class CommentList extends React.Component {
     render() {
         return (
             <div>
-                <ul style={{ listStyleType: 'none' }}>
+                <ul style={{ listStyleType: 'none', paddingLeft: 'inherit' }}>
                     {this.props.comments.map(( data, index ) =>
                         <li key={index}>
                             <div className="panel panel-default">
@@ -72,7 +72,7 @@ class CommentList extends React.Component {
     }
 }
 
-class AddComment extends React.Component {
+class CommentForm extends React.Component {
     constructor( props ) {
         super( props );
         this.handleSubmit = this.handleSubmit.bind( this );
