@@ -81,7 +81,7 @@
                             <input type="text"
                                 th:field="*{scheduledStartDate}"
                                 placeholder="ScheduleStartDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('scheduledStartDate')}"
                                 th:errors="*{scheduledStartDate}">Invalid
@@ -96,7 +96,7 @@
                             <input type="text"
                                 th:field="*{scheduledFinishedDate}"
                                 placeholder="ScheduleFinishedDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('scheduledFinishedDate')}"
                                 th:errors="*{scheduledFinishedDate}">Invalid
@@ -112,7 +112,7 @@
                             <input type="text"
                                 th:field="*{actualStartDate}"
                                 placeholder="ActualStartDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('actualStartDate')}"
                                 th:errors="*{actualStartDate}">Invalid
@@ -127,7 +127,7 @@
                             <input type="text"
                                 th:field="*{actualFinishedDate}"
                                 placeholder="ActualFinishedDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('actualFinishedDate')}"
                                 th:errors="*{actualFinishedDate}">Invalid

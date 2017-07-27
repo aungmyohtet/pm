@@ -90,7 +90,7 @@ public class UpdatedTaskController {
         Organization organization = organizationService.findByName(organizationName);
         Project project = projectService.findByNameAndOrganization(projectName, organization);
         projectService.addTask(project, task);
-        return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks";
+        return "redirect:/u/" + organizationName + "/projects/" + projectName + "/tasks";
     }
 
     @GetMapping(value = "/u/{organizationName}/projects/{projectName}/tasks/{taskNo}/assign")
@@ -111,7 +111,7 @@ public class UpdatedTaskController {
         Task task = taskService.findByNoAndProject(taskNo, project);
         User user = userService.findByEmail(userForm.getEmail());
         taskService.assign(task, user);
-        return "redirect:/" + organizationName + "/projects/" + projectName + "/tasks/" + taskNo;
+        return "redirect:/u/" + organizationName + "/projects/" + projectName + "/tasks/" + taskNo;
     }
 
     @GetMapping(value = "/u/{organizationName}/projects/{projectName}/tasks/{taskNo}/comments")

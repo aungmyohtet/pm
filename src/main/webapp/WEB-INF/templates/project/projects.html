@@ -41,14 +41,13 @@
                         class="btn btn-success pull-right">New
                         project</a>
                 </form>
-                <ul th:each="project : ${projects}">
-                    <li>
-                        <a class="list-group-item"
-                            th:href="@{/u/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
-                            <span th:text="${project.name}"></span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="list-group">
+                    <a th:each="project : ${projects}"
+                        class="list-group-item"
+                        th:href="@{/u/{organizationName}/projects/{projectName}(organizationName=${organizationName}, projectName=${project.name})}">
+                        <span th:text="${project.name}"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

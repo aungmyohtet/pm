@@ -46,10 +46,10 @@
 		}
 		
 		var options = {
-			height : 400,
+			/*height : 400,
 			gantt : {
 				trackHeight : 30
-			}
+			}*/
 		};
 
 		var chart = new google.visualization.Gantt(document
@@ -58,15 +58,7 @@
 	}
 	/*]]>*/
 </script>
-<style>
-.wrapper {
-	top: 0%;
-	width: 1100px;
-	height: 800px;
-	left: 40%;
-	right: 30%
-}
-</style>
+
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
     media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 </head>
@@ -75,7 +67,7 @@
     <div class="container">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h4>Project Name</h4>
+                <h4 th:text="${projectName}">Project Name</h4>
             </div>
             <div class="panel-body">
                 <ul class="nav nav-tabs">
