@@ -74,6 +74,11 @@ public class UpdatedOrganizationController {
         return "organization/organizations";
     }
 
+    @GetMapping(value = "/u/{organizationName}")
+    public String enterOrganization(@PathVariable("organizationName") String orgName) {
+        return "redirect:/u/" + orgName + "/projects";
+    }
+
     @GetMapping(value = "/u/{organizationName}/projects")
     public String showProjects(@PathVariable("organizationName") String organizationName, Model model) {
         Organization organization = organizationService.findByName(organizationName);

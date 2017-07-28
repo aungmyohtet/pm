@@ -54,19 +54,19 @@
                     <button type="submit" class="btn btn-primary">Apply
                         Filter</button>
                     <a
-                        th:href="@{/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}"
+                        th:href="@{/u/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}"
                         class="btn btn-success pull-right">Create a
                         new task</a>
                 </form>
-                <div>
-                    <ul th:each="task : ${tasks}">
-                        <li class="table table-striped">
-                            <a
-                                th:href="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}(organizationName=${organizationName}, projectName=${projectName}, taskNo=${task.no})}">
-                                <span th:text="${task.title}"></span>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="table">
+                    <table class="table table-striped">
+                        <tr th:each="task : ${tasks}">
+                            <td><a
+                                    th:href="@{/{organizationName}/projects/{projectName}/tasks/{taskNo}(organizationName=${organizationName}, projectName=${projectName}, taskNo=${task.no})}">
+                                    <span th:text="${task.title}"></span>
+                                </a></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

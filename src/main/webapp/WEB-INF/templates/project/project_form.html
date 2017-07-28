@@ -71,7 +71,7 @@
                             <input type="text"
                                 th:field="*{scheduledStartDate}"
                                 placeholder="ScheduleStartDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('scheduledStartDate')}"
                                 th:errors="*{scheduledStartDate}">Invalid
@@ -85,7 +85,7 @@
                             <input type="text"
                                 th:field="*{scheduledFinishedDate}"
                                 placeholder="ScheduleFinishedDate"
-                                class="datepicker" />
+                                class="datepicker form-control" />
                             <span
                                 th:if="${#fields.hasErrors('scheduledFinishedDate')}"
                                 th:errors="*{scheduledFinishedDate}">Invalid

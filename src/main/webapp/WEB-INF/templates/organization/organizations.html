@@ -23,35 +23,24 @@
                 <div class="panel-heading">Organizations you
                     created.</div>
                 <div class="list-group">
-                    <ul
+                    <a
                         th:each="ownedOrganization : ${ownedOrganizations}"
-                        class="list-group-item">
-                        <li>
-                            <a
-                                th:href="@{/u/{organizationName}(organizationName=${ownedOrganization.name})}">
-                                <span
-                                    th:text="${ownedOrganization.Name}"></span>
-                            </a>
-                        </li>
-                    </ul>
+                        class="list-group-item"
+                        th:href="@{/u/{organizationName}(organizationName=${ownedOrganization.name})}">
+                        <span th:text="${ownedOrganization.Name}"></span>
+                    </a>
                 </div>
             </div>
             <div class="panel panel-info">
                 <div class="panel-heading">Organization you are
                     involved in.</div>
                 <div class="list-group">
-                    <ul
+                    <a
                         th:each="involvedOrganization : ${involvedOrganizations}"
-                        class="list-group-item">
-                        <li>
-                            <a
-                                th:href="@{/u/{organizationName}(organizationName=${involvedOrganization.name})}"
-                                class="list-group-item">
-                                <span
-                                    th:text="${involvedOrganization.Name}"></span>
-                            </a>
-                        </li>
-                    </ul>
+                        class="list-group-item"
+                        th:href="@{/u/{organizationName}(organizationName=${involvedOrganization.name})}">
+                        <span th:text="${involvedOrganization.Name}"></span>
+                    </a>
                 </div>
             </div>
         </div>

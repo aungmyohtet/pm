@@ -17,16 +17,17 @@
             </div>
             <div class="panel-body">
                 <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+                    </li>
                     <li class="active">
-                        <a href=""
-                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Poject
-                            Members</a>
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
                     </li>
                     <li>
-                        <a href=""
-                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Poject
-                            Tasks</a>
-                        <br />
+                        <a href="#"
+                            th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
                     </li>
                 </ul>
                 <form class="form-inline"
