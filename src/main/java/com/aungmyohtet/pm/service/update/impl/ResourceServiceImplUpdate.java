@@ -2,16 +2,25 @@ package com.aungmyohtet.pm.service.update.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Resource;
+import com.aungmyohtet.pm.repository.update.ResourceRepository;
 import com.aungmyohtet.pm.service.update.ResourceService;
 
+@Service
 public class ResourceServiceImplUpdate implements ResourceService {
 
-    @Override
-    public void save(Resource resource) {
-        // TODO Auto-generated method stub
+    @Autowired
+    private ResourceRepository resourceRepository;
 
+    @Override
+    @Transactional
+    public void save(Resource resource) {
+        this.resourceRepository.save(resource);
     }
 
     @Override
@@ -39,9 +48,9 @@ public class ResourceServiceImplUpdate implements ResourceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Resource findById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.resourceRepository.findById(id);
     }
 
 }

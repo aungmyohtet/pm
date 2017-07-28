@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title th:text="${page_title}"></title>
+
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+    media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:include="fragments/header"></div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Upload New Resource</h4>
+            </div>
+            <div class="panel-body">
+                <form action="#"
+                    th:action="@{/u/{organizationName}/resources/new(organizationName=${organizationName})}"
+                    th:object="${resource}" method="post"
+                    enctype="multipart/form-data">
+
+                    <input type="file" name="file"
+                        placeholder="No file chosen" />
+                    <span th:if="${#fields.hasErrors('filePath')}"
+                        th:errors="*{filePath}"></span>
+                    <br />
+                    <input type="submit" value="Upload" class="btn btn-info"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

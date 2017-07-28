@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Table
 public class Resource extends BaseEntity {
 
+    private String title;
+
     @NotBlank(message = "FilePath cannot be empty.")
     private String filePath;
 
@@ -20,6 +22,14 @@ public class Resource extends BaseEntity {
 
     @ManyToOne
     private Organization organization;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getFilePath() {
         return filePath;
