@@ -103,6 +103,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.30</version>
 		</dependency>
+        
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.1</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
@@ -275,6 +281,7 @@
 			</plugin>
 
 			<!-- frontend-maven-plugin -->
+            <!-- 
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -319,7 +326,8 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
+            <!-- End of frontend maven plugin -->
 		</plugins>
 	</build>
 </project>

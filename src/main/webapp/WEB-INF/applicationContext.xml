@@ -8,4 +8,8 @@
 
 <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
 
+<bean class="java.net.URI" id="dbUrl" name="dbUrl">
+    <constructor-arg value="${DATABASE_URL}"/>
+</bean>
+
 </beans>

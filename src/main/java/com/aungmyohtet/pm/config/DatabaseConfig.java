@@ -1,5 +1,7 @@
 package com.aungmyohtet.pm.config;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
@@ -50,14 +52,23 @@ public class DatabaseConfig {
 
     @Value("${entitymanager.packagesToScan}")
     private String packagesToScan;
+    
+    private URI getDBUrl() {
+        try {
+            return new URI(System.getenv("DATABASE_URL"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        dataSource.setUrl(url);
+        dataSource.setUsername(getDBUrl().getUserInfo().split(":")[0]);
+        dataSource.setPassword(getDBUrl().getUserInfo().split(":")[1]);
+        dataSource.setUrl("jdbc:postgresql://" + getDBUrl().getHost() + ":" + getDBUrl().getPort() + getDBUrl().getPath());
         return dataSource;
     }
 

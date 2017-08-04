@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table
+@Table(name = "`user`")
 public class User extends Person {
 
     @NotEmpty

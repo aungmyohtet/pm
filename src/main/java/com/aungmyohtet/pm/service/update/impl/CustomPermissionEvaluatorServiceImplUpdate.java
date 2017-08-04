@@ -3,9 +3,11 @@ package com.aungmyohtet.pm.service.update.impl;
 import java.io.Serializable;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 import com.aungmyohtet.pm.service.update.CustomPermissionEvaluatorService;
 
+@Service
 public class CustomPermissionEvaluatorServiceImplUpdate implements CustomPermissionEvaluatorService {
 
     @Override
