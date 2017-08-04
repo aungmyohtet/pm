@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
     public void createUserAndVerificationToken(User user, String token) {
         Role role = roleRepository.getDefaultRole();
         user.setRole(role);
+        user.setEnabled(true);
         userRepository.save(user);
         VerificationToken verificationToken = new VerificationToken(token, user);
         tokenRepository.save(verificationToken);

@@ -86,11 +86,11 @@ public class UserController {
         String token = UUID.randomUUID().toString();
         user.setPassword(passwordEnconder.encode(user.getPassword()));
         userService.createUserAndVerificationToken(user, token);
-        try {
+        /*try {
             eventPublisher.publishEvent(new RegistrationCompleteEvent(user.getEmail(), token, request.getLocale(), request.getContextPath()));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         return "redirect:/";
     }
