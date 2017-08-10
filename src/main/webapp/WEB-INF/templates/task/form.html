@@ -1,171 +1,185 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Task Form</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/bootstrap-tagsinput.css" />
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link href="../../../resources/css/bootstrap-tagsinput.css"
+	rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap-tagsinput.css}" />
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/bootstrap-tagsinput.js"></script>
-<script src="js/bootstrap3-typeahead.min.js"></script>
-<link rel="stylesheet" href="application.css" />
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet"
-    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
+	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script type="text/javascript"
+	th:src="@{/resources/js/bootstrap-tagsinput.js}"></script>
+<script type="text/javascript"
+	th:src="@{/resources/js/bootstrap3-typeahead.min.js}"></script>
+
+
 <script th:inline="javascript">
     /*<![CDATA[*/
-
-    $(document).ready(function() {
+    	$(document).ready(function() {
         $(".datepicker").datepicker();
     });
-
     /*]]>*/
 </script>
 </head>
 <body>
-    <div th:include="fragments/header"></div>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>Project Name</h4>
-            </div>
-            <div class="panel-body">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
-                    </li>
-                </ul>
-                <h4
-                    style="padding-top: 20px; padding-left: 200px; margin-bottom: 20px;">Create
-                    a new task</h4>
-                <form action="#"
-                    th:action="@{/u/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}"
-                    th:object="${task}" method="post"
-                    class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Title">Title:</label>
-                        <div class="col-sm-6">
-                            <input type="text" th:field="*{title}"
-                                placeholder="Enter Title"
-                                class="form-control" />
-                            <span th:if="${#fields.hasErrors('title')}"
-                                th:errors="*{title}">Invalid
-                                title</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Schedule Start Date">Schedule
-                            Start Date:</label>
-                        <div class="col-sm-6">
-                            <input type="text"
-                                th:field="*{scheduledStartDate}"
-                                placeholder="ScheduleStartDate"
-                                class="datepicker form-control" />
-                            <span
-                                th:if="${#fields.hasErrors('scheduledStartDate')}"
-                                th:errors="*{scheduledStartDate}">Invalid
-                                Date</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Schedule Finish Date">Schedule
-                            Finish Date:</label>
-                        <div class="col-sm-6">
-                            <input type="text"
-                                th:field="*{scheduledFinishedDate}"
-                                placeholder="ScheduleFinishedDate"
-                                class="datepicker form-control" />
-                            <span
-                                th:if="${#fields.hasErrors('scheduledFinishedDate')}"
-                                th:errors="*{scheduledFinishedDate}">Invalid
-                                Date</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Actual Start Date">Actual Start
-                            Date:</label>
-                        <div class="col-sm-6">
+	<div th:include="fragments/header"></div>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4>Project Name</h4>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/tasks(organizationName=${organizationName}, projectName=${projectName})}">Tasks</a>
+					</li>
+					<li><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/members(organizationName=${organizationName}, projectName=${projectName})}">Members</a>
+					</li>
+					<li><a href="#"
+						th:href="@{/u/{organizationName}/projects/{projectName}/gantt(organizationName=${organizationName}, projectName=${projectName})}">Gantt</a>
+					</li>
+				</ul>
+				<h4
+					style="padding-top: 20px; padding-left: 200px; margin-bottom: 20px;">Create
+					a new task</h4>
+				<form action="#"
+					th:action="@{/u/{organizationName}/projects/{projectName}/tasks/new(organizationName=${organizationName}, projectName=${projectName})}"
+					th:object="${task}" method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Title">Title:</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{title}" placeholder="Enter Title"
+								class="form-control" /> <span
+								th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid
+								title</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Schedule Start Date">Schedule
+							Start Date:</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{scheduledStartDate}"
+								placeholder="ScheduleStartDate" class="datepicker form-control" />
+							<span th:if="${#fields.hasErrors('scheduledStartDate')}"
+								th:errors="*{scheduledStartDate}">Invalid Date</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Schedule Finish Date">Schedule
+							Finish Date:</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{scheduledFinishedDate}"
+								placeholder="ScheduleFinishedDate"
+								class="datepicker form-control" /> <span
+								th:if="${#fields.hasErrors('scheduledFinishedDate')}"
+								th:errors="*{scheduledFinishedDate}">Invalid Date</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Actual Start Date">Actual
+							Start Date:</label>
+						<div class="col-sm-6">
 
-                            <input type="text"
-                                th:field="*{actualStartDate}"
-                                placeholder="ActualStartDate"
-                                class="datepicker form-control" />
-                            <span
-                                th:if="${#fields.hasErrors('actualStartDate')}"
-                                th:errors="*{actualStartDate}">Invalid
-                                Date</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Actual Finish Date">Actual
-                            Finish Date:</label>
-                        <div class="col-sm-6">
-                            <input type="text"
-                                th:field="*{actualFinishedDate}"
-                                placeholder="ActualFinishedDate"
-                                class="datepicker form-control" />
-                            <span
-                                th:if="${#fields.hasErrors('actualFinishedDate')}"
-                                th:errors="*{actualFinishedDate}">Invalid
-                                Date</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Weight">Weight: </label>
-                        <div class="col-sm-6">
-                            <input type="text" th:field="*{weight}"
-                                placeholder="Weight"
-                                class="form-control" />
-                            <span th:if="${#fields.hasErrors('weight')}"
-                                th:errors="*{weight}">Invalid
-                                Weight</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2"
-                            for="Score">Score: </label>
-                        <div class="col-sm-6">
-                            <input type="text" th:field="*{score}"
-                                placeholder="Score" class="form-control" />
-                            <span th:if="${#fields.hasErrors('score')}"
-                                th:errors="*{score}">Invalid
-                                Score</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-6">
-                            <input type="submit" value="Create"
-                                class="btn btn-primary" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+							<input type="text" th:field="*{actualStartDate}"
+								placeholder="ActualStartDate" class="datepicker form-control" />
+							<span th:if="${#fields.hasErrors('actualStartDate')}"
+								th:errors="*{actualStartDate}">Invalid Date</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Actual Finish Date">Actual
+							Finish Date:</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{actualFinishedDate}"
+								placeholder="ActualFinishedDate" class="datepicker form-control" />
+							<span th:if="${#fields.hasErrors('actualFinishedDate')}"
+								th:errors="*{actualFinishedDate}">Invalid Date</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Weight">Weight:
+						</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{weight}" placeholder="Weight"
+								class="form-control" /> <span
+								th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Invalid
+								Weight</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Score">Score: </label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{score}" placeholder="Score"
+								class="form-control" /> <span
+								th:if="${#fields.hasErrors('score')}" th:errors="*{score}">Invalid
+								Score</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Assignees">Assignees:</label>
+						<div class="col-sm-6 pm-tagsinput-container"
+							id="pm-asssignees-container">
+							<input type="text" th:field="*{name}" class="form-control"
+								id="assigneesName" name="assigneesName" />
+						</div>
+					</div>
+
+					<div class="form-group" th:object="${techTags}">
+						<label class="control-label col-sm-2" for="Tags">Tags:</label>
+						<div class="col-sm-6 pm-tagsinput-container"
+							id="pm-tags-container">
+							<input type="text" class="form-control" id="tags" name="tags"
+								data-provide="typeahead" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<input type="submit" value="Create" class="btn btn-primary" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
+<!-- <script>
+var json = [[${techTags}]];
+for ( var d in json) {
+	 console.log("qustions ##### "+ d);
+}
+    $(function () {
+        $("#tags").tagsinput({
+            typeahead: {
+                minLength: 0,
+                showHintOnFocus: "all",
+                afterSelect: function (val) {
+                    this.$element.val("");
+                    console.log("afterSelect");
+                    console.log($("#tags").val());
+                },
+                source: json
+            }
+        });
+        var elt = $("#tags").tagsinput('input');
+        elt.on('click', function () {
+            elt.typeahead("lookup", "");
+        });
+    });
+</script> -->
 </html>

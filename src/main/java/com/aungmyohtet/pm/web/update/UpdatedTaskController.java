@@ -28,11 +28,13 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
+import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.update.OrganizationService;
 import com.aungmyohtet.pm.service.update.ProjectService;
 import com.aungmyohtet.pm.service.update.TaskNoteService;
 import com.aungmyohtet.pm.service.update.TaskService;
+import com.aungmyohtet.pm.service.update.TechnologyTagService;
 import com.aungmyohtet.pm.service.update.UserService;
 import com.aungmyohtet.pm.validator.DateEntryValidator;
 
@@ -58,6 +60,9 @@ public class UpdatedTaskController {
     @Qualifier("dateValidator")
     private DateEntryValidator dateValidator;
 
+    @Autowired
+    private TechnologyTagService techTagService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.initDirectFieldAccess();
@@ -71,6 +76,7 @@ public class UpdatedTaskController {
         model.addAttribute("task", new Task());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
+        model.addAttribute("techTags", techTagService.findAll());
         return "task/form";
     }
 
