@@ -32,7 +32,7 @@ public class TechnologyTagServiceImplUpdate implements TechnologyTagService {
     @Override
     @Transactional
     public List<TechnologyTag> findAll() {
-        return techTagRepo.findAll();
+        return this.techTagRepo.findAll();
     }
 
     @Override
@@ -42,9 +42,9 @@ public class TechnologyTagServiceImplUpdate implements TechnologyTagService {
     }
 
     @Override
+    @Transactional
     public TechnologyTag findByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.techTagRepo.findByName(name);
     }
 
     @Override

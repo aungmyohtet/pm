@@ -27,11 +27,50 @@
 <script type="text/javascript"
 	th:src="@{/resources/js/bootstrap3-typeahead.min.js}"></script>
 
-
 <script th:inline="javascript">
     /*<![CDATA[*/
     	$(document).ready(function() {
         $(".datepicker").datepicker();
+
+        var techs = /*[[${techTags}]]*/;
+        var users = /*[[${users}]]*/;
+        $(function () {
+            $("#tags").tagsinput({
+                typeahead: {
+                    minLength: 0,
+                    showHintOnFocus: "all",
+                    afterSelect: function (val) {
+                        this.$element.val("");
+                        console.log("afterSelect");
+                        console.log($("#tags").val());
+                    },
+                  source: techs
+                }
+            });
+            var elt = $("#tags").tagsinput('input');
+            elt.on('click', function () {
+                elt.typeahead("lookup", "");
+            });
+        });
+
+        $(function () {
+            $("#assigneesName").tagsinput({
+                typeahead: {
+                    minLength: 0,
+                    showHintOnFocus: "all",
+                    afterSelect: function (val) {
+                        this.$element.val("");
+                        console.log("afterSelect");
+                        console.log($("#assigneesName").val());
+                    },
+                  source: users
+                }
+            });
+            var elt = $("#assigneesName").tagsinput('input');
+            elt.on('click', function () {
+                elt.typeahead("lookup", "");
+            });
+        });
     });
     /*]]>*/
 </script>
@@ -41,7 +80,7 @@
 	<div class="container">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4>Project Name</h4>
+				<h4 th:text="${projectName}"></h4>
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-tabs">
@@ -132,16 +171,16 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="Assignees">Assignees:</label>
+						<label class="control-label col-sm-2" for="assigneesName">Assignees:</label>
 						<div class="col-sm-6 pm-tagsinput-container"
 							id="pm-asssignees-container">
-							<input type="text" th:field="*{name}" class="form-control"
-								id="assigneesName" name="assigneesName" />
+							<input type="text" class="form-control" id="assigneesName"
+								name="assigneesName" data-provide="typeahead" />
 						</div>
 					</div>
 
-					<div class="form-group" th:object="${techTags}">
-						<label class="control-label col-sm-2" for="Tags">Tags:</label>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="tags">Tags:</label>
 						<div class="col-sm-6 pm-tagsinput-container"
 							id="pm-tags-container">
 							<input type="text" class="form-control" id="tags" name="tags"
@@ -150,7 +189,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<input type="submit" value="Create" class="btn btn-primary" />
+							<input type="submit" value="Create" id="create"
+								class="btn btn-primary" />
 						</div>
 					</div>
 				</form>
@@ -158,28 +198,4 @@
 		</div>
 	</div>
 </body>
-<!-- <script>
-var json = [[${techTags}]];
-for ( var d in json) {
-	 console.log("qustions ##### "+ d);
-}
-    $(function () {
-        $("#tags").tagsinput({
-            typeahead: {
-                minLength: 0,
-                showHintOnFocus: "all",
-                afterSelect: function (val) {
-                    this.$element.val("");
-                    console.log("afterSelect");
-                    console.log($("#tags").val());
-                },
-                source: json
-            }
-        });
-        var elt = $("#tags").tagsinput('input');
-        elt.on('click', function () {
-            elt.typeahead("lookup", "");
-        });
-    });
-</script> -->
 </html>

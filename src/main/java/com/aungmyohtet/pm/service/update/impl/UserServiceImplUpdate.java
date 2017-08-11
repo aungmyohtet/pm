@@ -37,9 +37,9 @@ public class UserServiceImplUpdate implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.userRepository.findAll();
     }
 
     @Override
