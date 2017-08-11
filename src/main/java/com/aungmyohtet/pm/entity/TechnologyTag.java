@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "technology_tag")
 public class TechnologyTag extends UniqueNamedEntity{
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "task_technologytag", joinColumns = @JoinColumn(name = "technologytag_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private Set<Task> task;
 

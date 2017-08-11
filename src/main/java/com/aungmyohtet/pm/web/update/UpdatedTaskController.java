@@ -1,6 +1,8 @@
 package com.aungmyohtet.pm.web.update;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aungmyohtet.pm.dto.TaskNoteDto;
@@ -28,11 +31,13 @@ import com.aungmyohtet.pm.entity.Organization;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
+import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.service.update.OrganizationService;
 import com.aungmyohtet.pm.service.update.ProjectService;
 import com.aungmyohtet.pm.service.update.TaskNoteService;
 import com.aungmyohtet.pm.service.update.TaskService;
+import com.aungmyohtet.pm.service.update.TechnologyTagService;
 import com.aungmyohtet.pm.service.update.UserService;
 import com.aungmyohtet.pm.validator.DateEntryValidator;
 
@@ -58,6 +63,9 @@ public class UpdatedTaskController {
     @Qualifier("dateValidator")
     private DateEntryValidator dateValidator;
 
+    @Autowired
+    private TechnologyTagService techTagService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.initDirectFieldAccess();
@@ -71,12 +79,23 @@ public class UpdatedTaskController {
         model.addAttribute("task", new Task());
         model.addAttribute("organizationName", organizationName);
         model.addAttribute("projectName", projectName);
+        List<String> userList = new ArrayList<String>();
+        List<String> techList = new ArrayList<String>();
+        for (User u : userService.findAll()) {
+            userList.add(u.getEmail());
+        }
+        for (TechnologyTag t : techTagService.findAll()) {
+            techList.add(t.getName());
+        }
+        model.addAttribute("users", userList);
+        model.addAttribute("techTags", techList);
         return "task/form";
     }
 
     @PostMapping(value = "/u/{organizationName}/projects/{projectName}/tasks/new")
     public String addProject(@Validated @ModelAttribute Task task, BindingResult result, Model model, @PathVariable("organizationName") String organizationName,
-            @PathVariable("projectName") String projectName) {
+            @PathVariable("projectName") String projectName, @RequestParam("tags") String tags, @RequestParam("assigneesName") String assigneesName) {
+
         if (result.hasErrors()) {
             return "task/form";
         }
@@ -90,6 +109,15 @@ public class UpdatedTaskController {
         Organization organization = organizationService.findByName(organizationName);
         Project project = projectService.findByNameAndOrganization(projectName, organization);
         projectService.addTask(project, task);
+
+        ArrayList<String> assigneeList = new ArrayList<String>(Arrays.asList(assigneesName.split(",")));
+        for (String assigneeMail : assigneeList) {
+            taskService.assign(task, userService.findByEmail(assigneeMail.toString()));
+        }
+        ArrayList<String> techList = new ArrayList<String>(Arrays.asList(tags.split(",")));
+        for (String tagName : techList) {
+            taskService.addTech(task, techTagService.findByName(tagName.toString()));
+        }
         return "redirect:/u/" + organizationName + "/projects/" + projectName + "/tasks";
     }
 

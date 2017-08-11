@@ -11,6 +11,7 @@ import com.aungmyohtet.pm.dto.TaskDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
+import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
 import com.aungmyohtet.pm.repository.update.TaskNoteRepository;
 import com.aungmyohtet.pm.repository.update.TaskRepository;
@@ -43,7 +44,7 @@ public class TaskServiceImplUpdate implements TaskService {
     @Override
     public void unassign(Task task, User user) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -55,7 +56,7 @@ public class TaskServiceImplUpdate implements TaskService {
     @Override
     public void save(Task task) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -67,7 +68,7 @@ public class TaskServiceImplUpdate implements TaskService {
     @Override
     public void delete(Task task) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -97,6 +98,13 @@ public class TaskServiceImplUpdate implements TaskService {
     @Override
     public TaskDto convertToDto(Task task) {
         return modelMapper.map(task, TaskDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void addTech(Task task, TechnologyTag tech) {
+        task = this.taskRepository.findById(task.getId());
+        task.getTechnologyTag().add(tech);
     }
 
 }

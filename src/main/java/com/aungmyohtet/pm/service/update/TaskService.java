@@ -6,6 +6,7 @@ import com.aungmyohtet.pm.dto.TaskDto;
 import com.aungmyohtet.pm.entity.Project;
 import com.aungmyohtet.pm.entity.Task;
 import com.aungmyohtet.pm.entity.TaskNote;
+import com.aungmyohtet.pm.entity.TechnologyTag;
 import com.aungmyohtet.pm.entity.User;
 
 public interface TaskService {
@@ -32,4 +33,6 @@ public interface TaskService {
     Task findByNoAndProject(int no, Project project);
 
     TaskDto convertToDto(Task task);
+
+    void addTech(Task task, TechnologyTag tech);
 }
